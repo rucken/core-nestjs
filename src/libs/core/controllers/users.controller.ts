@@ -102,7 +102,7 @@ export class UsersController {
         }
     }
     @Roles('isSuperuser')
-    @Permissions('load_user')
+    @Permissions('read_user')
     @HttpCode(HttpStatus.OK)
     @ApiResponse({
         status: HttpStatus.OK, type: OutUserDto,
@@ -125,7 +125,7 @@ export class UsersController {
         }
     }
     @Roles('isSuperuser')
-    @Permissions('load_user')
+    @Permissions('read_user')
     @HttpCode(HttpStatus.OK)
     @ApiResponse({
         status: HttpStatus.OK, type: OutUsersDto,
