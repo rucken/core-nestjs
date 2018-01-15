@@ -14,11 +14,15 @@ async function bootstrap() {
 	const packageBody = require('../package.json');
 
 	const WWW_ROOT = path.resolve(__dirname, '..', 'www');
-	const server = express();
 
-	const app = await NestFactory.create(AppModule, server);
+	const app = await NestFactory.create(AppModule);
 
-	server.use(express.static(WWW_ROOT));
+	app.use(express.static(WWW_ROOT));
+	app.use((req, res, next) => {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+		next();
+	});
 	app.useGlobalFilters(new CustomExceptionFilter());
 	app.useGlobalPipes(new ValidationPipe());
 
