@@ -22,7 +22,13 @@ export class AccessGuard implements CanActivate {
         const { parent, handler } = context;
         const authorizationHeader = req.headers['authorization'] ?
             String(req.headers['authorization']) : null;
-        if (authorizationHeader && authorizationHeader.indexOf(process.env.JWT_AUTH_HEADER_PREFIX) === 0) {
+        const roles = this.reflector.get<string[]>('roles', handler);
+        const permissions = this.reflector.get<string[]>('permissions', handler);
+
+        if (roles && roles.length > 0 &&
+            permissions && permissions.length > 0 &&
+            authorizationHeader &&
+            authorizationHeader.indexOf(process.env.JWT_AUTH_HEADER_PREFIX) === 0) {
             let token =
                 process.env.JWT_AUTH_HEADER_PREFIX ?
                     authorizationHeader.split(process.env.JWT_AUTH_HEADER_PREFIX)[1] :
@@ -36,8 +42,6 @@ export class AccessGuard implements CanActivate {
                 );
             }
         }
-        const roles = this.reflector.get<string[]>('roles', handler);
-        const permissions = this.reflector.get<string[]>('permissions', handler);
 
         const hasRole = roles ? roles.filter(roleName =>
             req['user'] &&
