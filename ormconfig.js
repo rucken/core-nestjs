@@ -21,6 +21,9 @@ if (connectionString.protocol === 'sqlite') {
         ],
         logging: 'all',
         synchronize: false,
+        cli: {
+            migrationsDir: 'src/libs/core/migrations'
+        }
     }
 } else {
     module.exports = {
@@ -41,5 +44,8 @@ if (connectionString.protocol === 'sqlite') {
         ],
         logging: 'all',
         synchronize: false,
+        cli: {
+            migrationsDir: 'src/libs/core/migrations'
+        }
     }
 }
