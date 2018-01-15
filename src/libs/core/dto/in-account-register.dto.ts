@@ -11,6 +11,11 @@ export class InAccountRegisterDto {
     email: string;
 
     @IsNotEmpty()
+    @MaxLength(150)
+    @ApiModelProperty()
+    username: string;
+
+    @IsNotEmpty()
     @MaxLength(128)
     @ApiModelProperty()
     password: string;

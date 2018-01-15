@@ -41,14 +41,22 @@ export class AccountService {
     }
     async login(dto: InAccountLoginDto) {
         try {
-            let object = plainToClass(User, dto);
-            object = await this.usersRepository.findOneOrFail({
+            let userObject = plainToClass(User, dto);
+            let object = await this.usersRepository.findOne({
                 where: {
-                    email: object.email
+                    username: userObject.username
                 },
                 relations: ['groups', 'groups.permissions']
             });
-            if (!object.verifyPassword(dto.password)) {
+            if (!object) {
+                object = await this.usersRepository.findOne({
+                    where: {
+                        email: userObject.username
+                    },
+                    relations: ['groups', 'groups.permissions']
+                });
+            }
+            if (!object || !object.verifyPassword(dto.password)) {
                 throw new Error('Wrong password');
             }
             object = await this.usersRepository.save(object);
@@ -63,7 +71,6 @@ export class AccountService {
             object.isActive = false;
             object.isStaff = false;
             object.isSuperuser = false;
-            object.username = object.email;
             object.firstName = object.email;
             object.firstName = object.email;
             object.lastName = object.email;
