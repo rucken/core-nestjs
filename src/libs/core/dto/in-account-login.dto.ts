@@ -9,7 +9,7 @@ export class InAccountLoginDto {
     @ApiModelProperty()
     email: string;
 
-    @IsOptional()
+    @IsNotEmpty()
     @MaxLength(150)
     @ApiModelProperty()
     username: string;

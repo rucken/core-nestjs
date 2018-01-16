@@ -1,5 +1,5 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
-import { Type, Expose } from 'class-transformer';
+import { Type, Expose, Exclude } from 'class-transformer';
 import { IsOptional, MaxLength, IsEmail } from 'class-validator';
 
 import { GroupDto } from './group.dto';
@@ -15,6 +15,7 @@ export class InAccountDto {
     @ApiModelProperty()
     email: string;
 
+    @Exclude()
     @MaxLength(128)
     @IsOptional()
     @ApiModelPropertyOptional()
