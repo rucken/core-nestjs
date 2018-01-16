@@ -12,9 +12,9 @@ export class GroupsService {
         @InjectRepository(Group)
         private readonly groupsRepository: Repository<Group>
     ) {
-        this.loadAll();
+        this.fullLoadAll();
     }
-    loadAll() {
+    fullLoadAll() {
         if (this.groups === null) {
             this.loadGroups().then((groups) => {
                 this.groups = groups;

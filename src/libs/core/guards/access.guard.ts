@@ -15,7 +15,7 @@ export class AccessGuard implements CanActivate {
         private readonly groupsService: GroupsService
     ) {
         //workaround
-        this.groupsService.loadAll();
+        this.groupsService.fullLoadAll();
     }
 
     canActivate(req: IncomingMessage, context: ExecutionContext): boolean {
