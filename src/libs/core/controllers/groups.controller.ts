@@ -113,7 +113,10 @@ export class GroupsController {
         @Param('id', new ParseIntPipe()) id
         ) {
         try {
-            let object = await this.groupsRepository.findOneOrFail(id);
+            let object = await this.groupsRepository.findOneOrFail(
+                id,
+                { relations: ['permissions', 'permissions.contentType'] }
+            );
             return plainToClass(OutGroupDto, object);
         } catch (error) {
             throw error;
@@ -145,7 +148,8 @@ export class GroupsController {
         try {
             const objects = await this.groupsRepository.findAndCount({
                 skip: (curPage - 1) * perPage,
-                take: perPage
+                take: perPage,
+                relations: ['permissions', 'permissions.contentType']
             });
             return plainToClass(OutGroupsDto, {
                 groups: objects[0],

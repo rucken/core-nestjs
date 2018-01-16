@@ -51,7 +51,7 @@ export class UsersController {
         ) {
         try {
             let object = plainToClass(User, dto);
-            object.setPassword(object.password);
+            object.setPassword(dto.password);
             object = await this.usersRepository.save(object)
             return plainToClass(OutUserDto, object);
         } catch (error) {
@@ -75,7 +75,7 @@ export class UsersController {
         try {
             let object = plainToClass(User, dto);
             object.id = id;
-            object.setPassword(object.password);
+            object.setPassword(dto.password);
             object = await this.usersRepository.save(object);
             return plainToClass(OutUserDto, object);
         } catch (error) {
@@ -117,7 +117,7 @@ export class UsersController {
         try {
             let object = await this.usersRepository.findOneOrFail(
                 id,
-                { relations: ['groups'] }
+                { relations: ['groups', 'groups.permissions', 'permissions.contentType'] }
             );
             return plainToClass(OutUserDto, object);
         } catch (error) {
@@ -158,7 +158,7 @@ export class UsersController {
                 objects = await this.usersRepository.findAndCount({
                     skip: (curPage - 1) * perPage,
                     take: perPage,
-                    relations: ['groups']
+                    relations: ['groups', 'groups.permissions', 'permissions.contentType']
                 });
             } else {
                 let qb = this.usersRepository.createQueryBuilder('user');

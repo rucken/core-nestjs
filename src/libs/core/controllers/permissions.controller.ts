@@ -113,7 +113,10 @@ export class PermissionsController {
         @Param('id', new ParseIntPipe()) id
         ) {
         try {
-            let object = await this.permissionsRepository.findOneOrFail(id);
+            let object = await this.permissionsRepository.findOneOrFail(
+                id,
+                { relations: ['contentType'] }
+            );
             return plainToClass(OutPermissionDto, object);
         } catch (error) {
             throw error;
@@ -155,13 +158,14 @@ export class PermissionsController {
         try {
             let objects: [Permission[], number];
             let qb = this.permissionsRepository.createQueryBuilder('permission');
+            qb = qb.leftJoinAndSelect('permission.contentType', 'contentType');
             if (group) {
-                qb = qb.leftJoin('permission.groups', 'group')
+                qb = qb
+                    .leftJoin('permission.groups', 'group')
                     .where('group.id = :group', { group: group });
             }
             if (contentType) {
-                qb = qb.leftJoin('permission.content_type', 'content_type')
-                    .where('content_type.id = :contentType', { contentType: contentType });
+                qb = qb.where('contentType.id = :contentType', { contentType: contentType });
             }
             qb = qb.skip((curPage - 1) * perPage)
                 .take(perPage);

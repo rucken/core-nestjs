@@ -28,7 +28,7 @@ import { Permissions } from '../decorators/permissions.decorator';
 
 @ApiUseTags('content-types')
 @ApiBearerAuth()
-@Controller('/api/content-types')
+@Controller('/api/content_types')
 @UseGuards(AccessGuard)
 export class ContentTypesController {
     constructor(
