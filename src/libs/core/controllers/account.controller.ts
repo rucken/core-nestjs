@@ -10,6 +10,8 @@ import { OutAccountTokenDto } from '../dto/out-account-token.dto';
 import { AccessGuard } from '../guards/access.guard';
 import { AccountService } from '../services/account.service';
 import { Permissions } from '../decorators/permissions.decorator';
+import { plainToClass } from 'class-transformer';
+import { User } from '../entities/user.entity';
 
 @ApiUseTags('account')
 @Controller('/api/account')
@@ -28,7 +30,10 @@ export class AccountController {
     })
     async info( @Body() tokenDto: InTokenDto) {
         try {
-            return await this.accountService.info(tokenDto);
+            return await plainToClass(
+                OutAccountTokenDto,
+                this.accountService.info(tokenDto.token)
+            );
         } catch (error) {
             throw error;
         }
@@ -41,7 +46,13 @@ export class AccountController {
     })
     async login( @Body() accountLoginDto: InAccountLoginDto) {
         try {
-            return await this.accountService.login(accountLoginDto);
+            return plainToClass(
+                OutAccountTokenDto,
+                await this.accountService.login(
+                    accountLoginDto.username,
+                    accountLoginDto.password
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -55,7 +66,14 @@ export class AccountController {
     })
     async register( @Body() accountRegisterDto: InAccountRegisterDto) {
         try {
-            return await this.accountService.register(accountRegisterDto);
+            return plainToClass(
+                OutAccountTokenDto,
+                await this.accountService.register(
+                    accountRegisterDto.email,
+                    accountRegisterDto.username,
+                    accountRegisterDto.password
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -71,7 +89,13 @@ export class AccountController {
     })
     async update( @Req() req, @Body() accountDto: InAccountDto) {
         try {
-            return await this.accountService.update(req['user'].id, accountDto);
+            return plainToClass(
+                OutAccountTokenDto,
+                await this.accountService.update(
+                    req['user'].id,
+                    plainToClass(User, accountDto)
+                )
+            );
         } catch (error) {
             throw error;
         }

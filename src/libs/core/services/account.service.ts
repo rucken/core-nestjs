@@ -3,13 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass, plainToClassFromExist } from 'class-transformer';
 import { Repository } from 'typeorm';
 
-import { InAccountLoginDto } from '../dto/in-account-login.dto';
-import { InAccountRegisterDto } from '../dto/in-account-register.dto';
-import { InTokenDto } from '../dto/in-token.dto';
-import { OutAccountTokenDto } from '../dto/out-account-token.dto';
 import { User } from '../entities/user.entity';
 import { TokenService } from './token.service';
-import { InAccountDto } from '../dto/in-account.dto';
 
 @Component()
 export class AccountService {
@@ -20,17 +15,17 @@ export class AccountService {
     ) {
 
     }
-    async info(dto: InTokenDto) {
+    async info(token) {
         try {
-            if (this.tokenService.verify(dto.token)) {
-                let tokenData: any = this.tokenService.decode(dto.token);
+            if (this.tokenService.verify(token)) {
+                let tokenData: any = this.tokenService.decode(token);
                 let object = await this.usersRepository.findOneOrFail(
                     tokenData.id,
-                    { relations: ['groups', 'groups.permissions'] }
+                    { relations: ['groups', 'groups.permissions', 'permissions.contentType'] }
                 );
                 if (this.tokenService.getSecretKey(tokenData) === this.tokenService.getSecretKey(object)) {
                     object = await this.usersRepository.save(object);
-                    return plainToClass(OutAccountTokenDto, { user: object, token: this.tokenService.sign(object) });
+                    return { user: object, token: this.tokenService.sign(object) };
                 } else {
                     throw new Error('Invalid token');
                 }
@@ -39,59 +34,63 @@ export class AccountService {
             throw error;
         }
     }
-    async login(dto: InAccountLoginDto) {
+    async login(username: string, password: string) {
         try {
-            let userObject = plainToClass(User, dto);
             let object = await this.usersRepository.findOne({
                 where: {
-                    username: userObject.username
+                    username: username
                 },
-                relations: ['groups', 'groups.permissions']
+                relations: ['groups', 'groups.permissions', 'permissions.contentType']
             });
             if (!object) {
                 object = await this.usersRepository.findOne({
                     where: {
-                        email: userObject.username
+                        email: username
                     },
-                    relations: ['groups', 'groups.permissions']
+                    relations: ['groups', 'groups.permissions', 'permissions.contentType']
                 });
             }
-            if (!object || !object.verifyPassword(dto.password)) {
+            if (!object || !object.verifyPassword(password)) {
                 throw new Error('Wrong password');
             }
             object = await this.usersRepository.save(object);
-            return plainToClass(OutAccountTokenDto, { user: object, token: this.tokenService.sign(object) });
+            return { user: object, token: this.tokenService.sign(object) };
         } catch (error) {
             throw error;
         }
     }
-    async register(dto: InAccountRegisterDto) {
+    async register(email: string, username: string, password: string) {
         try {
-            let object = plainToClass(User, dto);
+            let object = new User();
+            object.email = email;
+            object.username = username;
             object.isActive = false;
             object.isStaff = false;
             object.isSuperuser = false;
-            object.firstName = object.email;
-            object.firstName = object.email;
-            object.lastName = object.email;
-            object.setPassword(object.password);
+            object.firstName = email;
+            object.firstName = email;
+            object.lastName = email;
+            object.setPassword(password);
             object = await this.usersRepository.save(object);
             object = await this.usersRepository.findOneOrFail(
                 object.id,
                 { relations: ['groups', 'groups.permissions'] }
             );
-            return plainToClass(OutAccountTokenDto, { user: object, token: this.tokenService.sign(object) })
+            return { user: object, token: this.tokenService.sign(object) };
         } catch (error) {
             throw error;
         }
     }
-    async update(id: number, dto: InAccountDto) {
+    async update(id: number, user: User) {
         try {
-            let object = await this.usersRepository.findOneOrFail(id, { relations: ['groups', 'groups.permissions'] });
-            object = plainToClassFromExist(object, dto);
-            object.setPassword(object.password);
+            let object = await this.usersRepository.findOneOrFail(
+                id,
+                { relations: ['groups', 'groups.permissions', 'permissions.contentType'] }
+            );
+            object = plainToClassFromExist(object, user);
+            object.setPassword(user.password);
             object = await this.usersRepository.save(object);
-            return plainToClass(OutAccountTokenDto, { user: object, token: this.tokenService.sign(object) });
+            return { user: object, token: this.tokenService.sign(object) };
         } catch (error) {
             throw error;
         }
