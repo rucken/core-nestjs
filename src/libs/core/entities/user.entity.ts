@@ -114,8 +114,6 @@ export class User {
     setPassword(password: string) {
         if (password) {
             this.password = this.makePassword(password);
-        } else {
-            this.password = undefined;
         }
     }
 
