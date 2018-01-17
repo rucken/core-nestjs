@@ -26,10 +26,10 @@
   "license": "MIT",
   "scripts": {
     "clean": "./node_modules/.bin/del-cli dist www database/sqlitedb.db",
-    "start": "npm run build && npm run start:prod",
+    "start": "npm-run-all build start:prod",
     "start:prod": "node index.js",
     "start:watch": "nodemon",
-    "build": "npm run clean && npm run build:frontend && npm run docs && npm run schema:sync && npm run migrate:run && tsc --pretty",
+    "build": "npm-run-all clean frontend docs schema:sync migrate:run",
     "test": "npm run build",
     "migrate:create": "ts-node ./node_modules/typeorm/cli.js migrations:create",
     "migrate:generate": "ts-node ./node_modules/typeorm/cli.js migrations:generate",
@@ -38,7 +38,9 @@
     "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync",
     "schema:log": "ts-node ./node_modules/typeorm/cli.js schema:log",
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out www/docs src",
-    "build:frontend": "cd frontend && npm run build && cd .."
+    "frontend:install": "run install --prefix ./frontend",
+    "frontend:build": "run build --prefix ./frontend",
+    "frontend": "npm-run-all frontend:install frontend:build"
   },
   "dependencies": {
     "@nestjs/common": "^4.5.9",
@@ -70,6 +72,7 @@
     "typescript": "^2.6.2"
   },
   "devDependencies": {
-    "nodemon": "^1.14.11"
+    "nodemon": "^1.14.11",
+    "npm-run-all": "^4.1.2"
   }
 }
