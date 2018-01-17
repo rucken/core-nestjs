@@ -21,7 +21,7 @@ export class AccountService {
                 let tokenData: any = this.tokenService.decode(token);
                 let object = await this.usersRepository.findOneOrFail(
                     tokenData.id,
-                    { relations: ['groups', 'groups.permissions', 'permissions.contentType'] }
+                    { relations: ['groups', 'groups.permissions'] }
                 );
                 if (this.tokenService.getSecretKey(tokenData) === this.tokenService.getSecretKey(object)) {
                     object = await this.usersRepository.save(object);
@@ -40,14 +40,14 @@ export class AccountService {
                 where: {
                     username: username
                 },
-                relations: ['groups', 'groups.permissions', 'permissions.contentType']
+                relations: ['groups', 'groups.permissions']
             });
             if (!object) {
                 object = await this.usersRepository.findOne({
                     where: {
                         email: username
                     },
-                    relations: ['groups', 'groups.permissions', 'permissions.contentType']
+                    relations: ['groups', 'groups.permissions']
                 });
             }
             if (!object || !object.verifyPassword(password)) {
@@ -85,7 +85,7 @@ export class AccountService {
         try {
             let object = await this.usersRepository.findOneOrFail(
                 id,
-                { relations: ['groups', 'groups.permissions', 'permissions.contentType'] }
+                { relations: ['groups', 'groups.permissions'] }
             );
             object = plainToClassFromExist(object, user);
             object.setPassword(user.password);

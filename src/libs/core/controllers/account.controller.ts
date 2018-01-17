@@ -32,7 +32,7 @@ export class AccountController {
         try {
             return await plainToClass(
                 OutAccountTokenDto,
-                this.accountService.info(tokenDto.token)
+                await this.accountService.info(tokenDto.token)
             );
         } catch (error) {
             throw error;

@@ -52,7 +52,7 @@ export class PermissionsController {
         try {
             let object = plainToClass(Permission, dto);
             object = await this.permissionsRepository.save(object)
-            return plainToClass(OutPermissionDto, object);
+            return plainToClass(OutPermissionDto, { permission: object });
         } catch (error) {
             throw error;
         }
@@ -75,7 +75,7 @@ export class PermissionsController {
             let object = plainToClass(Permission, dto);
             object.id = id;
             object = await this.permissionsRepository.save(object);
-            return plainToClass(OutPermissionDto, object);
+            return plainToClass(OutPermissionDto, { permission: object });
         } catch (error) {
             throw error;
         }
@@ -117,7 +117,7 @@ export class PermissionsController {
                 id,
                 { relations: ['contentType'] }
             );
-            return plainToClass(OutPermissionDto, object);
+            return plainToClass(OutPermissionDto, { permission: object });
         } catch (error) {
             throw error;
         }

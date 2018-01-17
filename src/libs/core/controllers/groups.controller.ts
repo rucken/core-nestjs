@@ -52,7 +52,7 @@ export class GroupsController {
         try {
             let object = plainToClass(Group, dto);
             object = await this.groupsRepository.save(object)
-            return plainToClass(OutGroupDto, object);
+            return plainToClass(OutGroupDto, { group: object });
         } catch (error) {
             throw error;
         }
@@ -75,7 +75,7 @@ export class GroupsController {
             let object = plainToClass(Group, dto);
             object.id = id;
             object = await this.groupsRepository.save(object);
-            return plainToClass(OutGroupDto, object);
+            return plainToClass(OutGroupDto, { group: object });
         } catch (error) {
             throw error;
         }
@@ -94,6 +94,12 @@ export class GroupsController {
         @Param('id', new ParseIntPipe()) id
         ) {
         try {
+            let object = await this.groupsRepository.findOneOrFail(
+                id,
+                { relations: ['permissions'] }
+            );
+            object.permissions = [];
+            object = await this.groupsRepository.save(object);
             return await this.groupsRepository.delete(id);
         } catch (error) {
             throw error;
@@ -115,9 +121,9 @@ export class GroupsController {
         try {
             let object = await this.groupsRepository.findOneOrFail(
                 id,
-                { relations: ['permissions', 'permissions.contentType'] }
+                { relations: ['permissions'] }
             );
-            return plainToClass(OutGroupDto, object);
+            return plainToClass(OutGroupDto, { group: object });
         } catch (error) {
             throw error;
         }
@@ -149,7 +155,7 @@ export class GroupsController {
             const objects = await this.groupsRepository.findAndCount({
                 skip: (curPage - 1) * perPage,
                 take: perPage,
-                relations: ['permissions', 'permissions.contentType']
+                relations: ['permissions']
             });
             return plainToClass(OutGroupsDto, {
                 groups: objects[0],

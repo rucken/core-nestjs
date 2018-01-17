@@ -52,7 +52,7 @@ export class ContentTypesController {
         try {
             let object = plainToClass(ContentType, dto);
             object = await this.contentTypeRepository.save(object)
-            return plainToClass(OutContentTypeDto, object);
+            return plainToClass(OutContentTypeDto, { contentType: object });
         } catch (error) {
             throw error;
         }
@@ -75,7 +75,7 @@ export class ContentTypesController {
             let object = plainToClass(ContentType, dto);
             object.id = id;
             object = await this.contentTypeRepository.save(object);
-            return plainToClass(OutContentTypeDto, object);
+            return plainToClass(OutContentTypeDto, { contentType: object });
         } catch (error) {
             throw error;
         }
@@ -114,7 +114,7 @@ export class ContentTypesController {
         ) {
         try {
             let object = await this.contentTypeRepository.findOneOrFail(id);
-            return plainToClass(OutContentTypeDto, object);
+            return plainToClass(OutContentTypeDto, { contentType: object });
         } catch (error) {
             throw error;
         }

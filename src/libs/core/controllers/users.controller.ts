@@ -25,6 +25,7 @@ import { User } from '../entities/user.entity';
 import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { Permissions } from '../decorators/permissions.decorator';
+import { InCreateUserDto } from '../dto/in-create-user.dto';
 
 @ApiUseTags('users')
 @ApiBearerAuth()
@@ -47,13 +48,13 @@ export class UsersController {
     @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
     @Post()
     async create(
-        @Body() dto: InUserDto
+        @Body() dto: InCreateUserDto
         ) {
         try {
             let object = plainToClass(User, dto);
             object.setPassword(dto.password);
             object = await this.usersRepository.save(object)
-            return plainToClass(OutUserDto, object);
+            return plainToClass(OutUserDto, { user: object });
         } catch (error) {
             throw error;
         }
@@ -77,7 +78,7 @@ export class UsersController {
             object.id = id;
             object.setPassword(dto.password);
             object = await this.usersRepository.save(object);
-            return plainToClass(OutUserDto, object);
+            return plainToClass(OutUserDto, { user: object });
         } catch (error) {
             throw error;
         }
@@ -96,6 +97,12 @@ export class UsersController {
         @Param('id', new ParseIntPipe()) id
         ) {
         try {
+            let object = await this.usersRepository.findOneOrFail(
+                id,
+                { relations: ['groups'] }
+            );
+            object.groups = [];
+            object = await this.usersRepository.save(object);
             return await this.usersRepository.delete(id);
         } catch (error) {
             throw error;
@@ -117,9 +124,9 @@ export class UsersController {
         try {
             let object = await this.usersRepository.findOneOrFail(
                 id,
-                { relations: ['groups', 'groups.permissions', 'permissions.contentType'] }
+                { relations: ['groups', 'groups.permissions'] }
             );
-            return plainToClass(OutUserDto, object);
+            return plainToClass(OutUserDto, { user: object });
         } catch (error) {
             throw error;
         }
@@ -158,7 +165,7 @@ export class UsersController {
                 objects = await this.usersRepository.findAndCount({
                     skip: (curPage - 1) * perPage,
                     take: perPage,
-                    relations: ['groups', 'groups.permissions', 'permissions.contentType']
+                    relations: ['groups', 'groups.permissions']
                 });
             } else {
                 let qb = this.usersRepository.createQueryBuilder('user');
