@@ -26,7 +26,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "./node_modules/.bin/del-cli dist www database/sqlitedb.db",
-    "start": "npm-run-all build start:prod",
+    "start": "npm-run-all start:prod",
     "start:prod": "node index.js",
     "start:watch": "nodemon",
     "build": "npm-run-all clean frontend docs schema:sync migrate:run",
@@ -40,7 +40,8 @@
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out www/docs src",
     "frontend:install": "run install --prefix ./frontend",
     "frontend:build": "run build --prefix ./frontend",
-    "frontend": "npm-run-all frontend:install frontend:build"
+    "frontend": "npm-run-all frontend:install frontend:build",
+    "heroku-postbuild": "npm-run-all build"
   },
   "dependencies": {
     "@nestjs/common": "^4.5.9",
