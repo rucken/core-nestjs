@@ -40,20 +40,23 @@ msgstr "Домашняя страница"
 msgid "Themes"
 msgstr "Темы"
 
-msgid "Not access"
-msgstr "Нет доступа"
-
 msgid "Language"
 msgstr "Язык"
 
 msgid "Menu"
 msgstr "Меню"
 
-msgid "App title"
-msgstr "Demo"
+msgid "Demo"
+msgstr "Демо"
 
 msgid "Logout"
 msgstr "Выйти"
 
 msgid "Login"
 msgstr "Вход"
+
+#~ msgid "Not access"
+#~ msgstr "Нет доступа"
+
+#~ msgid "App title"
+#~ msgstr "Demo"

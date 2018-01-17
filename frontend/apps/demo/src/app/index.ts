@@ -1,7 +1,5 @@
 import { DemoAppComponent } from './app.component';
 export { DemoAppComponent } from './app.component';
-import { DemoAppModule } from './app.module';
-export { DemoAppModule } from './app.module';
 import { DemoRoutes } from './app.routes';
 export { DemoRoutes } from './app.routes';
 import { DemoNavbarComponent } from './controls/navbar/navbar.component';

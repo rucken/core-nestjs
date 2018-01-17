@@ -38,7 +38,7 @@ import {
   BsLocaleService
 } from 'ngx-bootstrap';
 
-import { 
+import {
   DemoAppComponent,
   DemoRoutes,
   DemoNavbarModule,

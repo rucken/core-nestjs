@@ -1,21 +1,21 @@
 {
     "name": "@demo/web",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "peerDependencies": {
-        "@angular/common": "*",
-        "@angular/compiler": "*",
-        "@angular/core": "*",
-        "@angular/forms": "*",
-        "@angular/router": "*",
-        "angular2-text-mask": "*"
+        "@angular/common": "^5.2.0",
+        "@angular/compiler": "^5.2.0",
+        "@angular/core": "^5.2.0",
+        "@angular/forms": "^5.2.0",
+        "@angular/router": "^5.2.0",
+        "angular2-text-mask": "^8.0.4"
     },
     "dependencies": {
         "@types/lodash": "*",
-        "@ngx-translate/core": "*",
+        "@ngx-translate/core": "^9.1.1",
         "angular2-jwt": "*",
-        "lodash": "*",
-        "ngx-bootstrap": "*",
-        "text-mask-addons": "*",
-        "@rucken/core": "*"
+        "lodash": "^4.17.4",
+        "ngx-bootstrap": "^2.0.0-rc.0",
+        "text-mask-addons": "^3.7.1",
+        "@rucken/core": "^1.30.2"
     }
 }

@@ -31,16 +31,13 @@ msgstr ""
 msgid "Themes"
 msgstr ""
 
-msgid "Not access"
-msgstr ""
-
 msgid "Language"
 msgstr ""
 
 msgid "Menu"
 msgstr ""
 
-msgid "App title"
+msgid "Demo"
 msgstr ""
 
 msgid "Logout"
