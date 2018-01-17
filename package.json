@@ -26,10 +26,10 @@
   "license": "MIT",
   "scripts": {
     "clean": "./node_modules/.bin/del-cli dist www database/sqlitedb.db",
-    "start": "npm-run-all start:prod",
+    "start": "npm run start:prod",
     "start:prod": "node index.js",
     "start:watch": "nodemon",
-    "build": "npm-run-all clean frontend docs schema:sync migrate:run",
+    "build": "npm run clean && npm run frontend && npm run docs && npm run schema:sync && npm run migrate:run",
     "test": "npm run build",
     "migrate:create": "ts-node ./node_modules/typeorm/cli.js migrations:create",
     "migrate:generate": "ts-node ./node_modules/typeorm/cli.js migrations:generate",
@@ -38,10 +38,10 @@
     "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync",
     "schema:log": "ts-node ./node_modules/typeorm/cli.js schema:log",
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out www/docs src",
-    "frontend:install": "npm run install --prefix ./frontend",
+    "frontend:install": "npm install --prefix ./frontend",
     "frontend:build": "npm run build --prefix ./frontend",
-    "frontend": "npm-run-all frontend:install frontend:build",
-    "postinstall": "npm-run-all build"
+    "frontend": "npm run frontend:install && npm run frontend:build",
+    "postinstall": "npm run build"
   },
   "cacheDirectories": [
     "node_modules",
