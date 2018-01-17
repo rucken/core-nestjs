@@ -3,12 +3,6 @@ import { ApiModelProperty } from '@nestjs/swagger';
 
 export class InAccountLoginDto {
 
-    @IsOptional()
-    @IsEmail()
-    @MaxLength(254)
-    @ApiModelProperty()
-    email: string;
-
     @IsNotEmpty()
     @MaxLength(150)
     @ApiModelProperty()

@@ -1,14 +1,15 @@
-import { Exclude, Type } from 'class-transformer';
-import { MaxLength } from 'class-validator';
-
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { Type, Expose } from 'class-transformer';
+import { IsOptional, MaxLength } from 'class-validator';
+
 import { GroupDto } from './group.dto';
+import { UserDto } from './user.dto';
 
-export class UserDto {
+export class InCreateUserDto {
 
-    @ApiModelProperty({ type: Number })
+    @IsOptional()
     id: number;
-    @Exclude()
+    @MaxLength(128)
     @ApiModelPropertyOptional()
     password: string;
     @ApiModelPropertyOptional({ type: String })
