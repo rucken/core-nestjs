@@ -35,6 +35,8 @@ export class DemoAppComponent extends BaseAppComponent {
     dic: null
   }];
 
+  currentLang = 'en';
+
   // todo: remove this if permission or role is worked
   fullAccess = !environment.production;
 
@@ -45,5 +47,10 @@ export class DemoAppComponent extends BaseAppComponent {
     public router: Router
   ) {
     super(injector, viewContainerRef, resolver);
+    router.events.pipe(takeUntil(this.destroyed$)).subscribe((evt) => {
+      if (evt instanceof NavigationEnd) {
+        document.body.scrollTop = 0;
+      }
+    });
   }
 }

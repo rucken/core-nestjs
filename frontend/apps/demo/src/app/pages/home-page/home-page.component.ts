@@ -8,4 +8,11 @@ import { BasePageComponent } from '@rucken/web';
 })
 export class DemoHomePageComponent extends BasePageComponent {
 
+  constructor(
+    public injector: Injector
+  ) {
+    super(injector);
+    const readme = require('html-loader!markdown-loader!./../../../../../../../README.md');
+    this.readme = readme.replace('<h1 id="rucken-core-nestjs">rucken-core-nestjs</h1>', '');
+  }
 }

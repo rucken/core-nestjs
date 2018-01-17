@@ -29,7 +29,7 @@
     "start": "npm run build && npm run start:prod",
     "start:prod": "node index.js",
     "start:watch": "nodemon",
-    "build": "npm run clean && npm run docs && npm run schema:sync && npm run migrate:run && tsc --pretty",
+    "build": "npm run clean && npm run build:frontend && npm run docs && npm run schema:sync && npm run migrate:run && tsc --pretty",
     "test": "npm run build",
     "migrate:create": "ts-node ./node_modules/typeorm/cli.js migrations:create",
     "migrate:generate": "ts-node ./node_modules/typeorm/cli.js migrations:generate",
@@ -37,7 +37,8 @@
     "entity:create": "ts-node ./node_modules/typeorm/cli.js entity:create",
     "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync",
     "schema:log": "ts-node ./node_modules/typeorm/cli.js schema:log",
-    "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out www/docs src"
+    "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out www/docs src",
+    "build:frontend": "cd frontend && npm run build && cd .."
   },
   "dependencies": {
     "@nestjs/common": "^4.5.9",

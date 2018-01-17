@@ -1,4 +1,5 @@
-## rucken-core-nestjs
+# rucken-core-nestjs
+
 [![Greenkeeper badge](https://badges.greenkeeper.io/rucken/core-nestjs.svg)](https://greenkeeper.io/)
 [![Build Status][travis-image]][travis-url]
 [![dependencies-release][dependencies-image]][dependencies-url]
@@ -17,7 +18,7 @@ A simple todo application demonstrating the basic usage of [rucken](https://gith
 - run `npm run migrate:run` to run all migrations
 - run `npm run start:prod` to fire up prod server (`npm run start:watch` - dev server)
 - Go to frontend `cd frontend` and run `npm install` to install frontend dependencies
-- Build frontend, run `npm run build` (`npm run app:start-dev` - dev frontend server)
+- Build frontend, run `npm run build` (`npm run start` - dev frontend server)
 - Open browser to [`http://localhost:5000`](http://localhost:5000)
 
 ## Demo application on [Heroku](https://rucken-core-nestjs.herokuapp.com)
@@ -27,9 +28,9 @@ A simple todo application demonstrating the basic usage of [rucken](https://gith
 - user with user group: user1@user1.com, password: 12345678
 - user with user group: user2@user2.com, password: 12345678
 
-### Docs
-- local: http://localhost:5000/docs
-- online: https://rucken-core-nestjs.herokuapp.com/docs
+### Site
+- local: http://localhost:5000
+- online: https://rucken-core-nestjs.herokuapp.com
 
 ### Swagger
 - local: http://localhost:5000/swagger

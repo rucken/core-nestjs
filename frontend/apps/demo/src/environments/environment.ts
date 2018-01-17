@@ -1,5 +1,5 @@
 export const environment = {
-  type: 'django',
+  type: 'nestjs',
   production: false,
   apiUrl: 'http://localhost:5000/api'
 };

@@ -7,7 +7,7 @@
     {
       "name": "demo",
       "root": "./apps/demo/src",
-      "outDir": "./apps/demo/dist",
+      "outDir": "../www",
       "assets": [
         "assets",
         "favicon.ico"
@@ -20,7 +20,6 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "",
       "styles": [
-        "../../../node_modules/ladda/css/ladda.scss",
         "styles.scss"
       ],
       "scripts": [],
