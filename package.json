@@ -38,11 +38,15 @@
     "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync",
     "schema:log": "ts-node ./node_modules/typeorm/cli.js schema:log",
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out www/docs src",
-    "frontend:install": "run install --prefix ./frontend",
-    "frontend:build": "run build --prefix ./frontend",
+    "frontend:install": "npm run install --prefix ./frontend",
+    "frontend:build": "npm run build --prefix ./frontend",
     "frontend": "npm-run-all frontend:install frontend:build",
-    "heroku-postbuild": "npm-run-all build"
+    "heroku-postbuild": "npm i && npm-run-all build"
   },
+  "cacheDirectories": [
+    "node_modules",
+    "frontend/node_modules"
+  ],
   "dependencies": {
     "@nestjs/common": "^4.5.9",
     "@nestjs/core": "^4.5.10",
