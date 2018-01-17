@@ -1,0 +1,50 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Russian"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "Profile"
+msgstr ""
+
+msgid "Admin"
+msgstr ""
+
+msgid "Groups"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Themes"
+msgstr ""
+
+msgid "Not access"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Menu"
+msgstr ""
+
+msgid "App title"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Login"
+msgstr ""

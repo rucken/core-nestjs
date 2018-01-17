@@ -1,0 +1,90 @@
+body {
+    padding-top: 70px;
+}
+
+@import '../../../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
+
+.grid {
+    &__toolbar {
+        &--header {
+            padding-bottom: 5px;
+        }
+        &--footer {
+            padding-top: 5px;
+        }
+    }
+    &__table {
+        margin-bottom: 0px;
+        tr {
+            td {
+                cursor: pointer;
+            }
+            th {
+                vertical-align: top!important;
+                position: relative;
+                padding-right: 18px !important;
+                button {
+                    position: absolute;
+                    top: 6px;
+                    right: -0px;
+                }
+            }
+        }
+        &__col-key {
+            width: 100px;
+            text-align: left;
+        }
+        &__col-id {
+            width: 70px;
+            text-align: right;
+        }
+        &__col-icon {
+            width: 70px;
+            text-align: center;
+        }
+        &__col-action {
+            width: 100px;
+            text-align: center;
+        }
+        &__col-status-message {
+            text-align: center;
+        }
+    }
+}
+
+.input-group {
+    .dropdown-menu {
+        >li {
+            >a {
+                line-height: 0;
+            }
+        }
+        .divider {
+            margin: 0px 0;
+        }
+    }
+}
+
+.page-header {
+    margin: 0 0 20px;
+}
+
+.pagination-compressed {
+    margin-top: 0px;
+}
+.error-tooltip{
+    .tooltip-inner{
+        background-color: #ff0039;
+    }
+    .tooltip-arrow.arrow{
+        border-bottom-color: #ff0039;
+    }
+}
+.success-tooltip{
+    .tooltip-inner {
+        background-color:#3fb618;
+    }
+    .tooltip-arrow.arrow {
+        border-bottom-color: #3fb618;
+    }
+}

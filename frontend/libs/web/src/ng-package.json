@@ -1,0 +1,11 @@
+{
+    "lib": {
+        "entryFile": "index.ts",
+        "umdModuleIds": {
+            "lodash": "_",
+            "moment": "moment"
+        }
+    },
+    "dest": "../dist",
+    "workingDirectory": "../.tmp"
+}

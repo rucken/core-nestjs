@@ -1,0 +1,21 @@
+{
+    "name": "@demo/web",
+    "version": "0.0.0",
+    "peerDependencies": {
+        "@angular/common": "*",
+        "@angular/compiler": "*",
+        "@angular/core": "*",
+        "@angular/forms": "*",
+        "@angular/router": "*",
+        "angular2-text-mask": "*"
+    },
+    "dependencies": {
+        "@types/lodash": "*",
+        "@ngx-translate/core": "*",
+        "angular2-jwt": "*",
+        "lodash": "*",
+        "ngx-bootstrap": "*",
+        "text-mask-addons": "*",
+        "@rucken/core": "*"
+    }
+}

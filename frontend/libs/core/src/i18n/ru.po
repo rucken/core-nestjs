@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.4\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#~ msgid "Id"
+#~ msgstr "Ид."
+
+#~ msgid "Title"
+#~ msgstr "Заголовок"
+
+#~ msgid "Description"
+#~ msgstr "Описание"
+
+#~ msgid "Is public"
+#~ msgstr "Публичный"
+
+#~ msgid "Created at"
+#~ msgstr "Дата создания"
+
+#~ msgid "Updated at"
+#~ msgstr "Дата обновления"
+
+#~ msgid "Project"
+#~ msgstr "Проект"
+
+#~ msgid "Content type"
+#~ msgstr "Тип содержимого"
+
+#~ msgid "Action"
+#~ msgstr "Действие"
+
+#~ msgid "Data ID"
+#~ msgstr "Ид."
+
+#~ msgid "Changes"
+#~ msgstr "Изменения"
+
+#~ msgid "User"
+#~ msgstr "Пользователь"
+
+#~ msgid "Wrong json data"
+#~ msgstr "Неверные JSON-данные"
+
+#~ msgid "Users"
+#~ msgstr "Пользователи"
+
+#~ msgid "Todo statuses"
+#~ msgstr "Статусы"
+
+#~ msgid "Name"
+#~ msgstr "Наименование"
+
+#~ msgid "Statuses"
+#~ msgstr "Статусы"
+
+#~ msgid "Status"
+#~ msgstr "Статус"
+
+#~ msgid "Open at"
+#~ msgstr "Дата открытия"
+
+#~ msgid "Close at"
+#~ msgstr "Дата закрытия"
+
+#~ msgid "Date range"
+#~ msgstr "Диапозон"
