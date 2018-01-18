@@ -5,7 +5,7 @@
 [![dependencies-release][dependencies-image]][dependencies-url]
 
 
-A simple todo application demonstrating the basic usage of [rucken](https://github.com/rucken) Angular5+ with [NestJS](https://nestjs.com).
+A simple application demonstrating the basic usage of [Rucken](https://github.com/rucken) and [Angular5+](https://angular.io) with [NestJS](https://nestjs.com) as backend.
 
 
 ## Usage

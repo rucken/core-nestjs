@@ -2,7 +2,7 @@
   "name": "rucken-core-nestjs",
   "version": "0.1.0",
   "description": "A simple application demonstrating the basic usage of permissions with NestJS (JWT, PasswordHash, User, Group, Permission, ContentType)",
-  "repository": "https://github.com/EndyKaufman/core-nestjs.git",
+  "repository": "https://github.com/rucken/core-nestjs.git",
   "engines": {
     "node": "6",
     "npm": "5.3.0"
