@@ -44,8 +44,7 @@
     "heroku-postbuild": "npm run build"
   },
   "cacheDirectories": [
-    "node_modules",
-    "./frontend/node_modules"
+    "node_modules"
   ],
   "dependencies": {
     "@nestjs/common": "^4.5.9",
