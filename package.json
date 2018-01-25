@@ -1,6 +1,6 @@
 {
   "name": "rucken-core-nestjs",
-  "version": "0.1.0",
+  "version": "0.1.1-rc.0",
   "description": "A simple application demonstrating the basic usage of permissions with NestJS (JWT, PasswordHash, User, Group, Permission, ContentType)",
   "repository": "https://github.com/rucken/core-nestjs.git",
   "engines": {
@@ -41,7 +41,7 @@
     "frontend:install": "npm install --prefix ./frontend",
     "frontend:build": "npm run build --prefix ./frontend",
     "frontend": "npm run frontend:install && npm run frontend:build",
-    "postinstall": "npm run build"
+    "heroku-postbuild": "npm run build"
   },
   "cacheDirectories": [
     "node_modules",
