@@ -161,7 +161,7 @@ export class GroupsController {
                 groups: objects[0],
                 meta: {
                     perPage: perPage,
-                    totalPages: perPage > objects[1] ? 1 : (objects[1] / perPage),
+                    totalPages: perPage > objects[1] ? 1 : Math.ceil(objects[1] / perPage),
                     totalResults: objects[1],
                     curPage: curPage
                 }
