@@ -48,7 +48,7 @@ export class GroupsController {
     @Post()
     async create(
         @Body() dto: InGroupDto
-        ) {
+    ) {
         try {
             let object = plainToClass(Group, dto);
             object = await this.groupsRepository.save(object)
@@ -70,7 +70,7 @@ export class GroupsController {
     async update(
         @Param('id', new ParseIntPipe()) id,
         @Body() dto: InGroupDto
-        ) {
+    ) {
         try {
             let object = plainToClass(Group, dto);
             object.id = id;
@@ -92,7 +92,7 @@ export class GroupsController {
     @Delete(':id')
     async delete(
         @Param('id', new ParseIntPipe()) id
-        ) {
+    ) {
         try {
             let object = await this.groupsRepository.findOneOrFail(
                 id,
@@ -117,7 +117,7 @@ export class GroupsController {
     @Get(':id')
     async load(
         @Param('id', new ParseIntPipe()) id
-        ) {
+    ) {
         try {
             let object = await this.groupsRepository.findOneOrFail(
                 id,
@@ -150,12 +150,13 @@ export class GroupsController {
         @Query('cur_page', new ParseIntWithDefaultPipe(1)) curPage,
         @Query('per_page', new ParseIntWithDefaultPipe(10)) perPage,
         @Query('q') q
-        ) {
+    ) {
         try {
             const objects = await this.groupsRepository.findAndCount({
                 skip: (curPage - 1) * perPage,
                 take: perPage,
-                relations: ['permissions']
+                relations: ['permissions'],
+                order: { id: 'DESC' }
             });
             return plainToClass(OutGroupsDto, {
                 groups: objects[0],

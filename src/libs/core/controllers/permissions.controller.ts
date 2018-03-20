@@ -48,7 +48,7 @@ export class PermissionsController {
     @Post()
     async create(
         @Body() dto: InPermissionDto
-        ) {
+    ) {
         try {
             let object = plainToClass(Permission, dto);
             object = await this.permissionsRepository.save(object)
@@ -70,7 +70,7 @@ export class PermissionsController {
     async update(
         @Param('id', new ParseIntPipe()) id,
         @Body() dto: InPermissionDto
-        ) {
+    ) {
         try {
             let object = plainToClass(Permission, dto);
             object.id = id;
@@ -92,7 +92,7 @@ export class PermissionsController {
     @Delete(':id')
     async delete(
         @Param('id', new ParseIntPipe()) id
-        ) {
+    ) {
         try {
             return await this.permissionsRepository.delete(id);
         } catch (error) {
@@ -111,7 +111,7 @@ export class PermissionsController {
     @Get(':id')
     async load(
         @Param('id', new ParseIntPipe()) id
-        ) {
+    ) {
         try {
             let object = await this.permissionsRepository.findOneOrFail(
                 id,
@@ -154,7 +154,7 @@ export class PermissionsController {
         @Query('q') q,
         @Query('group') group,
         @Query('content_type') contentType
-        ) {
+    ) {
         try {
             let objects: [Permission[], number];
             let qb = this.permissionsRepository.createQueryBuilder('permission');
@@ -167,6 +167,7 @@ export class PermissionsController {
             if (contentType) {
                 qb = qb.where('contentType.id = :contentType', { contentType: contentType });
             }
+            qb = qb.orderBy({ id: 'DESC' });
             qb = qb.skip((curPage - 1) * perPage)
                 .take(perPage);
             objects = await qb.getManyAndCount();

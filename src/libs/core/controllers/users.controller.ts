@@ -49,7 +49,7 @@ export class UsersController {
     @Post()
     async create(
         @Body() dto: InCreateUserDto
-        ) {
+    ) {
         try {
             let object = plainToClass(User, dto);
             object.setPassword(dto.password);
@@ -72,7 +72,7 @@ export class UsersController {
     async update(
         @Param('id', new ParseIntPipe()) id,
         @Body() dto: InUserDto
-        ) {
+    ) {
         try {
             let object = plainToClass(User, dto);
             object.id = id;
@@ -95,7 +95,7 @@ export class UsersController {
     @Delete(':id')
     async delete(
         @Param('id', new ParseIntPipe()) id
-        ) {
+    ) {
         try {
             let object = await this.usersRepository.findOneOrFail(
                 id,
@@ -120,7 +120,7 @@ export class UsersController {
     @Get(':id')
     async load(
         @Param('id', new ParseIntPipe()) id
-        ) {
+    ) {
         try {
             let object = await this.usersRepository.findOneOrFail(
                 id,
@@ -158,14 +158,15 @@ export class UsersController {
         @Query('per_page', new ParseIntWithDefaultPipe(10)) perPage,
         @Query('q') q,
         @Query('group') group
-        ) {
+    ) {
         try {
             let objects: [User[], number];
             if (!group) {
                 objects = await this.usersRepository.findAndCount({
                     skip: (curPage - 1) * perPage,
                     take: perPage,
-                    relations: ['groups', 'groups.permissions']
+                    relations: ['groups', 'groups.permissions'],
+                    order: { id: 'DESC' }
                 });
             } else {
                 let qb = this.usersRepository.createQueryBuilder('user');
@@ -173,6 +174,7 @@ export class UsersController {
                     qb = qb.leftJoinAndSelect('user.groups', 'group')
                         .where('group.id = :group', { group: group })
                 }
+                qb = qb.orderBy({ id: 'DESC' });
                 qb = qb.skip((curPage - 1) * perPage)
                     .take(perPage);
                 objects = await qb.getManyAndCount();

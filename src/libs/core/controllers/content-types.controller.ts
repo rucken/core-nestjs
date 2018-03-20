@@ -145,7 +145,8 @@ export class ContentTypesController {
         try {
             const objects = await this.contentTypeRepository.findAndCount({
                 skip: (curPage - 1) * perPage,
-                take: perPage
+                take: perPage,
+                order: { id: 'DESC' }
             });
             return plainToClass(OutContentTypesDto, {
                 contentTypes: objects[0],
