@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 
 import { User } from '../entities/user.entity';
 import { TokenService } from './token.service';
+import { CustomError } from '../exceptions/custom.error';
 
 @Component()
 export class AccountService {
@@ -27,7 +28,7 @@ export class AccountService {
                     object = await this.usersRepository.save(object);
                     return { user: object, token: this.tokenService.sign(object) };
                 } else {
-                    throw new Error('Invalid token');
+                    throw new CustomError('Invalid token');
                 }
             }
         } catch (error) {
@@ -51,7 +52,7 @@ export class AccountService {
                 });
             }
             if (!object || !object.verifyPassword(password)) {
-                throw new Error('Wrong password');
+                throw new CustomError('Wrong password');
             }
             object = await this.usersRepository.save(object);
             return { user: object, token: this.tokenService.sign(object) };
