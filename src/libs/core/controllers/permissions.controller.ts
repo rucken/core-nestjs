@@ -167,7 +167,7 @@ export class PermissionsController {
             if (contentType) {
                 qb = qb.where('contentType.id = :contentType', { contentType: contentType });
             }
-            qb = qb.orderBy({ id: 'DESC' });
+            qb = qb.orderBy('permission.id', 'DESC');
             qb = qb.skip((curPage - 1) * perPage)
                 .take(perPage);
             objects = await qb.getManyAndCount();

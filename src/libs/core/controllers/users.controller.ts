@@ -174,7 +174,7 @@ export class UsersController {
                     qb = qb.leftJoinAndSelect('user.groups', 'group')
                         .where('group.id = :group', { group: group })
                 }
-                qb = qb.orderBy({ id: 'DESC' });
+                qb = qb.orderBy('user.id', 'DESC');
                 qb = qb.skip((curPage - 1) * perPage)
                     .take(perPage);
                 objects = await qb.getManyAndCount();
