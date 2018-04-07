@@ -15,7 +15,7 @@ import {
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 
 import { Roles } from '../decorators/roles.decorator';
 import { InGroupDto } from '../dto/in-group.dto';
@@ -152,12 +152,17 @@ export class GroupsController {
         @Query('q') q
     ) {
         try {
-            const objects = await this.groupsRepository.findAndCount({
-                skip: (curPage - 1) * perPage,
-                take: perPage,
-                relations: ['permissions'],
-                order: { id: 'DESC' }
-            });
+            let objects: [Group[], number];
+            let qb = this.groupsRepository.createQueryBuilder('group');
+            qb = qb.leftJoinAndSelect('group.permissions', 'permission');
+            qb = qb.leftJoinAndSelect('permission.contentType', 'contentType');
+            if (q){
+                qb = qb.where('group.title like :q or group.name like :q or group.id = :id', { q: `%${q}%`, id: +q });
+            }
+            qb = qb.orderBy('group.id', 'DESC');
+            qb = qb.skip((curPage - 1) * perPage)
+                .take(perPage);
+            objects = await qb.getManyAndCount();
             return plainToClass(OutGroupsDto, {
                 groups: objects[0],
                 meta: {

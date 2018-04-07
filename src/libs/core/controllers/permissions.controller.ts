@@ -164,6 +164,9 @@ export class PermissionsController {
                     .leftJoin('permission.groups', 'group')
                     .where('group.id = :group', { group: group });
             }
+            if (q){
+                qb = qb.where('permission.name like :q or permission.title like :q or permission.id = :id', { q: `%${q}%`, id: +q });
+            }
             if (contentType) {
                 qb = qb.where('contentType.id = :contentType', { contentType: contentType });
             }

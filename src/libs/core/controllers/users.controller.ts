@@ -15,7 +15,7 @@ import {
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 
 import { Roles } from '../decorators/roles.decorator';
 import { InUserDto } from '../dto/in-user.dto';
@@ -161,24 +161,24 @@ export class UsersController {
     ) {
         try {
             let objects: [User[], number];
-            if (!group) {
-                objects = await this.usersRepository.findAndCount({
-                    skip: (curPage - 1) * perPage,
-                    take: perPage,
-                    relations: ['groups', 'groups.permissions'],
-                    order: { id: 'DESC' }
-                });
-            } else {
-                let qb = this.usersRepository.createQueryBuilder('user');
-                if (group) {
-                    qb = qb.leftJoinAndSelect('user.groups', 'group')
-                        .where('group.id = :group', { group: group })
-                }
-                qb = qb.orderBy('user.id', 'DESC');
-                qb = qb.skip((curPage - 1) * perPage)
-                    .take(perPage);
-                objects = await qb.getManyAndCount();
+            let qb = this.usersRepository.createQueryBuilder('user');
+            if (group) {
+                qb = qb.leftJoinAndSelect('user.groups', 'group')
+                    .where('group.id = :group', { group: group })
+            }else{
+                qb = qb.leftJoinAndSelect('user.groups', 'group')
+                    .where('group.id = :group', { group: group });
+                qb = qb.leftJoinAndSelect('groups.permissions', 'permission');
+                qb = qb.leftJoinAndSelect('permission.contentType', 'contentType');
             }
+            if (q){
+                qb = qb.where('user.first_name like :q or user.last_name like :q or user.username like :q or user.id = :id', { q: `%${q}%`, id: +q });
+            }
+            qb = qb.orderBy('user.id', 'DESC');
+            qb = qb.skip((curPage - 1) * perPage)
+                .take(perPage);
+            objects = await qb.getManyAndCount();
+
             return plainToClass(OutUsersDto, {
                 users: objects[0],
                 meta: {

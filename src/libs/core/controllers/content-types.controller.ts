@@ -15,7 +15,7 @@ import {
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 
 import { Roles } from '../decorators/roles.decorator';
 import { InContentTypeDto } from '../dto/in-content-type.dto';
@@ -143,11 +143,15 @@ export class ContentTypesController {
         @Query('q') q
         ) {
         try {
-            const objects = await this.contentTypeRepository.findAndCount({
-                skip: (curPage - 1) * perPage,
-                take: perPage,
-                order: { id: 'DESC' }
-            });
+            let objects: [ContentType[], number];
+            let qb = this.contentTypeRepository.createQueryBuilder('contentType');
+            if (q){
+                qb = qb.where('contentType.name like :q or contentType.title like :q or contentType.id = :id', { q: `%${q}%`, id: +q });
+            }
+            qb = qb.orderBy('contentType.id', 'DESC');
+            qb = qb.skip((curPage - 1) * perPage)
+                .take(perPage);
+            objects = await qb.getManyAndCount();
             return plainToClass(OutContentTypesDto, {
                 contentTypes: objects[0],
                 meta: {
