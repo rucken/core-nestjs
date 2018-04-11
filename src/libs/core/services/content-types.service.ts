@@ -3,30 +3,28 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 
-import { Group } from '../entities/group.entity';
+import { ContentType } from '../entities/content-type.entity';
 
 @Component()
-export class GroupsService {
-    items: Group[] = null;
+export class ContentTypesService {
     constructor(
-        @InjectRepository(Group)
-        private readonly repository: Repository<Group>
+        @InjectRepository(ContentType)
+        private readonly repository: Repository<ContentType>
     ) {
-        this.fullLoadAll();
     }
-    async create(item: Group) {
+    async create(item: ContentType) {
         try {
             item = await this.repository.save(item);
-            return { group: item };
+            return { contentType: item };
         } catch (error) {
             throw error;
         }
     }
-    async update(id: number, item: Group) {
+    async update(id: number, item: ContentType) {
         item.id = id;
         try {
             item = await this.repository.save(item);
-            return { group: item };
+            return { contentType: item };
         } catch (error) {
             throw error;
         }
@@ -40,7 +38,7 @@ export class GroupsService {
             item.permissions = [];
             item = await this.repository.save(item);
             await this.repository.delete(id);
-            return { group: null };
+            return { contentType: null };
         } catch (error) {
             throw error;
         }
@@ -51,7 +49,7 @@ export class GroupsService {
                 id,
                 { relations: ['permissions'] }
             );
-            return { group: item };
+            return { contentType: item };
         } catch (error) {
             throw error;
         }
@@ -62,19 +60,17 @@ export class GroupsService {
         q: string
     ) {
         try {
-            let objects: [Group[], number];
-            let qb = this.repository.createQueryBuilder('group');
-            qb = qb.leftJoinAndSelect('group.permissions', 'permission');
-            qb = qb.leftJoinAndSelect('permission.contentType', 'contentType');
+            let objects: [ContentType[], number];
+            let qb = this.repository.createQueryBuilder('contentType');
             if (q) {
-                qb = qb.where('group.title like :q or group.name like :q or group.id = :id', { q: `%${q}%`, id: +q });
+                qb = qb.where('contentType.name like :q or contentType.title like :q or contentType.id = :id', { q: `%${q}%`, id: +q });
             }
-            qb = qb.orderBy('group.id', 'DESC');
+            qb = qb.orderBy('contentType.id', 'DESC');
             qb = qb.skip((curPage - 1) * perPage)
                 .take(perPage);
             objects = await qb.getManyAndCount();
             return {
-                groups: objects[0],
+                contentTypes: objects[0],
                 meta: {
                     perPage: perPage,
                     totalPages: perPage > objects[1] ? 1 : Math.ceil(objects[1] / perPage),
@@ -84,25 +80,6 @@ export class GroupsService {
             };
         } catch (error) {
             throw error;
-        }
-    }
-    getGroupByName(name: string) {
-        let groups = this.items.filter(group => group.name === name);
-        if (groups.length) {
-            return groups[0];
-        }
-        return null;
-    }
-    async fullLoadAll() {
-        if (this.items === null) {
-            try {
-                const groups = await this.repository.createQueryBuilder('group')
-                    .leftJoinAndSelect('group.permissions', 'permission')
-                    .getMany();
-                this.items = plainToClass(Group, groups);
-            } catch (error) {
-                throw error;
-            }
         }
     }
 }

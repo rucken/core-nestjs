@@ -115,6 +115,7 @@ export class User {
         if (password) {
             this.password = this.makePassword(password);
         }
+        return this;
     }
 
     checkPermissions(permissions: string[]) {

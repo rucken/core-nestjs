@@ -1,22 +1,7 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpCode,
-    HttpStatus,
-    Param,
-    ParseIntPipe,
-    Post,
-    Put,
-    Query,
-    UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
-import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import { Repository, Like } from 'typeorm';
-
+import { Permissions } from '../decorators/permissions.decorator';
 import { Roles } from '../decorators/roles.decorator';
 import { InContentTypeDto } from '../dto/in-content-type.dto';
 import { OutContentTypeDto } from '../dto/out-content-type.dto';
@@ -24,7 +9,8 @@ import { OutContentTypesDto } from '../dto/out-content-types.dto';
 import { ContentType } from '../entities/content-type.entity';
 import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
-import { Permissions } from '../decorators/permissions.decorator';
+import { ContentTypesService } from '../services/content-types.service';
+
 
 @ApiUseTags('content-types')
 @ApiBearerAuth()
@@ -32,8 +18,7 @@ import { Permissions } from '../decorators/permissions.decorator';
 @UseGuards(AccessGuard)
 export class ContentTypesController {
     constructor(
-        @InjectRepository(ContentType)
-        private readonly contentTypeRepository: Repository<ContentType>
+        private readonly service: ContentTypesService
     ) {
 
     }
@@ -48,11 +33,14 @@ export class ContentTypesController {
     @Post()
     async create(
         @Body() dto: InContentTypeDto
-        ) {
+    ) {
         try {
-            let object = plainToClass(ContentType, dto);
-            object = await this.contentTypeRepository.save(object)
-            return plainToClass(OutContentTypeDto, { contentType: object });
+            return plainToClass(
+                OutContentTypeDto,
+                await this.service.create(
+                    plainToClass(ContentType, dto)
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -70,12 +58,15 @@ export class ContentTypesController {
     async update(
         @Param('id', new ParseIntPipe()) id,
         @Body() dto: InContentTypeDto
-        ) {
+    ) {
         try {
-            let object = plainToClass(ContentType, dto);
-            object.id = id;
-            object = await this.contentTypeRepository.save(object);
-            return plainToClass(OutContentTypeDto, { contentType: object });
+            return plainToClass(
+                OutContentTypeDto,
+                await this.service.update(
+                    id,
+                    plainToClass(ContentType, dto)
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -92,9 +83,13 @@ export class ContentTypesController {
     @Delete(':id')
     async delete(
         @Param('id', new ParseIntPipe()) id
-        ) {
+    ) {
         try {
-            return await this.contentTypeRepository.delete(id);
+            return plainToClass(OutContentTypeDto,
+                await this.service.delete(
+                    id
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -111,10 +106,14 @@ export class ContentTypesController {
     @Get(':id')
     async load(
         @Param('id', new ParseIntPipe()) id
-        ) {
+    ) {
         try {
-            let object = await this.contentTypeRepository.findOneOrFail(id);
-            return plainToClass(OutContentTypeDto, { contentType: object });
+            return plainToClass(
+                OutContentTypeDto,
+                await this.service.load(
+                    id
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -141,26 +140,16 @@ export class ContentTypesController {
         @Query('cur_page', new ParseIntWithDefaultPipe(1)) curPage,
         @Query('per_page', new ParseIntWithDefaultPipe(10)) perPage,
         @Query('q') q
-        ) {
+    ) {
         try {
-            let objects: [ContentType[], number];
-            let qb = this.contentTypeRepository.createQueryBuilder('contentType');
-            if (q){
-                qb = qb.where('contentType.name like :q or contentType.title like :q or contentType.id = :id', { q: `%${q}%`, id: +q });
-            }
-            qb = qb.orderBy('contentType.id', 'DESC');
-            qb = qb.skip((curPage - 1) * perPage)
-                .take(perPage);
-            objects = await qb.getManyAndCount();
-            return plainToClass(OutContentTypesDto, {
-                contentTypes: objects[0],
-                meta: {
-                    perPage: perPage,
-                    totalPages: perPage > objects[1] ? 1 : Math.ceil(objects[1] / perPage),
-                    totalResults: objects[1],
-                    curPage: curPage
-                }
-            });
+            return plainToClass(
+                OutContentTypesDto,
+                await this.service.loadAll(
+                    curPage,
+                    perPage,
+                    q
+                )
+            );
         } catch (error) {
             throw error;
         }

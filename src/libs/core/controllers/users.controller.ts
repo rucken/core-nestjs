@@ -1,31 +1,17 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpCode,
-    HttpStatus,
-    Param,
-    ParseIntPipe,
-    Post,
-    Put,
-    Query,
-    UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
-import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import { Repository, Like } from 'typeorm';
-
+import { Permissions } from '../decorators/permissions.decorator';
 import { Roles } from '../decorators/roles.decorator';
+import { InCreateUserDto } from '../dto/in-create-user.dto';
 import { InUserDto } from '../dto/in-user.dto';
 import { OutUserDto } from '../dto/out-user.dto';
 import { OutUsersDto } from '../dto/out-users.dto';
 import { User } from '../entities/user.entity';
 import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
-import { Permissions } from '../decorators/permissions.decorator';
-import { InCreateUserDto } from '../dto/in-create-user.dto';
+import { UsersService } from '../services/users.service';
+
 
 @ApiUseTags('users')
 @ApiBearerAuth()
@@ -33,8 +19,7 @@ import { InCreateUserDto } from '../dto/in-create-user.dto';
 @UseGuards(AccessGuard)
 export class UsersController {
     constructor(
-        @InjectRepository(User)
-        private readonly usersRepository: Repository<User>
+        private readonly service: UsersService
     ) {
 
     }
@@ -51,10 +36,12 @@ export class UsersController {
         @Body() dto: InCreateUserDto
     ) {
         try {
-            let object = plainToClass(User, dto);
-            object.setPassword(dto.password);
-            object = await this.usersRepository.save(object)
-            return plainToClass(OutUserDto, { user: object });
+            return plainToClass(
+                OutUserDto,
+                await this.service.create(
+                    plainToClass(User, dto).setPassword(dto.password)
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -74,11 +61,13 @@ export class UsersController {
         @Body() dto: InUserDto
     ) {
         try {
-            let object = plainToClass(User, dto);
-            object.id = id;
-            object.setPassword(dto.password);
-            object = await this.usersRepository.save(object);
-            return plainToClass(OutUserDto, { user: object });
+            return plainToClass(
+                OutUserDto,
+                await this.service.update(
+                    id,
+                    plainToClass(User, dto).setPassword(dto.password)
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -97,13 +86,11 @@ export class UsersController {
         @Param('id', new ParseIntPipe()) id
     ) {
         try {
-            let object = await this.usersRepository.findOneOrFail(
-                id,
-                { relations: ['groups'] }
+            return plainToClass(OutUserDto,
+                await this.service.delete(
+                    id
+                )
             );
-            object.groups = [];
-            object = await this.usersRepository.save(object);
-            return await this.usersRepository.delete(id);
         } catch (error) {
             throw error;
         }
@@ -122,11 +109,12 @@ export class UsersController {
         @Param('id', new ParseIntPipe()) id
     ) {
         try {
-            let object = await this.usersRepository.findOneOrFail(
-                id,
-                { relations: ['groups', 'groups.permissions'] }
+            return plainToClass(
+                OutUserDto,
+                await this.service.load(
+                    id
+                )
             );
-            return plainToClass(OutUserDto, { user: object });
         } catch (error) {
             throw error;
         }
@@ -160,34 +148,15 @@ export class UsersController {
         @Query('group') group
     ) {
         try {
-            let objects: [User[], number];
-            let qb = this.usersRepository.createQueryBuilder('user');
-            if (group) {
-                qb = qb.leftJoinAndSelect('user.groups', 'group')
-                    .where('group.id = :group', { group: group })
-            }else{
-                qb = qb.leftJoinAndSelect('user.groups', 'group')
-                    .where('group.id = :group', { group: group });
-                qb = qb.leftJoinAndSelect('groups.permissions', 'permission');
-                qb = qb.leftJoinAndSelect('permission.contentType', 'contentType');
-            }
-            if (q){
-                qb = qb.where('user.first_name like :q or user.last_name like :q or user.username like :q or user.id = :id', { q: `%${q}%`, id: +q });
-            }
-            qb = qb.orderBy('user.id', 'DESC');
-            qb = qb.skip((curPage - 1) * perPage)
-                .take(perPage);
-            objects = await qb.getManyAndCount();
-
-            return plainToClass(OutUsersDto, {
-                users: objects[0],
-                meta: {
-                    perPage: perPage,
-                    totalPages: perPage > objects[1] ? 1 : Math.ceil(objects[1] / perPage),
-                    totalResults: objects[1],
-                    curPage: curPage
-                }
-            });
+            return plainToClass(
+                OutUsersDto,
+                await this.service.loadAll(
+                    curPage,
+                    perPage,
+                    q,
+                    group
+                )
+            );
         } catch (error) {
             throw error;
         }
