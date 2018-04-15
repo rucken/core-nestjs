@@ -1,6 +1,6 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
+    "newLine": "LF",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,

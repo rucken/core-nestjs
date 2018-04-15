@@ -1,27 +1,39 @@
-# TemplateStart
+# rucken
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.0.
+[![Greenkeeper badge](https://badges.greenkeeper.io/rucken/core.svg)](https://greenkeeper.io/)
+[![NPM version][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
+[![Gitter][gitter-image]][gitter-url]
+[![Join the chat at telegram][telegram-image]][telegram-url]
 
-## Development server
+Core with Admin UI for web application maked on Angular5+
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## What is Rucken?
 
-## Code scaffolding
+- **Core** - Base entities and services for create applications on `Angular5+`, include work with users, groups and permissions.
+- **Web** - Base ui grids and inputs and etc. for manage users, groups and permissions.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Quick links
 
-## Build
+[Source](https://github.com/rucken/core) - Source code.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+[Live demo](https://rucken.github.io/core) - Demo application (backend: http://www.mockapi.io).
 
-## Running unit tests
+[Live demo (SSR)](https://rucken.herokuapp.com) - Demo application with server side rendering (backend: http://www.mockapi.io).
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+[Live demo (NestJS)](https://rucken-core-nestjs.herokuapp.com) - Demo application with live backend (backend: https://nestjs.com).
 
-## Running end-to-end tests
+## License
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+MIT
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+[travis-image]: https://travis-ci.org/rucken/core.svg?branch=master
+[travis-url]: https://travis-ci.org/rucken/core
+[gitter-image]: https://img.shields.io/gitter/room/rucken/core.js.svg
+[gitter-url]: https://gitter.im/rucken/core
+[npm-image]: https://badge.fury.io/js/%40rucken%2Fweb.svg
+[npm-url]: https://npmjs.org/package/@rucken/web
+[dependencies-image]: https://david-dm.org/rucken/core/status.svg
+[dependencies-url]: https://david-dm.org/rucken/core
+[telegram-image]: https://img.shields.io/badge/chat-telegram-blue.svg?maxAge=2592000
+[telegram-url]: https://t.me/rucken

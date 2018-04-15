@@ -1,76 +1,22 @@
+@import '~ngx-bootstrap/datepicker/bs-datepicker.css';
+
+@import "~font-awesome/scss/variables";
+$fa-font-path: "~font-awesome/fonts/";
+@import "~font-awesome/scss/font-awesome";
+/*@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "~bootswatch-sass/cosmo/variables";
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import "~bootswatch-sass/cosmo/bootswatch";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/mixins/_table-row";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/_tables";
+*/
+
 body {
     padding-top: 70px;
 }
-
-@import '../../../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
-
-.grid {
-    &__toolbar {
-        &--header {
-            padding-bottom: 5px;
-        }
-        &--footer {
-            padding-top: 5px;
-        }
-    }
-    &__table {
-        margin-bottom: 0px;
-        tr {
-            td {
-                cursor: pointer;
-            }
-            th {
-                vertical-align: top!important;
-                position: relative;
-                padding-right: 18px !important;
-                button {
-                    position: absolute;
-                    top: 6px;
-                    right: -0px;
-                }
-            }
-        }
-        &__col-key {
-            width: 100px;
-            text-align: left;
-        }
-        &__col-id {
-            width: 70px;
-            text-align: right;
-        }
-        &__col-icon {
-            width: 70px;
-            text-align: center;
-        }
-        &__col-action {
-            width: 100px;
-            text-align: center;
-        }
-        &__col-status-message {
-            text-align: center;
-        }
-    }
-}
-
-.input-group {
-    .dropdown-menu {
-        >li {
-            >a {
-                line-height: 0;
-            }
-        }
-        .divider {
-            margin: 0px 0;
-        }
-    }
-}
-
 .page-header {
     margin: 0 0 20px;
-}
-
-.pagination-compressed {
-    margin-top: 0px;
 }
 .error-tooltip{
     .tooltip-inner{
@@ -86,5 +32,53 @@ body {
     }
     .tooltip-arrow.arrow {
         border-bottom-color: #3fb618;
+    }
+}
+.checkboxes-group{
+    &.form-control{
+        border: 0px;
+        padding-right: 0px;
+        padding-left: 0px;
+        box-shadow: none;
+        background-color: transparent;
+    }
+    .checkbox{
+        display: inline;
+    }
+}
+.width-20{
+    width: 20px;
+}
+.width-50{
+    width: 50px;
+}
+.width-100{
+    width: 100px;
+}
+.width-150{
+    width: 150px;
+}
+.width-170{
+    width: 170px;
+}
+.width-200{
+    width: 200px;
+}
+.entity-grid-header{
+    padding-bottom: 5px;
+}
+.entity-grid-footer{
+    margin-top: -10px;
+    .pagination{
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+}
+.entity-field-buttons{
+    button{
+        &.btn-xs{
+            padding-top: 0px!important;
+            padding-bottom: 0px!important;
+        }
     }
 }

@@ -4,6 +4,27 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+msgid "Logout"
+msgstr ""
+
+msgid "Do you really want to leave?"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Authorization"
+msgstr ""
+
+msgid "Sign in"
+msgstr ""
+
+msgid "Your session has expired, please re-login"
+msgstr ""
+
 msgid "Russian"
 msgstr ""
 
@@ -16,7 +37,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-msgid "Admin"
+msgid "Administration"
 msgstr ""
 
 msgid "Groups"
@@ -31,17 +52,8 @@ msgstr ""
 msgid "Themes"
 msgstr ""
 
-msgid "Language"
+msgid "Update"
 msgstr ""
 
-msgid "Menu"
-msgstr ""
-
-msgid "Demo"
-msgstr ""
-
-msgid "Logout"
-msgstr ""
-
-msgid "Login"
+msgid "Close"
 msgstr ""
