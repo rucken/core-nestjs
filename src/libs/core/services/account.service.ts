@@ -26,10 +26,29 @@ export class AccountService {
                 );
                 if (this.tokenService.getSecretKey(tokenData) === this.tokenService.getSecretKey(object)) {
                     object = await this.usersRepository.save(object);
-                    return { user: object, token: this.tokenService.sign(object) };
+                    return { user: object, token: token }
                 } else {
                     throw new CustomError('Invalid token');
                 }
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+    async refresh(token) {
+        try {
+            if (this.tokenService.verify(token)) {
+                let tokenData: any = this.tokenService.decode(token);
+                let object = await this.usersRepository.findOneOrFail(
+                    tokenData.id,
+                    { relations: ['groups', 'groups.permissions'] }
+                );
+                if (this.tokenService.getSecretKey(tokenData) === this.tokenService.getSecretKey(object)) {
+                    object = await this.usersRepository.save(object);
+                    return { user: object, token: this.tokenService.sign(object) }
+                };
+            } else {
+                throw new CustomError('Invalid token');
             }
         } catch (error) {
             throw error;
