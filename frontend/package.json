@@ -4,8 +4,8 @@
   "license": "MIT",
   "author": "EndyKaufman <admin@site15.ru>",
   "engines": {
-    "node": ">=6",
-    "npm": ">=5.3.0"
+    "node": "8.11.x",
+    "npm": "5.8.x"
   },
   "private": true,
   "description": "Core with Admin UI for web and native application maked on Angular5+",
