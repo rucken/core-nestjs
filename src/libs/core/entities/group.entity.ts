@@ -8,17 +8,17 @@ import { CustomValidationError } from '../exceptions/custom-validation.error';
 @Entity()
 export class Group {
     @PrimaryGeneratedColumn()
-    id: number;
+    id: number = undefined;
 
     @Column({ length: 100, unique: true })
     @IsNotEmpty()
     @MaxLength(100)
-    name: string;
+    name: string = undefined;
 
     @Column({ length: 255, unique: true })
     @IsNotEmpty()
     @MaxLength(255)
-    title: string;
+    title: string = undefined;
 
     @ManyToMany(type => Permission, {
         cascade: ['remove']

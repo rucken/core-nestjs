@@ -1,22 +1,6 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpCode,
-    HttpStatus,
-    Param,
-    ParseIntPipe,
-    Post,
-    Put,
-    Query,
-    UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
-import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import { Repository } from 'typeorm';
-
 import { Permissions } from '../decorators/permissions.decorator';
 import { Roles } from '../decorators/roles.decorator';
 import { InPermissionDto } from '../dto/in-permission.dto';
@@ -25,6 +9,8 @@ import { OutPermissionsDto } from '../dto/out-permissions.dto';
 import { Permission } from '../entities/permission.entity';
 import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
+import { PermissionsService } from '../services/permissions.service';
+
 
 @ApiUseTags('permissions')
 @ApiBearerAuth()
@@ -32,8 +18,7 @@ import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 @UseGuards(AccessGuard)
 export class PermissionsController {
     constructor(
-        @InjectRepository(Permission)
-        private readonly permissionsRepository: Repository<Permission>
+        private readonly service: PermissionsService
     ) {
 
     }
@@ -48,11 +33,14 @@ export class PermissionsController {
     @Post()
     async create(
         @Body() dto: InPermissionDto
-        ) {
+    ) {
         try {
-            let object = plainToClass(Permission, dto);
-            object = await this.permissionsRepository.save(object)
-            return plainToClass(OutPermissionDto, { permission: object });
+            return plainToClass(
+                OutPermissionDto,
+                await this.service.create(
+                    plainToClass(Permission, dto)
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -70,12 +58,15 @@ export class PermissionsController {
     async update(
         @Param('id', new ParseIntPipe()) id,
         @Body() dto: InPermissionDto
-        ) {
+    ) {
         try {
-            let object = plainToClass(Permission, dto);
-            object.id = id;
-            object = await this.permissionsRepository.save(object);
-            return plainToClass(OutPermissionDto, { permission: object });
+            return plainToClass(
+                OutPermissionDto,
+                await this.service.update(
+                    id,
+                    plainToClass(Permission, dto)
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -92,9 +83,13 @@ export class PermissionsController {
     @Delete(':id')
     async delete(
         @Param('id', new ParseIntPipe()) id
-        ) {
+    ) {
         try {
-            return await this.permissionsRepository.delete(id);
+            return plainToClass(OutPermissionDto,
+                await this.service.delete(
+                    id
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -111,13 +106,14 @@ export class PermissionsController {
     @Get(':id')
     async load(
         @Param('id', new ParseIntPipe()) id
-        ) {
+    ) {
         try {
-            let object = await this.permissionsRepository.findOneOrFail(
-                id,
-                { relations: ['contentType'] }
+            return plainToClass(
+                OutPermissionDto,
+                await this.service.load(
+                    id
+                )
             );
-            return plainToClass(OutPermissionDto, { permission: object });
         } catch (error) {
             throw error;
         }
@@ -131,6 +127,7 @@ export class PermissionsController {
     })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
     @ApiImplicitQuery({ name: 'q', required: false, type: String, description: 'Text for search (default: empty)' })
+    @ApiImplicitQuery({ name: 'sort', required: false, type: String, description: 'Column name for sort (default: -id)' })
     @ApiImplicitQuery({
         name: 'per_page', required: false, type: Number,
         description: 'Number of results to return per page. (default: 10)'
@@ -153,32 +150,21 @@ export class PermissionsController {
         @Query('per_page', new ParseIntWithDefaultPipe(10)) perPage,
         @Query('q') q,
         @Query('group') group,
-        @Query('content_type') contentType
-        ) {
+        @Query('content_type') contentType,
+        @Query('sort') sort
+    ) {
         try {
-            let objects: [Permission[], number];
-            let qb = this.permissionsRepository.createQueryBuilder('permission');
-            qb = qb.leftJoinAndSelect('permission.contentType', 'contentType');
-            if (group) {
-                qb = qb
-                    .leftJoin('permission.groups', 'group')
-                    .where('group.id = :group', { group: group });
-            }
-            if (contentType) {
-                qb = qb.where('contentType.id = :contentType', { contentType: contentType });
-            }
-            qb = qb.skip((curPage - 1) * perPage)
-                .take(perPage);
-            objects = await qb.getManyAndCount();
-            return plainToClass(OutPermissionsDto, {
-                permissions: objects[0],
-                meta: {
-                    perPage: perPage,
-                    totalPages: perPage > objects[1] ? 1 : (objects[1] / perPage),
-                    totalResults: objects[1],
-                    curPage: curPage
-                }
-            });
+            return plainToClass(
+                OutPermissionsDto,
+                await this.service.loadAll(
+                    curPage,
+                    perPage,
+                    q,
+                    group,
+                    contentType,
+                    sort
+                )
+            );
         } catch (error) {
             throw error;
         }

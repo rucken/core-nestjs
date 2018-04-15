@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 
 import { User } from '../entities/user.entity';
 import { TokenService } from './token.service';
+import { CustomError } from '../exceptions/custom.error';
 
 @Component()
 export class AccountService {
@@ -25,10 +26,29 @@ export class AccountService {
                 );
                 if (this.tokenService.getSecretKey(tokenData) === this.tokenService.getSecretKey(object)) {
                     object = await this.usersRepository.save(object);
-                    return { user: object, token: this.tokenService.sign(object) };
+                    return { user: object, token: token }
                 } else {
-                    throw new Error('Invalid token');
+                    throw new CustomError('Invalid token');
                 }
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+    async refresh(token) {
+        try {
+            if (this.tokenService.verify(token)) {
+                let tokenData: any = this.tokenService.decode(token);
+                let object = await this.usersRepository.findOneOrFail(
+                    tokenData.id,
+                    { relations: ['groups', 'groups.permissions'] }
+                );
+                if (this.tokenService.getSecretKey(tokenData) === this.tokenService.getSecretKey(object)) {
+                    object = await this.usersRepository.save(object);
+                    return { user: object, token: this.tokenService.sign(object) }
+                };
+            } else {
+                throw new CustomError('Invalid token');
             }
         } catch (error) {
             throw error;
@@ -51,7 +71,7 @@ export class AccountService {
                 });
             }
             if (!object || !object.verifyPassword(password)) {
-                throw new Error('Wrong password');
+                throw new CustomError('Wrong password');
             }
             object = await this.usersRepository.save(object);
             return { user: object, token: this.tokenService.sign(object) };

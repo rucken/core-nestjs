@@ -9,9 +9,31 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Logout"
+msgstr "Выйти"
+
+msgid "Do you really want to leave?"
+msgstr "Вы действительно хотите выйти?"
+
+msgid "Yes"
+msgstr "Да"
+
+msgid "No"
+msgstr "Нет"
+
+msgid "Authorization"
+msgstr "Авторизация"
+
+msgid "Sign in"
+msgstr "Войти"
+
+msgid "Your session has expired, please re-login"
+msgstr ""
+"Ваша сессия истекла. Пожалуйста, авторизуйтесь снова, чтобы продолжить работу"
 
 msgid "Russian"
 msgstr "Русский"
@@ -25,7 +47,7 @@ msgstr "Личный кабинет"
 msgid "Profile"
 msgstr "Профиль"
 
-msgid "Admin"
+msgid "Administration"
 msgstr "Администрирование"
 
 msgid "Groups"
@@ -40,23 +62,17 @@ msgstr "Домашняя страница"
 msgid "Themes"
 msgstr "Темы"
 
-msgid "Language"
-msgstr "Язык"
+msgid "Update"
+msgstr "Изменить"
 
-msgid "Menu"
-msgstr "Меню"
+msgid "Close"
+msgstr "Закрыть"
 
-msgid "Demo"
-msgstr "Демо"
+#~ msgid "Admin"
+#~ msgstr "Администрирование"
 
-msgid "Logout"
-msgstr "Выйти"
+#~ msgid "ru"
+#~ msgstr "Русский"
 
-msgid "Login"
-msgstr "Вход"
-
-#~ msgid "Not access"
-#~ msgstr "Нет доступа"
-
-#~ msgid "App title"
-#~ msgstr "Demo"
+#~ msgid "en"
+#~ msgstr "Английский"

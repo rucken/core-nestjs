@@ -1,5 +1,6 @@
 export const environment = {
-  type: 'nestjs',
+  server: false,
+  type: 'backend',
   production: true,
   apiUrl: '/api'
 };

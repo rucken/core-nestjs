@@ -6,7 +6,7 @@
   "apps": [
     {
       "name": "demo",
-      "root": "./apps/demo/src",
+      "root": "apps/demo/src",
       "outDir": "../www",
       "assets": [
         "assets",
@@ -16,7 +16,7 @@
       "main": "main.ts",
       "polyfills": "polyfills.ts",
       "test": "test.ts",
-      "tsconfig": "tsconfig.app.json",
+      "tsconfig": "tsconfig.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "",
       "styles": [
@@ -26,21 +26,8 @@
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts",
-        "mockapi": "environments/environment.mockapi.ts"
+        "prod": "environments/environment.prod.ts"
       }
-    },
-    {
-      "name": "@demo/core",
-      "root": "./libs/core/src",
-      "outDir": "./libs/core/dist",
-      "appRoot": ""
-    },
-    {
-      "name": "@demo/web",
-      "root": "./libs/web/src",
-      "outDir": "./libs/web/dist",
-      "appRoot": ""
     }
   ],
   "e2e": {
@@ -50,11 +37,11 @@
   },
   "lint": [
     {
-      "project": "./apps/demo/src/tsconfig.app.json",
+      "project": "apps/demo/src/tsconfig.json",
       "exclude": "**/node_modules/**"
     },
     {
-      "project": "./apps/demo/src/tsconfig.spec.json",
+      "project": "apps/demo/src/tsconfig.spec.json",
       "exclude": "**/node_modules/**"
     },
     {
@@ -68,6 +55,7 @@
     }
   },
   "defaults": {
-    "styleExt": "scss"
+    "styleExt": "scss",
+    "component": {}
   }
 }

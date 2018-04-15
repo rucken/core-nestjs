@@ -7,7 +7,7 @@ import { CustomExceptionFilter } from './libs/core/exceptions/custom-exception.f
 import { ValidationPipe } from './libs/core/pipes/validation.pipe';
 import * as path from 'path';
 import * as express from 'express';
-
+import * as expressSpaRouter from 'express-spa-router';
 
 async function bootstrap() {
 	config();

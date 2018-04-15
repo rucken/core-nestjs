@@ -1,22 +1,7 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpCode,
-    HttpStatus,
-    Param,
-    ParseIntPipe,
-    Post,
-    Put,
-    Query,
-    UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
-import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import { Repository } from 'typeorm';
-
+import { Permissions } from '../decorators/permissions.decorator';
 import { Roles } from '../decorators/roles.decorator';
 import { InGroupDto } from '../dto/in-group.dto';
 import { OutGroupDto } from '../dto/out-group.dto';
@@ -24,7 +9,8 @@ import { OutGroupsDto } from '../dto/out-groups.dto';
 import { Group } from '../entities/group.entity';
 import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
-import { Permissions } from '../decorators/permissions.decorator';
+import { GroupsService } from '../services/groups.service';
+
 
 @ApiUseTags('groups')
 @ApiBearerAuth()
@@ -32,8 +18,7 @@ import { Permissions } from '../decorators/permissions.decorator';
 @UseGuards(AccessGuard)
 export class GroupsController {
     constructor(
-        @InjectRepository(Group)
-        private readonly groupsRepository: Repository<Group>
+        private readonly service: GroupsService
     ) {
 
     }
@@ -48,11 +33,14 @@ export class GroupsController {
     @Post()
     async create(
         @Body() dto: InGroupDto
-        ) {
+    ) {
         try {
-            let object = plainToClass(Group, dto);
-            object = await this.groupsRepository.save(object)
-            return plainToClass(OutGroupDto, { group: object });
+            return plainToClass(
+                OutGroupDto,
+                await this.service.create(
+                    plainToClass(Group, dto)
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -70,12 +58,15 @@ export class GroupsController {
     async update(
         @Param('id', new ParseIntPipe()) id,
         @Body() dto: InGroupDto
-        ) {
+    ) {
         try {
-            let object = plainToClass(Group, dto);
-            object.id = id;
-            object = await this.groupsRepository.save(object);
-            return plainToClass(OutGroupDto, { group: object });
+            return plainToClass(
+                OutGroupDto,
+                await this.service.update(
+                    id,
+                    plainToClass(Group, dto)
+                )
+            );
         } catch (error) {
             throw error;
         }
@@ -92,15 +83,13 @@ export class GroupsController {
     @Delete(':id')
     async delete(
         @Param('id', new ParseIntPipe()) id
-        ) {
+    ) {
         try {
-            let object = await this.groupsRepository.findOneOrFail(
-                id,
-                { relations: ['permissions'] }
+            return plainToClass(OutGroupDto,
+                await this.service.delete(
+                    id
+                )
             );
-            object.permissions = [];
-            object = await this.groupsRepository.save(object);
-            return await this.groupsRepository.delete(id);
         } catch (error) {
             throw error;
         }
@@ -117,13 +106,14 @@ export class GroupsController {
     @Get(':id')
     async load(
         @Param('id', new ParseIntPipe()) id
-        ) {
+    ) {
         try {
-            let object = await this.groupsRepository.findOneOrFail(
-                id,
-                { relations: ['permissions'] }
+            return plainToClass(
+                OutGroupDto,
+                await this.service.load(
+                    id
+                )
             );
-            return plainToClass(OutGroupDto, { group: object });
         } catch (error) {
             throw error;
         }
@@ -137,6 +127,7 @@ export class GroupsController {
     })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
     @ApiImplicitQuery({ name: 'q', required: false, type: String, description: 'Text for search (default: empty)' })
+    @ApiImplicitQuery({ name: 'sort', required: false, type: String, description: 'Column name for sort (default: -id)' })
     @ApiImplicitQuery({
         name: 'per_page', required: false, type: Number,
         description: 'Number of results to return per page. (default: 10)'
@@ -149,23 +140,19 @@ export class GroupsController {
     async loadAll(
         @Query('cur_page', new ParseIntWithDefaultPipe(1)) curPage,
         @Query('per_page', new ParseIntWithDefaultPipe(10)) perPage,
-        @Query('q') q
-        ) {
+        @Query('q') q,
+        @Query('sort') sort
+    ) {
         try {
-            const objects = await this.groupsRepository.findAndCount({
-                skip: (curPage - 1) * perPage,
-                take: perPage,
-                relations: ['permissions']
-            });
-            return plainToClass(OutGroupsDto, {
-                groups: objects[0],
-                meta: {
-                    perPage: perPage,
-                    totalPages: perPage > objects[1] ? 1 : (objects[1] / perPage),
-                    totalResults: objects[1],
-                    curPage: curPage
-                }
-            });
+            return plainToClass(
+                OutGroupsDto,
+                await this.service.loadAll(
+                    curPage,
+                    perPage,
+                    q,
+                    sort
+                )
+            );
         } catch (error) {
             throw error;
         }

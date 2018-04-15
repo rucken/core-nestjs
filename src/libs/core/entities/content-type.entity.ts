@@ -7,17 +7,17 @@ import { CustomValidationError } from '../exceptions/custom-validation.error';
 @Entity({ name: 'content_type' })
 export class ContentType {
     @PrimaryGeneratedColumn()
-    id: number;
+    id: number = undefined;
 
     @Column({ length: 100 })
     @IsNotEmpty()
     @MaxLength(100)
-    name: string;
+    name: string = undefined;
 
     @Column({ length: 255 })
     @IsNotEmpty()
     @MaxLength(255)
-    title: string;
+    title: string = undefined;
 
     @OneToMany(type => Permission, permission => permission.contentType)
     permissions: Permission[];

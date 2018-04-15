@@ -18,21 +18,21 @@ import { CustomValidationError } from '../exceptions/custom-validation.error';
 @Entity()
 export class Permission {
     @PrimaryGeneratedColumn()
-    id: number;
+    id: number = undefined;
 
     @Column({ length: 100 })
     @IsNotEmpty()
     @MaxLength(100)
-    name: string;
+    name: string = undefined;
 
     @Column({ length: 255 })
     @IsNotEmpty()
     @MaxLength(255)
-    title: string;
+    title: string = undefined;
 
     @ManyToOne(type => ContentType, { eager: true, nullable: true })
     @JoinColumn({ name: "content_type_id" })
-    contentType: ContentType;
+    contentType: ContentType = undefined;
 
     @ManyToMany(type => Group)
     @JoinTable({

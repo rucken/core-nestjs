@@ -3,8 +3,9 @@ import { HttpException } from '@nestjs/core';
 import { ValidationError } from 'class-validator';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import { CustomValidationError } from './custom-validation.error';
+import { CustomError } from './custom.error';
 
-@Catch(SyntaxError, CustomValidationError, JsonWebTokenError, Error)
+@Catch(SyntaxError, CustomValidationError, CustomError, JsonWebTokenError, Error)
 export class CustomExceptionFilter implements ExceptionFilter {
     catch(exception: CustomValidationError | JsonWebTokenError | SyntaxError | Error, response) {
         const errors = {};
@@ -32,7 +33,17 @@ export class CustomExceptionFilter implements ExceptionFilter {
                 return;
             }
             response.status(HttpStatus.BAD_REQUEST).json({
-                message: exception.message
+                nonFieldErrors: exception.message
+            });
+            return;
+        }
+        if (exception instanceof CustomError) {
+            if (process.env.DEBUG === 'true' || process.env.DEBUG === '1') {
+                response.status(HttpStatus.BAD_REQUEST).json(exception);
+                return;
+            }
+            response.status(HttpStatus.BAD_REQUEST).json({
+                nonFieldErrors: exception.message
             });
             return;
         }
@@ -42,7 +53,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
                 return;
             }
             response.status(HttpStatus.BAD_REQUEST).json({
-                message: exception.message ? exception.message : String(exception)
+                nonFieldErrors: exception.message ? exception.message : String(exception)
             });
             return;
         }

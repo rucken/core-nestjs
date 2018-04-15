@@ -1,0 +1,6 @@
+<div class="container-fluid">
+  <h3 class="page-header">
+    {{ (activatedRoute.parent.parent.data | async)?.title | translate}}: {{(activatedRoute.data | async)?.title | translate}}
+  </h3>
+  <users-grid [apiUrl]="apiUrl"></users-grid>
+</div>
