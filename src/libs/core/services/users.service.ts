@@ -58,7 +58,8 @@ export class UsersService {
         curPage: number,
         perPage: number,
         q: string,
-        group: number
+        group: number,
+        sort: string
     ) {
         try {
             let objects: [User[], number];
@@ -74,7 +75,15 @@ export class UsersService {
             if (q) {
                 qb = qb.where('user.first_name like :q or user.last_name like :q or user.username like :q or user.id = :id', { q: `%${q}%`, id: +q });
             }
-            qb = qb.orderBy('user.id', 'DESC');
+            sort = sort && (new User()).hasOwnProperty(sort.replace('-', '')) ? sort : '-id';
+            const field = sort.replace('-', '');
+            if (sort) {
+                if (sort[0] === '-') {
+                    qb = qb.orderBy('user.' + field, 'DESC');
+                } else {
+                    qb = qb.orderBy('user.' + field, 'ASC');
+                }
+            }
             qb = qb.skip((curPage - 1) * perPage)
                 .take(perPage);
             objects = await qb.getManyAndCount();

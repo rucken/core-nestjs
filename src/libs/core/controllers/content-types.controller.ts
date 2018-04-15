@@ -127,6 +127,7 @@ export class ContentTypesController {
     })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
     @ApiImplicitQuery({ name: 'q', required: false, type: String, description: 'Text for search (default: empty)' })
+    @ApiImplicitQuery({ name: 'sort', required: false, type: String, description: 'Column name for sort (default: -id)' })
     @ApiImplicitQuery({
         name: 'per_page', required: false, type: Number,
         description: 'Number of results to return per page. (default: 10)'
@@ -139,7 +140,8 @@ export class ContentTypesController {
     async loadAll(
         @Query('cur_page', new ParseIntWithDefaultPipe(1)) curPage,
         @Query('per_page', new ParseIntWithDefaultPipe(10)) perPage,
-        @Query('q') q
+        @Query('q') q,
+        @Query('sort') sort
     ) {
         try {
             return plainToClass(
@@ -147,7 +149,8 @@ export class ContentTypesController {
                 await this.service.loadAll(
                     curPage,
                     perPage,
-                    q
+                    q,
+                    sort
                 )
             );
         } catch (error) {

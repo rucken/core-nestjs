@@ -57,7 +57,8 @@ export class ContentTypesService {
     async loadAll(
         curPage: number,
         perPage: number,
-        q: string
+        q: string,
+        sort: string
     ) {
         try {
             let objects: [ContentType[], number];
@@ -65,7 +66,15 @@ export class ContentTypesService {
             if (q) {
                 qb = qb.where('contentType.name like :q or contentType.title like :q or contentType.id = :id', { q: `%${q}%`, id: +q });
             }
-            qb = qb.orderBy('contentType.id', 'DESC');
+            sort = sort && (new ContentType()).hasOwnProperty(sort.replace('-', '')) ? sort : '-id';
+            const field = sort.replace('-', '');
+            if (sort) {
+                if (sort[0] === '-') {
+                    qb = qb.orderBy('contentType.' + field, 'DESC');
+                } else {
+                    qb = qb.orderBy('contentType.' + field, 'ASC');
+                }
+            }
             qb = qb.skip((curPage - 1) * perPage)
                 .take(perPage);
             objects = await qb.getManyAndCount();

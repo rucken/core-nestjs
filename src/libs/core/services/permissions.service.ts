@@ -52,7 +52,8 @@ export class PermissionsService {
         perPage: number,
         q: string,
         group: number,
-        contentType: number
+        contentType: number,
+        sort: string
     ) {
         try {
             let objects: [Permission[], number];
@@ -69,7 +70,15 @@ export class PermissionsService {
             if (contentType) {
                 qb = qb.where('contentType.id = :contentType', { contentType: contentType });
             }
-            qb = qb.orderBy('permission.id', 'DESC');
+            sort = sort && (new Permission()).hasOwnProperty(sort.replace('-', '')) ? sort : '-id';
+            const field = sort.replace('-', '');
+            if (sort) {
+                if (sort[0] === '-') {
+                    qb = qb.orderBy('permission.' + field, 'DESC');
+                } else {
+                    qb = qb.orderBy('permission.' + field, 'ASC');
+                }
+            }
             qb = qb.skip((curPage - 1) * perPage)
                 .take(perPage);
             objects = await qb.getManyAndCount();

@@ -59,7 +59,8 @@ export class GroupsService {
     async loadAll(
         curPage: number,
         perPage: number,
-        q: string
+        q: string,
+        sort: string
     ) {
         try {
             let objects: [Group[], number];
@@ -69,7 +70,15 @@ export class GroupsService {
             if (q) {
                 qb = qb.where('group.title like :q or group.name like :q or group.id = :id', { q: `%${q}%`, id: +q });
             }
-            qb = qb.orderBy('group.id', 'DESC');
+            sort = sort && (new Group()).hasOwnProperty(sort.replace('-', '')) ? sort : '-id';
+            const field = sort.replace('-', '');
+            if (sort) {
+                if (sort[0] === '-') {
+                    qb = qb.orderBy('group.' + field, 'DESC');
+                } else {
+                    qb = qb.orderBy('group.' + field, 'ASC');
+                }
+            }
             qb = qb.skip((curPage - 1) * perPage)
                 .take(perPage);
             objects = await qb.getManyAndCount();

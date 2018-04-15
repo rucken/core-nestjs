@@ -18,54 +18,54 @@ import { CustomValidationError } from '../exceptions/custom-validation.error';
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
-    id: number;
+    id: number = undefined;
 
     @Column({ length: 128 })
     @MaxLength(128)
     @IsOptional()
-    password: string;
+    password: string = undefined;
 
     @UpdateDateColumn({ name: 'last_login', nullable: true })
-    lastLogin: Date;
+    lastLogin: Date = undefined;
 
     @Column({ name: 'is_superuser' })
     @IsNotEmpty()
-    isSuperuser: boolean;
+    isSuperuser: boolean = undefined;
 
     @Column({ length: 150, unique: true })
     @IsNotEmpty()
     @MaxLength(150)
-    username: string;
+    username: string = undefined;
 
     @Column({ name: 'first_name', length: 30 })
     @IsNotEmpty()
     @MaxLength(30)
-    firstName: string;
+    firstName: string = undefined;
 
     @Column({ name: 'last_name', length: 30 })
     @IsNotEmpty()
     @MaxLength(30)
-    lastName: string;
+    lastName: string = undefined;
 
     @Column({ length: 254 })
     @IsNotEmpty()
     @IsEmail()
     @MaxLength(254)
-    email: string;
+    email: string = undefined;
 
     @Column({ name: 'is_staff' })
     @IsNotEmpty()
-    isStaff: boolean;
+    isStaff: boolean = undefined;
 
     @Column({ name: 'is_active' })
     @IsNotEmpty()
-    isActive: boolean;
+    isActive: boolean = undefined;
 
     @CreateDateColumn({ name: 'date_joined' })
-    dateJoined: Date;
+    dateJoined: Date = undefined;
 
     @Column({ type: Date, name: 'date_of_birth', nullable: true })
-    dateOfBirth: Date;
+    dateOfBirth: Date = undefined;
 
     @ManyToMany(type => Group, {
         cascade: ['remove']
