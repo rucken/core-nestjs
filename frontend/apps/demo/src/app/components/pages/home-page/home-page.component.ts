@@ -7,8 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HomePageComponent {
 
-  readme = require('html-loader!markdown-loader!./../../../../../../../README.md')
-    .replace('<h1 id="rucken">rucken</h1>', '');
+  readme = require('html-loader!markdown-loader!./../../../../../../../../README.md')
+    .replace('<h1 id="rucken-core-nestjs">rucken-core-nestjs</h1>', '');
 
   constructor(
     public activatedRoute: ActivatedRoute

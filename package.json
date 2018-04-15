@@ -62,6 +62,7 @@
     "connection-string": "^0.4.1",
     "del-cli": "^1.1.0",
     "dotenv": "^5.0.1",
+    "express-spa-router": "0.0.8",
     "jsonwebtoken": "^8.2.1",
     "node-django-hashers": "^1.0.9",
     "redis": "^2.8.0",

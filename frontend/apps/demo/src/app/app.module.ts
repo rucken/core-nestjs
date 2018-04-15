@@ -45,13 +45,12 @@ defineLocale('en', enGbLocale);
     TokenModule.forRoot({
       withoutTokenUrls: [
         '/api/account/info',
-        '/api/account/login',
-        ...(environment.type === 'mockapi' ? ['/'] : [])
+        '/api/account/login'
       ]
     }),
     AccountModule.forRoot(),
     ThemesModule.forRoot(),
-    RouterModule.forRoot(AppRoutes, { preloadingStrategy: PreloadAllModules, initialNavigation: 'enabled' }),
+    RouterModule.forRoot(AppRoutes, { useHash: true, preloadingStrategy: PreloadAllModules, initialNavigation: 'enabled' }),
     ModalModule.forRoot(),
     AuthModalModule,
     NavbarModule,

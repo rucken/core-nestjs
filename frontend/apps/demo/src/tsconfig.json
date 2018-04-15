@@ -7,15 +7,7 @@
     "types": [
       "jasmine",
       "node"
-    ],
-    "paths": {
-      "@rucken/core": [
-        "../../../libs/@rucken/core/src/index.ts"
-      ],
-      "@rucken/web": [
-        "../../../libs/@rucken/web/src/index.ts"
-      ]
-    }
+    ]
   },
   "exclude": [
     "test.ts",

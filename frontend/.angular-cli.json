@@ -1,13 +1,13 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "rucken"
+    "name": "demo"
   },
   "apps": [
     {
       "name": "demo",
       "root": "apps/demo/src",
-      "outDir": "apps/demo/dist/browser",
+      "outDir": "../www",
       "assets": [
         "assets",
         "favicon.ico"
@@ -26,53 +26,8 @@
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts",
-        "mockapi": "environments/environment.mockapi.ts",
-        "server-dev": "environments/environment-server.ts",
-        "server-prod": "environments/environment-server.prod.ts",
-        "server-mockapi": "environments/environment-server.mockapi.ts"
+        "prod": "environments/environment.prod.ts"
       }
-    },
-    {
-      "name": "demo-server",
-      "platform": "server",
-      "root": "./apps/demo/src",
-      "outDir": "./apps/demo/dist/server",
-      "assets": [
-        "assets",
-        "favicon.ico"
-      ],
-      "index": "index.html",
-      "main": "main.server.ts",
-      "polyfills": "polyfills.ts",
-      "test": "test.ts",
-      "tsconfig": "tsconfig.server.json",
-      "prefix": "",
-      "styles": [
-        "styles.scss"
-      ],
-      "scripts": [],
-      "environmentSource": "environments/environment.ts",
-      "environments": {
-        "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts",
-        "mockapi": "environments/environment.mockapi.ts",
-        "server-dev": "environments/environment-server.ts",
-        "server-prod": "environments/environment-server.prod.ts",
-        "server-mockapi": "environments/environment-server.mockapi.ts"
-      }
-    },
-    {
-      "name": "@rucken/core",
-      "root": "./libs/@rucken/core/src",
-      "outDir": "./libs/@rucken/core/dist",
-      "appRoot": ""
-    },
-    {
-      "name": "@rucken/web",
-      "root": "./libs/@rucken/web/src",
-      "outDir": "./libs/@rucken/web/dist",
-      "appRoot": ""
     }
   ],
   "e2e": {
@@ -82,19 +37,7 @@
   },
   "lint": [
     {
-      "project": "libs/@rucken/core/src/tsconfig.json",
-      "exclude": "**/node_modules/**"
-    },
-    {
-      "project": "libs/@rucken/web/src/tsconfig.json",
-      "exclude": "**/node_modules/**"
-    },
-    {
       "project": "apps/demo/src/tsconfig.json",
-      "exclude": "**/node_modules/**"
-    },
-    {
-      "project": "apps/demo/src/tsconfig.server.json",
       "exclude": "**/node_modules/**"
     },
     {

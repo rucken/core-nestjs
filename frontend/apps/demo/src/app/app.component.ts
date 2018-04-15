@@ -16,7 +16,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnDestroy {
-  title = 'Rucken: Demo';
+  title = 'Demo';
 
   routes = AppRoutes;
 
@@ -37,8 +37,7 @@ export class AppComponent implements OnDestroy {
   ) {
     this.accountService.repository.useRest({
       apiUrl: environment.apiUrl,
-      ...this._accountConfig,
-      pluralName: environment.type === 'mockapi' ? 'account/1' : 'account'
+      ...this._accountConfig
     });
     if (isPlatformBrowser(this._platformId)) {
       this.langService.current$.pipe(
@@ -47,7 +46,7 @@ export class AppComponent implements OnDestroy {
         lang => {
           this._bsLocaleService.use(lang);
         }
-        );
+      );
       this._tokenService.tokenHasExpired$.pipe(
         takeUntil(this._destroyed$)
       ).subscribe(result => {
@@ -66,8 +65,7 @@ export class AppComponent implements OnDestroy {
     const token = this._tokenService.current;
     if (token) {
       if (
-        this._tokenService.tokenHasExpired() &&
-        environment.type !== 'mockapi'
+        this._tokenService.tokenHasExpired()
       ) {
         this._tokenService.stopCheckTokenHasExpired();
         this._messageModalService.error({
@@ -80,7 +78,7 @@ export class AppComponent implements OnDestroy {
               data =>
                 this.onLogoutSuccess(undefined)
             )
-          );
+        );
       } else {
         if (!this.accountService.current) {
           this.accountService.info(token).subscribe(
@@ -148,9 +146,7 @@ export class AppComponent implements OnDestroy {
     if (modal) {
       modal.hide();
     }
-    if (environment.type !== 'mockapi') {
-      this._tokenService.startCheckTokenHasExpired();
-    }
+    this._tokenService.startCheckTokenHasExpired();
   }
   onLogoutSuccess(modal: AuthModalComponent) {
     if (modal) {
