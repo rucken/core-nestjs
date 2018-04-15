@@ -4,8 +4,8 @@
   "description": "A simple application demonstrating the basic usage of permissions with NestJS (JWT, PasswordHash, User, Group, Permission, ContentType)",
   "repository": "https://github.com/rucken/core-nestjs.git",
   "engines": {
-    "node": ">=6",
-    "npm": ">=5.3.0"
+    "node": "8.11.x",
+    "npm": "5.8.x"
   },
   "author": {
     "name": "EndyKaufman",
