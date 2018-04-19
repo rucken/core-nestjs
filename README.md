@@ -41,7 +41,13 @@ A simple application demonstrating the basic usage of [Rucken](https://github.co
 - local: http://localhost:5000/docs
 - online: https://rucken-core-nestjs.herokuapp.com/docs
 
+## Quick links
 
+[Live demo](https://rucken.github.io/core) [[source]](https://github.com/rucken/core) - Demo application (backend: http://www.mockapi.io).
+
+[Live demo (SSR)](https://rucken.herokuapp.com) [[source]](https://github.com/rucken/core) - Demo application with server side rendering (backend: http://www.mockapi.io).
+
+[Live demo (NestJS)](https://rucken-core-nestjs.herokuapp.com) [[source]](https://github.com/rucken/core-nestjs) - Demo application with live backend (backend: https://nestjs.com).
 
 ## License
 
