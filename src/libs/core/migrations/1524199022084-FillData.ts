@@ -1,12 +1,13 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
 
+import { plainToClass } from 'class-transformer';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 import { ContentType } from '../entities/content-type.entity';
 import { Group } from '../entities/group.entity';
-import { plainToClass } from 'class-transformer';
 import { Permission } from '../entities/permission.entity';
 import { User } from '../entities/user.entity';
 
-export class FillData1514404694792 implements MigrationInterface {
+
+export class FillData1524199022084 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         const ctPermission = await queryRunner.manager.getRepository<ContentType>(ContentType).save(

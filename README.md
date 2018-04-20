@@ -14,8 +14,7 @@ A simple application demonstrating the basic usage of [Rucken](https://github.co
 - make sure you have NPM installed version 3+
 - run `npm install` to install project dependencies
 - copy `_env` to `.env` and set environments for use (on Windows copy with IDE)
-- run `npm run schema:sync` to create all tables in database 
-- run `npm run migrate:run` to run all migrations
+- run `npm run migrate` to run all migrations
 - run `npm run start:prod` to fire up prod server (`npm run start:watch` - dev server)
 - Go to frontend `cd frontend` and run `npm install` to install frontend dependencies
 - Build frontend, run `npm run build` (`npm run start` - dev frontend server)
