@@ -12,12 +12,10 @@ A simple application demonstrating the basic usage of [Rucken](https://github.co
 - clone or fork [repository](https://github.com/rucken/core-nestjs.git) `git clone --recursive https://github.com/rucken/core-nestjs.git`
 - make sure you have [node.js](https://nodejs.org/) installed version 6+
 - make sure you have NPM installed version 3+
-- run `npm install` to install project dependencies
 - copy `_env` to `.env` and set environments for use (on Windows copy with IDE)
-- run `npm run migrate` to run all migrations
-- run `npm run start:prod` to fire up prod server (`npm run start:watch` - dev server)
-- Go to frontend `cd frontend` and run `npm install` to install frontend dependencies
-- Build frontend, run `npm run build` (`npm run start` - dev frontend server)
+- run `npm install` to install project dependencies
+- run `npm build` to install project dependencies
+- run `npm run start` to fire up prod server (`npm run start:watch` - dev server)
 - Open browser to [`http://localhost:5000`](http://localhost:5000)
 
 ## Demo application on [Heroku](https://rucken-core-nestjs.herokuapp.com)
