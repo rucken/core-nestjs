@@ -71,6 +71,8 @@
     "@ngx-utils/cookies": "3.0.1",
     "@types/express": "4.11.1",
     "@types/jsonwebtoken": "7.2.6",
+    "@rucken/core": "2.0.1",
+    "@rucken/web": "2.0.1",
     "core-js": "2.5.5",
     "jsonwebtoken": "8.2.1",
     "ngx-bootstrap": "2.0.4",
