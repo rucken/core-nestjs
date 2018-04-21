@@ -4,6 +4,7 @@ import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 
 import { Group } from '../entities/group.entity';
+import { CustomError } from '../exceptions/custom.error';
 
 @Component()
 export class GroupsService {
@@ -23,6 +24,9 @@ export class GroupsService {
         }
     }
     async update(id: number, item: Group) {
+        if (process.env.DEMO === 'true') {
+            throw new CustomError('Not allowed in DEMO mode');
+        }
         item.id = id;
         try {
             item = await this.repository.save(item);
@@ -32,6 +36,9 @@ export class GroupsService {
         }
     }
     async delete(id: number) {
+        if (process.env.DEMO === 'true') {
+            throw new CustomError('Not allowed in DEMO mode');
+        }
         try {
             let item = await this.repository.findOneOrFail(
                 id,

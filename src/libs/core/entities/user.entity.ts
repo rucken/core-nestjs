@@ -14,6 +14,8 @@ import {
 
 import { Group } from './group.entity';
 import { CustomValidationError } from '../exceptions/custom-validation.error';
+import { Transform } from 'class-transformer';
+import { transformToBoolean } from '../utils/custom-transforms';
 
 @Entity()
 export class User {
@@ -28,8 +30,7 @@ export class User {
     @UpdateDateColumn({ name: 'last_login', nullable: true })
     lastLogin: Date = undefined;
 
-    @Column({ name: 'is_superuser' })
-    @IsNotEmpty()
+    @Column({ name: 'is_superuser', default: false })
     isSuperuser: boolean = undefined;
 
     @Column({ length: 150, unique: true })
@@ -53,12 +54,10 @@ export class User {
     @MaxLength(254)
     email: string = undefined;
 
-    @Column({ name: 'is_staff' })
-    @IsNotEmpty()
+    @Column({ name: 'is_staff', default: false })
     isStaff: boolean = undefined;
 
-    @Column({ name: 'is_active' })
-    @IsNotEmpty()
+    @Column({ name: 'is_active', default: false })
     isActive: boolean = undefined;
 
     @CreateDateColumn({ name: 'date_joined' })

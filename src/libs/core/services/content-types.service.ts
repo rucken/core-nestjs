@@ -4,6 +4,7 @@ import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 
 import { ContentType } from '../entities/content-type.entity';
+import { CustomError } from '../exceptions/custom.error';
 
 @Component()
 export class ContentTypesService {
@@ -21,8 +22,14 @@ export class ContentTypesService {
         }
     }
     async update(id: number, item: ContentType) {
+        if (process.env.DEMO === 'true') {
+            throw new CustomError('Not allowed in DEMO mode');
+        }
         item.id = id;
         try {
+            if (process.env.DEMO === 'true') {
+                throw new CustomError('Not allowed in DEMO mode');
+            }
             item = await this.repository.save(item);
             return { contentType: item };
         } catch (error) {
@@ -30,6 +37,9 @@ export class ContentTypesService {
         }
     }
     async delete(id: number) {
+        if (process.env.DEMO === 'true') {
+            throw new CustomError('Not allowed in DEMO mode');
+        }
         try {
             let item = await this.repository.findOneOrFail(
                 id,

@@ -1,10 +1,10 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
-import { Group } from '../entities/group.entity';
 import { plainToClass } from 'class-transformer';
+import { MigrationInterface, QueryRunner } from "typeorm";
 import { ContentType } from '../entities/content-type.entity';
+import { Group } from '../entities/group.entity';
 import { Permission } from "../entities/permission.entity";
 
-export class FillFrontendData1516046040957 implements MigrationInterface {
+export class FillFrontendData1524199144534 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         const gUser = await queryRunner.manager.getRepository<Group>(Group).findOneOrFail({

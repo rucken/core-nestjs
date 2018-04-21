@@ -1,6 +1,6 @@
 {
   "name": "rucken-core-nestjs",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A simple application demonstrating the basic usage of permissions with NestJS (JWT, PasswordHash, User, Group, Permission, ContentType)",
   "repository": "https://github.com/rucken/core-nestjs.git",
   "engines": {
@@ -29,19 +29,16 @@
     "start": "npm run start:prod",
     "start:prod": "node index.js",
     "start:watch": "nodemon",
-    "build:without-frontend": "npm run clean && npm run docs && npm run schema:sync && npm run migrate:run",
-    "build": "npm run clean && npm run frontend && npm run docs && npm run schema:sync && npm run migrate:run",
+    "build:without-frontend": "npm-run-all clean docs migrate",
+    "build": "npm-run-all clean frontend docs migrate",
     "test": "npm run build",
     "migrate:create": "ts-node ./node_modules/typeorm/cli.js migration:create",
     "migrate:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate",
-    "migrate:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
-    "entity:create": "ts-node ./node_modules/typeorm/cli.js entity:create",
-    "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync",
-    "schema:log": "ts-node ./node_modules/typeorm/cli.js schema:log",
+    "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out www/docs src",
-    "frontend:install": "npm install --prefix ./frontend",
-    "frontend:build": "npm run build --prefix ./frontend",
-    "frontend": "npm run frontend:install && npm run frontend:build",
+    "frontend:install": "cd frontend && npm install && cd ..",
+    "frontend:build": "cd frontend && npm run build && cd ..",
+    "frontend": "npm-run-all frontend:install frontend:build",
     "heroku-postbuild": "npm run build"
   },
   "cacheDirectories": [

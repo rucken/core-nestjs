@@ -22,7 +22,7 @@ if (connectionString.protocol === 'sqlite') {
         logging: 'all',
         synchronize: false,
         cli: {
-            migrationsDir: 'src/libs/core/migrations'
+            migrationsDir: 'src/apps/demo/migrations'
         }
     }
 } else {
@@ -45,7 +45,7 @@ if (connectionString.protocol === 'sqlite') {
         logging: 'all',
         synchronize: false,
         cli: {
-            migrationsDir: 'src/libs/core/migrations'
+            migrationsDir: 'src/apps/demo/migrations'
         }
     }
 }

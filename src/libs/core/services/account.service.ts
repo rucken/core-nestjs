@@ -102,6 +102,9 @@ export class AccountService {
         }
     }
     async update(id: number, user: User) {
+        if (process.env.DEMO === 'true') {
+            throw new CustomError('Not allowed in DEMO mode');
+        }
         try {
             let object = await this.usersRepository.findOneOrFail(
                 id,

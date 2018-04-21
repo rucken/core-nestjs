@@ -2,6 +2,7 @@ import { Component } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Permission } from '../entities/permission.entity';
+import { CustomError } from '../exceptions/custom.error';
 
 
 @Component()
@@ -20,6 +21,9 @@ export class PermissionsService {
         }
     }
     async update(id: number, item: Permission) {
+        if (process.env.DEMO === 'true') {
+            throw new CustomError('Not allowed in DEMO mode');
+        }
         item.id = id;
         try {
             item = await this.repository.save(item);
@@ -29,6 +33,9 @@ export class PermissionsService {
         }
     }
     async delete(id: number) {
+        if (process.env.DEMO === 'true') {
+            throw new CustomError('Not allowed in DEMO mode');
+        }
         try {
             await this.repository.delete(id);
             return { permission: null };
