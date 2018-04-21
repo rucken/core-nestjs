@@ -1,3 +1,22 @@
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/rucken/core-nestjs/compare/0.2.0...0.3.0) (2018-04-21)
+
+
+### Bug Fixes
+
+* **custom-exception:** Add render index.html if request error with browser ([f54f5c3](https://github.com/rucken/core-nestjs/commit/f54f5c3))
+* **front:** Remove useHash in routes ([bf01bf0](https://github.com/rucken/core-nestjs/commit/bf01bf0))
+* **migrations:** Add migration for init database ([8a05162](https://github.com/rucken/core-nestjs/commit/8a05162))
+* **user.entity:** Add default value = false for boolean fields ([2fab7da](https://github.com/rucken/core-nestjs/commit/2fab7da))
+* **user.entity:** Add transforms to boolean for bool property ([1f97ae3](https://github.com/rucken/core-nestjs/commit/1f97ae3))
+
+
+### Features
+
+* **demo-mode:** Add demo mode, only add new data, update and delete not allowed in this mode ([d4c861a](https://github.com/rucken/core-nestjs/commit/d4c861a))
+
+
+
 <a name="0.2.0"></a>
 # 0.2.0 (2018-04-15)
 
