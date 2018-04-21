@@ -1,9 +1,9 @@
 import { Component } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { plainToClass } from 'class-transformer';
-import { Repository, AddUserOptions } from 'typeorm';
-
+import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
+import { CustomError } from '../exceptions/custom.error';
+
 
 @Component()
 export class UsersService {
@@ -13,6 +13,9 @@ export class UsersService {
     ) {
     }
     async create(item: User) {
+        if (item.isSuperuser && process.env.DEMO === 'true') {
+            throw new CustomError('Not allowed in DEMO mode');
+        }
         try {
             item = await this.repository.save(item);
             return { user: item };
@@ -21,6 +24,9 @@ export class UsersService {
         }
     }
     async update(id: number, item: User) {
+        if (process.env.DEMO === 'true') {
+            throw new CustomError('Not allowed in DEMO mode');
+        }
         item.id = id;
         try {
             item = await this.repository.save(item);
@@ -30,6 +36,9 @@ export class UsersService {
         }
     }
     async delete(id: number) {
+        if (process.env.DEMO === 'true') {
+            throw new CustomError('Not allowed in DEMO mode');
+        }
         try {
             let object = await this.repository.findOneOrFail(
                 id,

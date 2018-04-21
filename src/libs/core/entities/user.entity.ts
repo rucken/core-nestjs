@@ -30,9 +30,7 @@ export class User {
     @UpdateDateColumn({ name: 'last_login', nullable: true })
     lastLogin: Date = undefined;
 
-    @Column({ name: 'is_superuser' })
-    @Transform(transformToBoolean, { toClassOnly: true })
-    @Transform(transformToBoolean, { toPlainOnly: true })
+    @Column({ name: 'is_superuser', default: false })
     isSuperuser: boolean = undefined;
 
     @Column({ length: 150, unique: true })
@@ -56,14 +54,10 @@ export class User {
     @MaxLength(254)
     email: string = undefined;
 
-    @Column({ name: 'is_staff' })
-    @Transform(transformToBoolean, { toClassOnly: true })
-    @Transform(transformToBoolean, { toPlainOnly: true })
+    @Column({ name: 'is_staff', default: false })
     isStaff: boolean = undefined;
 
-    @Column({ name: 'is_active' })
-    @Transform(transformToBoolean, { toClassOnly: true })
-    @Transform(transformToBoolean, { toPlainOnly: true })
+    @Column({ name: 'is_active', default: false })
     isActive: boolean = undefined;
 
     @CreateDateColumn({ name: 'date_joined' })

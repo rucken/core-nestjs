@@ -13,7 +13,12 @@ export class CustomExceptionFilter implements ExceptionFilter {
 
     }
     badRequest(response, data: Object) {
-        if (response.req.accepts('html') && this._indexFile) {
+        // todo: refactor after update nest to 5 version
+        if (
+            response.req.originalUrl.indexOf('/api/') !== 0 &&
+            response.req.accepts('html') &&
+            this._indexFile
+        ) {
             response.sendFile(this._indexFile);
         } else {
             response.status(HttpStatus.BAD_REQUEST).json(data);
@@ -22,7 +27,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
     catch(exception: CustomValidationError | JsonWebTokenError | SyntaxError | Error, response) {
         const errors = {};
         if (exception instanceof CustomValidationError) {
-            if (process.env.DEBUG === 'true' || process.env.DEBUG === '1') {
+            if (process.env.DEBUG === 'true') {
                 this.badRequest(response, exception);
                 return;
             }
@@ -40,7 +45,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
             return;
         }
         if (exception instanceof JsonWebTokenError) {
-            if (process.env.DEBUG === 'true' || process.env.DEBUG === '1') {
+            if (process.env.DEBUG === 'true') {
                 this.badRequest(response, exception);
                 return;
             }
@@ -50,7 +55,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
             return;
         }
         if (exception instanceof CustomError) {
-            if (process.env.DEBUG === 'true' || process.env.DEBUG === '1') {
+            if (process.env.DEBUG === 'true') {
                 this.badRequest(response, exception);
                 return;
             }
@@ -60,7 +65,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
             return;
         }
         if (exception instanceof SyntaxError || exception instanceof Error) {
-            if (process.env.DEBUG === 'true' || process.env.DEBUG === '1') {
+            if (process.env.DEBUG === 'true') {
                 this.badRequest(response, exception);
                 return;
             }
