@@ -37,9 +37,9 @@ export class ContentTypesController {
         try {
             return plainToClass(
                 OutContentTypeDto,
-                await this.service.create(
-                    plainToClass(ContentType, dto)
-                )
+                await this.service.create({
+                    item: plainToClass(ContentType, dto)
+                })
             );
         } catch (error) {
             throw error;
@@ -62,10 +62,10 @@ export class ContentTypesController {
         try {
             return plainToClass(
                 OutContentTypeDto,
-                await this.service.update(
-                    id,
-                    plainToClass(ContentType, dto)
-                )
+                await this.service.update({
+                    id: id,
+                    item: plainToClass(ContentType, dto)
+                })
             );
         } catch (error) {
             throw error;
@@ -86,9 +86,9 @@ export class ContentTypesController {
     ) {
         try {
             return plainToClass(OutContentTypeDto,
-                await this.service.delete(
-                    id
-                )
+                await this.service.delete({
+                    id: id
+                })
             );
         } catch (error) {
             throw error;
@@ -110,9 +110,9 @@ export class ContentTypesController {
         try {
             return plainToClass(
                 OutContentTypeDto,
-                await this.service.load(
-                    id
-                )
+                await this.service.load({
+                    id: id
+                })
             );
         } catch (error) {
             throw error;
@@ -146,12 +146,12 @@ export class ContentTypesController {
         try {
             return plainToClass(
                 OutContentTypesDto,
-                await this.service.loadAll(
-                    curPage,
-                    perPage,
-                    q,
-                    sort
-                )
+                await this.service.loadAll({
+                    curPage: curPage,
+                    perPage: perPage,
+                    q: q,
+                    sort: sort
+                })
             );
         } catch (error) {
             throw error;

@@ -37,9 +37,9 @@ export class GroupsController {
         try {
             return plainToClass(
                 OutGroupDto,
-                await this.service.create(
-                    plainToClass(Group, dto)
-                )
+                await this.service.create({
+                    item: plainToClass(Group, dto)
+                })
             );
         } catch (error) {
             throw error;
@@ -62,10 +62,10 @@ export class GroupsController {
         try {
             return plainToClass(
                 OutGroupDto,
-                await this.service.update(
-                    id,
-                    plainToClass(Group, dto)
-                )
+                await this.service.update({
+                    id: id,
+                    item: plainToClass(Group, dto)
+                })
             );
         } catch (error) {
             throw error;
@@ -86,9 +86,9 @@ export class GroupsController {
     ) {
         try {
             return plainToClass(OutGroupDto,
-                await this.service.delete(
-                    id
-                )
+                await this.service.delete({
+                    id: id
+                })
             );
         } catch (error) {
             throw error;
@@ -110,9 +110,9 @@ export class GroupsController {
         try {
             return plainToClass(
                 OutGroupDto,
-                await this.service.load(
-                    id
-                )
+                await this.service.load({
+                    id: id
+                })
             );
         } catch (error) {
             throw error;
@@ -146,12 +146,12 @@ export class GroupsController {
         try {
             return plainToClass(
                 OutGroupsDto,
-                await this.service.loadAll(
-                    curPage,
-                    perPage,
-                    q,
-                    sort
-                )
+                await this.service.loadAll({
+                    curPage: curPage,
+                    perPage: perPage,
+                    q: q,
+                    sort: sort
+                })
             );
         } catch (error) {
             throw error;

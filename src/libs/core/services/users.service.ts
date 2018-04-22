@@ -12,50 +12,50 @@ export class UsersService {
         private readonly repository: Repository<User>
     ) {
     }
-    async create(item: User) {
-        if (item.isSuperuser && process.env.DEMO === 'true') {
+    async create(options: { item: User }) {
+        if (options.item.isSuperuser && process.env.DEMO === 'true') {
             throw new CustomError('Not allowed in DEMO mode');
         }
         try {
-            item = await this.repository.save(item);
-            return { user: item };
+            options.item = await this.repository.save(options.item);
+            return { user: options.item };
         } catch (error) {
             throw error;
         }
     }
-    async update(id: number, item: User) {
+    async update(options: { id: number; item: User }) {
         if (process.env.DEMO === 'true') {
             throw new CustomError('Not allowed in DEMO mode');
         }
-        item.id = id;
+        options.item.id = options.id;
         try {
-            item = await this.repository.save(item);
-            return { user: item };
+            options.item = await this.repository.save(options.item);
+            return { user: options.item };
         } catch (error) {
             throw error;
         }
     }
-    async delete(id: number) {
+    async delete(options: { id: number }) {
         if (process.env.DEMO === 'true') {
             throw new CustomError('Not allowed in DEMO mode');
         }
         try {
             let object = await this.repository.findOneOrFail(
-                id,
+                options.id,
                 { relations: ['groups'] }
             );
             object.groups = [];
             object = await this.repository.save(object);
-            await this.repository.delete(id);
+            await this.repository.delete(options.id);
             return { user: null };
         } catch (error) {
             throw error;
         }
     }
-    async load(id: number) {
+    async load(options: { id: number }) {
         try {
             const item = await this.repository.findOneOrFail(
-                id,
+                options.id,
                 { relations: ['groups', 'groups.permissions'] }
             );
             return { user: item };
@@ -63,46 +63,48 @@ export class UsersService {
             throw error;
         }
     }
-    async loadAll(
-        curPage: number,
-        perPage: number,
-        q: string,
-        group: number,
-        sort: string
-    ) {
+    async loadAll(options: {
+        curPage: number;
+        perPage: number;
+        q?: string;
+        group?: number;
+        sort?: string;
+    }) {
         try {
             let objects: [User[], number];
             let qb = this.repository.createQueryBuilder('user');
-            if (group) {
+            if (options.group) {
                 qb = qb.leftJoinAndSelect('user.groups', 'group')
-                    .where('group.id = :group', { group: group })
+                    .where('group.id = :group', { group: options.group })
             } else {
                 qb = qb.leftJoinAndSelect('user.groups', 'group');
                 qb = qb.leftJoinAndSelect('group.permissions', 'permission');
                 qb = qb.leftJoinAndSelect('permission.contentType', 'contentType');
             }
-            if (q) {
-                qb = qb.where('user.first_name like :q or user.last_name like :q or user.username like :q or user.id = :id', { q: `%${q}%`, id: +q });
+            if (options.q) {
+                qb = qb.where('user.first_name like :q or user.last_name like :q or user.username like :q or user.id = :id', {
+                    q: `%${options.q}%`, id: +options.q
+                });
             }
-            sort = sort && (new User()).hasOwnProperty(sort.replace('-', '')) ? sort : '-id';
-            const field = sort.replace('-', '');
-            if (sort) {
-                if (sort[0] === '-') {
+            options.sort = options.sort && (new User()).hasOwnProperty(options.sort.replace('-', '')) ? options.sort : '-id';
+            const field = options.sort.replace('-', '');
+            if (options.sort) {
+                if (options.sort[0] === '-') {
                     qb = qb.orderBy('user.' + field, 'DESC');
                 } else {
                     qb = qb.orderBy('user.' + field, 'ASC');
                 }
             }
-            qb = qb.skip((curPage - 1) * perPage)
-                .take(perPage);
+            qb = qb.skip((options.curPage - 1) * options.perPage)
+                .take(options.perPage);
             objects = await qb.getManyAndCount();
             return {
                 users: objects[0],
                 meta: {
-                    perPage: perPage,
-                    totalPages: perPage > objects[1] ? 1 : Math.ceil(objects[1] / perPage),
+                    perPage: options.perPage,
+                    totalPages: options.perPage > objects[1] ? 1 : Math.ceil(objects[1] / options.perPage),
                     totalResults: objects[1],
-                    curPage: curPage
+                    curPage: options.curPage
                 }
             };
         } catch (error) {
