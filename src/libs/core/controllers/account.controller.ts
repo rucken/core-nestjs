@@ -32,7 +32,9 @@ export class AccountController {
         try {
             return await plainToClass(
                 OutAccountTokenDto,
-                await this.accountService.info(tokenDto.token)
+                await this.accountService.info({
+                    token: tokenDto.token
+                })
             );
         } catch (error) {
             throw error;
@@ -48,10 +50,10 @@ export class AccountController {
         try {
             return plainToClass(
                 OutAccountTokenDto,
-                await this.accountService.login(
-                    accountLoginDto.username,
-                    accountLoginDto.password
-                )
+                await this.accountService.login({
+                    username: accountLoginDto.username,
+                    password: accountLoginDto.password
+                })
             );
         } catch (error) {
             throw error;
@@ -68,11 +70,11 @@ export class AccountController {
         try {
             return plainToClass(
                 OutAccountTokenDto,
-                await this.accountService.register(
-                    accountRegisterDto.email,
-                    accountRegisterDto.username,
-                    accountRegisterDto.password
-                )
+                await this.accountService.register({
+                    email: accountRegisterDto.email,
+                    username: accountRegisterDto.username,
+                    password: accountRegisterDto.password
+                })
             );
         } catch (error) {
             throw error;
@@ -91,10 +93,10 @@ export class AccountController {
         try {
             return plainToClass(
                 OutAccountTokenDto,
-                await this.accountService.update(
-                    req.user && req.user.id,
-                    plainToClass(User, accountDto)
-                )
+                await this.accountService.update({
+                    id: req.user && req.user.id,
+                    user: plainToClass(User, accountDto)
+                })
             );
         } catch (error) {
             throw error;

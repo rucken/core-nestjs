@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { Permission } from '../entities/permission.entity';
 import { CustomError } from '../exceptions/custom.error';
 
-
 @Component()
 export class PermissionsService {
     constructor(
@@ -12,41 +11,41 @@ export class PermissionsService {
         private readonly repository: Repository<Permission>
     ) {
     }
-    async create(item: Permission) {
+    async create(options: { item: Permission }) {
         try {
-            item = await this.repository.save(item);
-            return { permission: item };
+            options.item = await this.repository.save(options.item);
+            return { permission: options.item };
         } catch (error) {
             throw error;
         }
     }
-    async update(id: number, item: Permission) {
+    async update(options: { id: number; item: Permission }) {
         if (process.env.DEMO === 'true') {
             throw new CustomError('Not allowed in DEMO mode');
         }
-        item.id = id;
+        options.item.id = options.id;
         try {
-            item = await this.repository.save(item);
-            return { permission: item };
+            options.item = await this.repository.save(options.item);
+            return { permission: options.item };
         } catch (error) {
             throw error;
         }
     }
-    async delete(id: number) {
+    async delete(options: { id: number }) {
         if (process.env.DEMO === 'true') {
             throw new CustomError('Not allowed in DEMO mode');
         }
         try {
-            await this.repository.delete(id);
+            await this.repository.delete(options.id);
             return { permission: null };
         } catch (error) {
             throw error;
         }
     }
-    async load(id: number) {
+    async load(options: { id: number }) {
         try {
             const item = await this.repository.findOneOrFail(
-                id,
+                options.id,
                 { relations: ['contentType'] }
             );
             return { permission: item };
@@ -54,48 +53,50 @@ export class PermissionsService {
             throw error;
         }
     }
-    async loadAll(
-        curPage: number,
-        perPage: number,
-        q: string,
-        group: number,
-        contentType: number,
-        sort: string
-    ) {
+    async loadAll(options: {
+        curPage: number;
+        perPage: number;
+        q?: string;
+        group?: number;
+        contentType?: number;
+        sort?: string;
+    }) {
         try {
             let objects: [Permission[], number];
             let qb = this.repository.createQueryBuilder('permission');
             qb = qb.leftJoinAndSelect('permission.contentType', 'contentType');
-            if (group) {
+            if (options.group) {
                 qb = qb
                     .leftJoin('permission.groups', 'group')
-                    .where('group.id = :group', { group: group });
+                    .where('group.id = :group', { group: options.group });
             }
-            if (q) {
-                qb = qb.where('permission.name like :q or permission.title like :q or permission.id = :id', { q: `%${q}%`, id: +q });
+            if (options.q) {
+                qb = qb.where('permission.name like :q or permission.title like :q or permission.id = :id', {
+                    q: `%${options.q}%`, id: +options.q
+                });
             }
-            if (contentType) {
-                qb = qb.where('contentType.id = :contentType', { contentType: contentType });
+            if (options.contentType) {
+                qb = qb.where('contentType.id = :contentType', { contentType: options.contentType });
             }
-            sort = sort && (new Permission()).hasOwnProperty(sort.replace('-', '')) ? sort : '-id';
-            const field = sort.replace('-', '');
-            if (sort) {
-                if (sort[0] === '-') {
+            options.sort = options.sort && (new Permission()).hasOwnProperty(options.sort.replace('-', '')) ? options.sort : '-id';
+            const field = options.sort.replace('-', '');
+            if (options.sort) {
+                if (options.sort[0] === '-') {
                     qb = qb.orderBy('permission.' + field, 'DESC');
                 } else {
                     qb = qb.orderBy('permission.' + field, 'ASC');
                 }
             }
-            qb = qb.skip((curPage - 1) * perPage)
-                .take(perPage);
+            qb = qb.skip((options.curPage - 1) * options.perPage)
+                .take(options.perPage);
             objects = await qb.getManyAndCount();
             return {
                 permissions: objects[0],
                 meta: {
-                    perPage: perPage,
-                    totalPages: perPage > objects[1] ? 1 : Math.ceil(objects[1] / perPage),
+                    perPage: options.perPage,
+                    totalPages: options.perPage > objects[1] ? 1 : Math.ceil(objects[1] / options.perPage),
                     totalResults: objects[1],
-                    curPage: curPage
+                    curPage: options.curPage
                 }
             };
         } catch (error) {

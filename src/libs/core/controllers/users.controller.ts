@@ -38,9 +38,9 @@ export class UsersController {
         try {
             return plainToClass(
                 OutUserDto,
-                await this.service.create(
-                    plainToClass(User, dto).setPassword(dto.password)
-                )
+                await this.service.create({
+                    item: plainToClass(User, dto).setPassword(dto.password)
+                })
             );
         } catch (error) {
             throw error;
@@ -63,10 +63,10 @@ export class UsersController {
         try {
             return plainToClass(
                 OutUserDto,
-                await this.service.update(
-                    id,
-                    plainToClass(User, dto).setPassword(dto.password)
-                )
+                await this.service.update({
+                    id: id,
+                    item: plainToClass(User, dto).setPassword(dto.password)
+                })
             );
         } catch (error) {
             throw error;
@@ -87,9 +87,9 @@ export class UsersController {
     ) {
         try {
             return plainToClass(OutUserDto,
-                await this.service.delete(
-                    id
-                )
+                await this.service.delete({
+                    id: id
+                })
             );
         } catch (error) {
             throw error;
@@ -111,9 +111,9 @@ export class UsersController {
         try {
             return plainToClass(
                 OutUserDto,
-                await this.service.load(
-                    id
-                )
+                await this.service.load({
+                    id: id
+                })
             );
         } catch (error) {
             throw error;
@@ -152,13 +152,13 @@ export class UsersController {
         try {
             return plainToClass(
                 OutUsersDto,
-                await this.service.loadAll(
-                    curPage,
-                    perPage,
-                    q,
-                    group,
-                    sort
-                )
+                await this.service.loadAll({
+                    curPage: curPage,
+                    perPage: perPage,
+                    q: q,
+                    sort: sort,
+                    group: group
+                })
             );
         } catch (error) {
             throw error;

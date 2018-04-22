@@ -16,17 +16,17 @@ export class AccountService {
     ) {
 
     }
-    async info(token) {
+    async info(options: { token: string }) {
         try {
-            if (this.tokenService.verify(token)) {
-                let tokenData: any = this.tokenService.decode(token);
+            if (this.tokenService.verify(options.token)) {
+                let tokenData: any = this.tokenService.decode(options.token);
                 let object = await this.usersRepository.findOneOrFail(
                     tokenData.id,
                     { relations: ['groups', 'groups.permissions'] }
                 );
                 if (this.tokenService.getSecretKey(tokenData) === this.tokenService.getSecretKey(object)) {
                     object = await this.usersRepository.save(object);
-                    return { user: object, token: token }
+                    return { user: object, token: options.token }
                 } else {
                     throw new CustomError('Invalid token');
                 }
@@ -35,10 +35,10 @@ export class AccountService {
             throw error;
         }
     }
-    async refresh(token) {
+    async refresh(options: { token: string }) {
         try {
-            if (this.tokenService.verify(token)) {
-                let tokenData: any = this.tokenService.decode(token);
+            if (this.tokenService.verify(options.token)) {
+                let tokenData: any = this.tokenService.decode(options.token);
                 let object = await this.usersRepository.findOneOrFail(
                     tokenData.id,
                     { relations: ['groups', 'groups.permissions'] }
@@ -54,23 +54,23 @@ export class AccountService {
             throw error;
         }
     }
-    async login(username: string, password: string) {
+    async login(options: { username: string; password: string }) {
         try {
             let object = await this.usersRepository.findOne({
                 where: {
-                    username: username
+                    username: options.username
                 },
                 relations: ['groups', 'groups.permissions']
             });
             if (!object) {
                 object = await this.usersRepository.findOne({
                     where: {
-                        email: username
+                        email: options.username
                     },
                     relations: ['groups', 'groups.permissions']
                 });
             }
-            if (!object || !object.verifyPassword(password)) {
+            if (!object || !object.verifyPassword(options.password)) {
                 throw new CustomError('Wrong password');
             }
             object = await this.usersRepository.save(object);
@@ -79,18 +79,18 @@ export class AccountService {
             throw error;
         }
     }
-    async register(email: string, username: string, password: string) {
+    async register(options: { email: string; username: string; password: string }) {
         try {
             let object = new User();
-            object.email = email;
-            object.username = username;
+            object.email = options.email;
+            object.username = options.username;
             object.isActive = false;
             object.isStaff = false;
             object.isSuperuser = false;
-            object.firstName = email;
-            object.firstName = email;
-            object.lastName = email;
-            object.setPassword(password);
+            object.firstName = options.email;
+            object.firstName = options.email;
+            object.lastName = options.email;
+            object.setPassword(options.password);
             object = await this.usersRepository.save(object);
             object = await this.usersRepository.findOneOrFail(
                 object.id,
@@ -101,17 +101,17 @@ export class AccountService {
             throw error;
         }
     }
-    async update(id: number, user: User) {
+    async update(options: { id: number; user: User }) {
         if (process.env.DEMO === 'true') {
             throw new CustomError('Not allowed in DEMO mode');
         }
         try {
             let object = await this.usersRepository.findOneOrFail(
-                id,
+                options.id,
                 { relations: ['groups', 'groups.permissions'] }
             );
-            object = plainToClassFromExist(object, user);
-            object.setPassword(user.password);
+            object = plainToClassFromExist(object, options.user);
+            object.setPassword(options.user.password);
             object = await this.usersRepository.save(object);
             return { user: object, token: this.tokenService.sign(object) };
         } catch (error) {
