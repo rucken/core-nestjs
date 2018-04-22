@@ -1,3 +1,18 @@
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/rucken/core-nestjs/compare/0.3.0...0.4.0) (2018-04-22)
+
+
+### Bug Fixes
+
+* **front:** Add [@rucken](https://github.com/rucken)/core and [@rucken](https://github.com/rucken)/core dependencies ([381cbdc](https://github.com/rucken/core-nestjs/commit/381cbdc))
+
+
+### Features
+
+* **services:** Change attributes of methods services for work with database ([9c791f1](https://github.com/rucken/core-nestjs/commit/9c791f1))
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/rucken/core-nestjs/compare/0.2.0...0.3.0) (2018-04-21)
 
