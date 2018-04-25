@@ -123,7 +123,8 @@ export class AppComponent implements OnDestroy {
       initialState: {
         title: this._translateService.instant('Authorization'),
         yesTitle: this._translateService.instant('Sign in'),
-        data: {}
+        data: {},
+        checkIsDirty: true
       }
     });
     bsModalRef.content.yes.subscribe(
