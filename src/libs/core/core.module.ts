@@ -15,6 +15,9 @@ import { entities } from './entities/index';
   components: [
     ...services
   ],
+  exports: [
+    ...services
+  ]
 })
 export class CoreModule {
 }
