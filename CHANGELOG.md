@@ -1,3 +1,16 @@
+<a name="0.4.1"></a>
+## [0.4.1](https://github.com/rucken/core-nestjs/compare/0.4.0...0.4.1) (2018-04-27)
+
+
+### Bug Fixes
+
+* **errors:** Change output of validation errors ([f166a3b](https://github.com/rucken/core-nestjs/commit/f166a3b))
+* **front:** Update dependencies ([a39617b](https://github.com/rucken/core-nestjs/commit/a39617b))
+* **front:** Update dependencies ([c66ccf7](https://github.com/rucken/core-nestjs/commit/c66ccf7))
+* **front:** Update frontend ([15a4fe7](https://github.com/rucken/core-nestjs/commit/15a4fe7))
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/rucken/core-nestjs/compare/0.3.0...0.4.0) (2018-04-22)
 
