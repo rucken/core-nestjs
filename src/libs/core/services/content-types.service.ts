@@ -1,10 +1,8 @@
-import { Component } from '@nestjs/common';
+import { Component, MethodNotAllowedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
-
 import { ContentType } from '../entities/content-type.entity';
-import { CustomError } from '../exceptions/custom.error';
+
 
 @Component()
 export class ContentTypesService {
@@ -23,12 +21,12 @@ export class ContentTypesService {
     }
     async update(options: { id: number; item: ContentType }) {
         if (process.env.DEMO === 'true') {
-            throw new CustomError('Not allowed in DEMO mode');
+            throw new MethodNotAllowedException('Not allowed in DEMO mode');
         }
         options.item.id = options.id;
         try {
             if (process.env.DEMO === 'true') {
-                throw new CustomError('Not allowed in DEMO mode');
+                throw new MethodNotAllowedException('Not allowed in DEMO mode');
             }
             options.item = await this.repository.save(options.item);
             return { contentType: options.item };
@@ -38,7 +36,7 @@ export class ContentTypesService {
     }
     async delete(options: { id: number }) {
         if (process.env.DEMO === 'true') {
-            throw new CustomError('Not allowed in DEMO mode');
+            throw new MethodNotAllowedException('Not allowed in DEMO mode');
         }
         try {
             let item = await this.repository.findOneOrFail(

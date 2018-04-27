@@ -5,7 +5,7 @@ import { JsonWebTokenError } from 'jsonwebtoken';
 import { CustomValidationError } from './custom-validation.error';
 import { CustomError } from './custom.error';
 
-@Catch(SyntaxError, CustomValidationError, CustomError, JsonWebTokenError, Error)
+@Catch(SyntaxError, CustomValidationError, CustomError, JsonWebTokenError)
 export class CustomExceptionFilter implements ExceptionFilter {
     constructor(
         private _indexFile?: string
@@ -41,7 +41,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
                     }
                 );
             });
-            this.badRequest(response, errors);
+            this.badRequest(response, { validationErrors: errors });
             return;
         }
         if (exception instanceof JsonWebTokenError) {
@@ -50,7 +50,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
                 return;
             }
             this.badRequest(response, {
-                nonFieldErrors: exception.message
+                message: 'Invalid token'
             });
             return;
         }
@@ -60,17 +60,17 @@ export class CustomExceptionFilter implements ExceptionFilter {
                 return;
             }
             this.badRequest(response, {
-                nonFieldErrors: exception.message
+                message: exception.message
             });
             return;
         }
-        if (exception instanceof SyntaxError || exception instanceof Error) {
+        if (exception instanceof SyntaxError) {
             if (process.env.DEBUG === 'true') {
                 this.badRequest(response, exception);
                 return;
             }
             this.badRequest(response, {
-                nonFieldErrors: exception.message ? exception.message : String(exception)
+                message: exception.message ? exception.message : String(exception)
             });
             return;
         }

@@ -13,7 +13,7 @@ export class UserDto {
     password: string;
     @ApiModelPropertyOptional({ type: String })
     lastLogin: Date;
-    @ApiModelProperty({ type: Boolean })
+    @ApiModelPropertyOptional({ type: Boolean })
     isSuperuser: boolean;
     @MaxLength(150)
     @ApiModelProperty()
@@ -27,9 +27,9 @@ export class UserDto {
     @MaxLength(254)
     @ApiModelProperty()
     email: string;
-    @ApiModelProperty({ type: Boolean })
+    @ApiModelPropertyOptional({ type: Boolean })
     isStaff: boolean;
-    @ApiModelProperty({ type: Boolean })
+    @ApiModelPropertyOptional({ type: Boolean })
     isActive: boolean;
     @ApiModelProperty({ type: String })
     dateJoined: Date;

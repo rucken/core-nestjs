@@ -1,4 +1,4 @@
-import { Component } from '@nestjs/common';
+import { Component, MethodNotAllowedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass, plainToClassFromExist } from 'class-transformer';
 import { Repository } from 'typeorm';
@@ -103,7 +103,7 @@ export class AccountService {
     }
     async update(options: { id: number; user: User }) {
         if (process.env.DEMO === 'true') {
-            throw new CustomError('Not allowed in DEMO mode');
+            throw new MethodNotAllowedException('Not allowed in DEMO mode');
         }
         try {
             let object = await this.usersRepository.findOneOrFail(
