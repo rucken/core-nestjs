@@ -1,15 +1,23 @@
 {
   "name": "rucken-core-nestjs",
   "version": "0.4.0",
-  "description": "A simple application demonstrating the basic usage of permissions with NestJS (JWT, PasswordHash, User, Group, Permission, ContentType)",
-  "repository": "https://github.com/rucken/core-nestjs.git",
   "engines": {
     "node": "8.11.x",
     "npm": "5.8.x"
   },
+  "license": "MIT",
   "author": {
     "name": "EndyKaufman",
     "email": "admin@site15.ru"
+  },
+  "description": "A simple application demonstrating the basic usage of permissions with NestJS (JWT, PasswordHash, User, Group, Permission, ContentType)",
+  "bugs": {
+    "url": "https://github.com/rucken/core-nestjs/issues"
+  },
+  "homepage": "https://github.com/rucken/core-nestjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rucken/core-nestjs.git"
   },
   "keywords": [
     "jwt",
@@ -23,7 +31,12 @@
     "heroku",
     "typedoc"
   ],
-  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "EndyKaufman",
+      "email": "admin@site15.ru"
+    }
+  ],
   "scripts": {
     "clean": "./node_modules/.bin/del-cli dist www database/sqlitedb.db",
     "start": "npm run start:prod",
@@ -80,5 +93,10 @@
     "conventional-recommended-bump": "^2.0.8",
     "nodemon": "^1.17.3",
     "npm-run-all": "^4.1.2"
+  },
+  "greenkeeper": {
+    "ignore": [
+      "typescript"
+    ]
   }
 }

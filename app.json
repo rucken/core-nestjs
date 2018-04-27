@@ -1,0 +1,28 @@
+{
+    "name": "rucken-core-nestjs",
+    "description": "A simple application demonstrating the basic usage of permissions with NestJS (JWT, PasswordHash, User, Group, Permission, ContentType)",
+    "repository": "https://github.com/rucken/core-nestjs",
+    "logo": "https://avatars0.githubusercontent.com/u/32410498?s=200&v=4",
+    "keywords": [
+        "jwt",
+        "passwordhash",
+        "user",
+        "group",
+        "permission",
+        "contenttype",
+        "bootstrap",
+        "nestjs",
+        "heroku",
+        "typedoc"
+    ],
+    "env": {
+        "DEBUG": "false",
+        "DEMO": "false",
+        "NODE_MODULES_CACHE": "false",
+        "NPM_CONFIG_PRODUCTION": "false",
+        "SECRET_KEY": "secret_key",
+        "JWT_EXPIRATION_DELTA": "7 days",
+        "JWT_AUTH_HEADER_PREFIX": "JWT",
+        "DATABASE_URL": "sqlite://database/sqlitedb.db"
+    }
+}
