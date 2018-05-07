@@ -2,7 +2,7 @@
   "name": "rucken-core-nestjs",
   "version": "0.4.1",
   "engines": {
-    "node": "8.11.x",
+    "node": "10",
     "npm": "5.8.x"
   },
   "license": "MIT",
