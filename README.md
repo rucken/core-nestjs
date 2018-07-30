@@ -11,8 +11,8 @@ A simple application demonstrating the basic usage of permissions with NestJS (J
 
 ## Usage
 - clone or fork [repository](https://github.com/rucken/core-nestjs.git) `git clone --recursive https://github.com/rucken/core-nestjs.git`
-- make sure you have [node.js](https://nodejs.org/) installed version 6+
-- make sure you have NPM installed version 3+
+- make sure you have [node.js](https://nodejs.org/) installed version 8+
+- make sure you have NPM installed version 5+
 - copy `_env` to `.env` and set environments for use (on Windows copy with IDE)
 - run `npm install` to install project dependencies
 - run `npm build` to install project dependencies
