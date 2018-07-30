@@ -45,7 +45,7 @@
     "prestart:prod": "./node_modules/.bin/del-cli dist && tsc",
     "start:prod": "node dist/main.js",
     "start:hmr": "node dist/main.hmr.js",
-    "test": "jest",
+    "test": "npm run build",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "webpack": "webpack --config webpack.config.js",
