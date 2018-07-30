@@ -26,7 +26,7 @@ export class ContentType {
     doBeforeInsertion() {
         const errors = validateSync(this, { validationError: { target: false } });
         if (errors.length > 0) {
-            throw new CustomValidationError(errors)
+            throw new CustomValidationError(errors);
         }
     }
 
@@ -34,7 +34,7 @@ export class ContentType {
     doBeforeUpdate() {
         const errors = validateSync(this, { validationError: { target: false } });
         if (errors.length > 0) {
-            throw new CustomValidationError(errors)
+            throw new CustomValidationError(errors);
         }
     }
 }

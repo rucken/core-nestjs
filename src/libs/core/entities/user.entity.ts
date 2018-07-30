@@ -1,21 +1,8 @@
 import { IsEmail, IsNotEmpty, IsOptional, MaxLength, validateSync } from 'class-validator';
 import * as hashers from 'node-django-hashers';
-import {
-    BeforeInsert,
-    BeforeUpdate,
-    Column,
-    CreateDateColumn,
-    Entity,
-    JoinTable,
-    ManyToMany,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
-} from 'typeorm';
-
-import { Group } from './group.entity';
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { CustomValidationError } from '../exceptions/custom-validation.error';
-import { Transform } from 'class-transformer';
-import { transformToBoolean } from '../utils/custom-transforms';
+import { Group } from './group.entity';
 
 @Entity()
 export class User {
@@ -70,7 +57,7 @@ export class User {
         cascade: ['remove']
     })
     @JoinTable({
-        //not work on run cli migration: 
+        // not work on run cli migration:
         name: 'user_groups',
         joinColumn: {
             name: 'user_id',
@@ -87,7 +74,7 @@ export class User {
     doBeforeInsertion() {
         const errors = validateSync(this, { validationError: { target: false } });
         if (errors.length > 0) {
-            throw new CustomValidationError(errors)
+            throw new CustomValidationError(errors);
         }
     }
 
@@ -95,24 +82,24 @@ export class User {
     doBeforeUpdate() {
         const errors = validateSync(this, { validationError: { target: false } });
         if (errors.length > 0) {
-            throw new CustomValidationError(errors)
+            throw new CustomValidationError(errors);
         }
     }
 
-    makePassword(password: string) {
-        var h = new hashers.PBKDF2PasswordHasher();
-        var hash = h.encode(password, h.salt());
+    async makePassword(password: string) {
+        const h = new hashers.PBKDF2PasswordHasher();
+        const hash = await h.encode(password, h.salt());
         return hash;
     }
 
-    verifyPassword(password: string) {
-        var h = new hashers.PBKDF2PasswordHasher();
-        return h.verify(password, this.password);
+    async verifyPassword(password: string) {
+        const h = new hashers.PBKDF2PasswordHasher();
+        return await h.verify(password, this.password);
     }
 
-    setPassword(password: string) {
+    async setPassword(password: string) {
         if (password) {
-            this.password = this.makePassword(password);
+            this.password = await this.makePassword(password);
         }
         return this;
     }
@@ -123,6 +110,6 @@ export class User {
             group && group.permissions.filter(permission =>
                 permissions.indexOf(permission.name.toLowerCase()) !== -1
             ).length > 0
-        ).length > 0
+        ).length > 0;
     }
 }

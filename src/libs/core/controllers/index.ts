@@ -10,4 +10,4 @@ export const controllers = [
     PermissionsController,
     UsersController,
     GroupsController
-]
+];

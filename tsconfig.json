@@ -4,14 +4,15 @@
     "declaration": false,
     "noImplicitAny": false,
     "removeComments": true,
-		"moduleResolution": "node",
     "noLib": false,
+    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es6",
     "sourceMap": true,
     "allowJs": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "baseUrl": "./src"
   },
   "include": [
     "src/**/*"

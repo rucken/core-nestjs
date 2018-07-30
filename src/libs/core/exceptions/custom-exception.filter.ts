@@ -1,5 +1,4 @@
-import { ExceptionFilter, Catch, HttpStatus } from '@nestjs/common';
-import { HttpException } from '@nestjs/core';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import { CustomValidationError } from './custom-validation.error';
@@ -12,11 +11,10 @@ export class CustomExceptionFilter implements ExceptionFilter {
     ) {
 
     }
-    badRequest(response, data: Object) {
-        // todo: refactor after update nest to 5 version
+    badRequest(response, request, data: any) {
         if (
-            response.req.originalUrl.indexOf('/api/') !== 0 &&
-            response.req.accepts('html') &&
+            request.originalUrl.indexOf('/api/') !== 0 &&
+            request.accepts('html') &&
             this._indexFile
         ) {
             response.sendFile(this._indexFile);
@@ -24,12 +22,16 @@ export class CustomExceptionFilter implements ExceptionFilter {
             response.status(HttpStatus.BAD_REQUEST).json(data);
         }
     }
-    catch(exception: CustomValidationError | JsonWebTokenError | SyntaxError | Error, response) {
+    catch(exception: CustomValidationError | JsonWebTokenError | SyntaxError | Error, host: ArgumentsHost) {
+        const ctx = host.switchToHttp();
+        const response = ctx.getResponse();
+        const request = ctx.getRequest();
+
         const errors = {};
         if (exception instanceof CustomValidationError) {
             if (process.env.DEBUG === 'true') {
-                this.badRequest(response, exception);
-                return;
+                // tslint:disable-next-line:no-console
+                console.log(exception);
             }
             exception.errors.forEach((error: ValidationError) => {
                 Object.keys(error.constraints).forEach(
@@ -41,35 +43,35 @@ export class CustomExceptionFilter implements ExceptionFilter {
                     }
                 );
             });
-            this.badRequest(response, { validationErrors: errors });
+            this.badRequest(response, request, { validationErrors: errors });
             return;
         }
         if (exception instanceof JsonWebTokenError) {
             if (process.env.DEBUG === 'true') {
-                this.badRequest(response, exception);
-                return;
+                // tslint:disable-next-line:no-console
+                console.log(exception);
             }
-            this.badRequest(response, {
+            this.badRequest(response, request, {
                 message: 'Invalid token'
             });
             return;
         }
         if (exception instanceof CustomError) {
             if (process.env.DEBUG === 'true') {
-                this.badRequest(response, exception);
-                return;
+                // tslint:disable-next-line:no-console
+                console.log(exception);
             }
-            this.badRequest(response, {
+            this.badRequest(response, request, {
                 message: exception.message
             });
             return;
         }
         if (exception instanceof SyntaxError) {
             if (process.env.DEBUG === 'true') {
-                this.badRequest(response, exception);
-                return;
+                // tslint:disable-next-line:no-console
+                console.log(exception);
             }
-            this.badRequest(response, {
+            this.badRequest(response, request, {
                 message: exception.message ? exception.message : String(exception)
             });
             return;

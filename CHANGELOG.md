@@ -1,3 +1,18 @@
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/rucken/core-nestjs/compare/0.4.1...0.5.0) (2018-07-30)
+
+
+### Features
+
+* **deps:** Update dependencies and refactor code for it ([d138b29](https://github.com/rucken/core-nestjs/commit/d138b29))
+
+
+### BREAKING CHANGES
+
+* **deps:** Set the package's minimum required NestJS 5.1.0
+
+
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/rucken/core-nestjs/compare/0.4.0...0.4.1) (2018-04-27)
 

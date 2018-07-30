@@ -1,11 +1,10 @@
-import { Component, MethodNotAllowedException } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 import { Group } from '../entities/group.entity';
 
-
-@Component()
+@Injectable()
 export class GroupsService {
     items: Group[] = null;
     constructor(
@@ -103,7 +102,7 @@ export class GroupsService {
         }
     }
     getGroupByName(name: string) {
-        let groups = this.items.filter(group => group.name === name);
+        const groups = this.items.filter(group => group.name === name);
         if (groups.length) {
             return groups[0];
         }

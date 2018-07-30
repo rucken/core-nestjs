@@ -9,7 +9,7 @@ const connectionString = new ConnectionString(process.env.DATABASE_URL);
 if (connectionString.protocol === 'sqlite') {
     module.exports = {
         type: 'sqlite',
-        database: './' + connectionString.host + (connectionString.segments.length ? '/' + connectionString.segments[0] : ''),
+        database: './' + connectionString.hosts[0].name + (connectionString.path.length ? '/' + connectionString.path[0] : ''),
         entities: [
             'src/**/entities/**/*.entity.ts',
         ],

@@ -1,8 +1,8 @@
 import { plainToClass } from 'class-transformer';
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 import { ContentType } from '../entities/content-type.entity';
 import { Group } from '../entities/group.entity';
-import { Permission } from "../entities/permission.entity";
+import { Permission } from '../entities/permission.entity';
 
 export class FillFrontendData1524199144534 implements MigrationInterface {
 
@@ -33,12 +33,14 @@ export class FillFrontendData1524199144534 implements MigrationInterface {
             'read_users-frame': 'Can read users frame'
         };
         const permissionsObjects = [];
-        for (let permissionTitle in permissionTitles) {
-            permissionsObjects.push({
-                title: permissionTitles[permissionTitle],
-                name: permissionTitle,
-                contentType: ctUser
-            });
+        for (const permissionTitle in permissionTitles) {
+            if (permissionTitles.hasOwnProperty(permissionTitle)) {
+                permissionsObjects.push({
+                    title: permissionTitles[permissionTitle],
+                    name: permissionTitle,
+                    contentType: ctUser
+                });
+            }
         }
         const permissions = await queryRunner.manager.getRepository<Permission>(Permission).save(
             plainToClass(Permission, permissionsObjects)
@@ -50,11 +52,11 @@ export class FillFrontendData1524199144534 implements MigrationInterface {
                 'read_account-page',
                 'read_profile-frame'
             ].indexOf(permission.name) !== -1)
-        ]
+        ];
         gAdmin.permissions = [
             ...gAdmin.permissions.filter(permission => !permissionTitles[permission.name]),
             ...permissions
-        ]
+        ];
         const groups = await queryRunner.manager.getRepository<Group>(Group).save(
             plainToClass(Group, [gUser, gAdmin])
         );

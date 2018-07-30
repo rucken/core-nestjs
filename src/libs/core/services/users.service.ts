@@ -1,9 +1,9 @@
-import { Component, MethodNotAllowedException } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 
-@Component()
+@Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(User)
@@ -72,7 +72,7 @@ export class UsersService {
             let qb = this.repository.createQueryBuilder('user');
             if (options.group) {
                 qb = qb.leftJoinAndSelect('user.groups', 'group')
-                    .where('group.id = :group', { group: options.group })
+                    .where('group.id = :group', { group: options.group });
             } else {
                 qb = qb.leftJoinAndSelect('user.groups', 'group');
                 qb = qb.leftJoinAndSelect('group.permissions', 'permission');
