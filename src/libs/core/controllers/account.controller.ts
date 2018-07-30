@@ -12,7 +12,6 @@ import { User } from '../entities/user.entity';
 import { AccessGuard } from '../guards/access.guard';
 import { AccountService } from '../services/account.service';
 
-
 @ApiUseTags('account')
 @Controller('/api/account')
 @UseGuards(AccessGuard)

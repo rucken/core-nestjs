@@ -12,4 +12,4 @@ export const services = [
     UsersService,
     ContentTypesService,
     PermissionsService
-]
+];

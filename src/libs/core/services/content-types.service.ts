@@ -1,10 +1,9 @@
-import { Component, MethodNotAllowedException } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ContentType } from '../entities/content-type.entity';
 
-
-@Component()
+@Injectable()
 export class ContentTypesService {
     constructor(
         @InjectRepository(ContentType)

@@ -12,7 +12,6 @@ import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { UsersService } from '../services/users.service';
 
-
 @ApiUseTags('users')
 @ApiBearerAuth()
 @Controller('/api/users')
@@ -39,7 +38,7 @@ export class UsersController {
             return plainToClass(
                 OutUserDto,
                 await this.service.create({
-                    item: plainToClass(User, dto).setPassword(dto.password)
+                    item: await plainToClass(User, dto).setPassword(dto.password)
                 })
             );
         } catch (error) {
@@ -64,8 +63,8 @@ export class UsersController {
             return plainToClass(
                 OutUserDto,
                 await this.service.update({
-                    id: id,
-                    item: plainToClass(User, dto).setPassword(dto.password)
+                    id,
+                    item: await plainToClass(User, dto).setPassword(dto.password)
                 })
             );
         } catch (error) {
@@ -88,7 +87,7 @@ export class UsersController {
         try {
             return plainToClass(OutUserDto,
                 await this.service.delete({
-                    id: id
+                    id
                 })
             );
         } catch (error) {
@@ -100,7 +99,7 @@ export class UsersController {
     @HttpCode(HttpStatus.OK)
     @ApiResponse({
         status: HttpStatus.OK, type: OutUserDto,
-        description: '',
+        description: ''
     })
     @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
     @ApiImplicitParam({ name: 'id', type: Number })
@@ -112,7 +111,7 @@ export class UsersController {
             return plainToClass(
                 OutUserDto,
                 await this.service.load({
-                    id: id
+                    id
                 })
             );
         } catch (error) {
@@ -153,11 +152,11 @@ export class UsersController {
             return plainToClass(
                 OutUsersDto,
                 await this.service.loadAll({
-                    curPage: curPage,
-                    perPage: perPage,
-                    q: q,
-                    sort: sort,
-                    group: group
+                    curPage,
+                    perPage,
+                    q,
+                    sort,
+                    group
                 })
             );
         } catch (error) {

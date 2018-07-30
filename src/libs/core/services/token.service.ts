@@ -1,7 +1,7 @@
+import { Injectable } from '@nestjs/common';
 import { decode, sign, verify } from 'jsonwebtoken';
-import { Component } from '@nestjs/common';
 
-@Component()
+@Injectable()
 export class TokenService {
     sign(user: any) {
         return sign(
@@ -24,7 +24,7 @@ export class TokenService {
             {
                 expiresIn: process.env.JWT_EXPIRATION_DELTA
             }
-        )
+        );
     }
     verify(token: string) {
         const data: any = decode(
@@ -35,7 +35,7 @@ export class TokenService {
     decode(token: string) {
         return decode(
             token
-        )
+        );
     }
     getSecretKey(data: any) {
         return process.env.SECRET_KEY +

@@ -1,29 +1,26 @@
-import { CanActivate, ExecutionContext, Guard } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { plainToClass } from 'class-transformer';
-import { IncomingMessage } from 'http';
-
+import { Observable } from 'rxjs';
 import { User } from '../entities/user.entity';
 import { GroupsService } from '../services/groups.service';
 import { TokenService } from '../services/token.service';
 
-@Guard()
+@Injectable()
 export class AccessGuard implements CanActivate {
     constructor(
         private readonly reflector: Reflector,
         private readonly tokenService: TokenService,
         private readonly groupsService: GroupsService
     ) {
-        //workaround
-        this.groupsService.fullLoadAll();
     }
-
-    canActivate(req: IncomingMessage, context: ExecutionContext): boolean {
-        const { parent, handler } = context;
-        const authorizationHeader = req.headers['authorization'] ?
-            String(req.headers['authorization']) : null;
-        const roles = this.reflector.get<string[]>('roles', handler);
-        const permissions = this.reflector.get<string[]>('permissions', handler);
+    canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+        const roles = this.reflector.get<string[]>('roles', context.getHandler());
+        const permissions = this.reflector.get<string[]>('permissions', context.getHandler());
+        const request = context.switchToHttp().getRequest();
+        const user = request.user;
+        const authorizationHeader = request.headers.authorization ?
+            String(request.headers.authorization) : null;
 
         if (roles && roles.length > 0 &&
             permissions && permissions.length > 0 &&
@@ -36,22 +33,21 @@ export class AccessGuard implements CanActivate {
             token = token.trim();
             if (token && this.tokenService.verify(token)) {
                 const data: any = this.tokenService.decode(token);
-                req['user'] = plainToClass(User, data);
-                req['user'].groups = data.groups.map(group =>
+                request.user = plainToClass(User, data);
+                request.user.groups = data.groups.map(group =>
                     this.groupsService.getGroupByName(group.name)
                 );
             }
         }
-
         const hasRole = roles ? roles.filter(roleName =>
-            req['user'] &&
-            req['user'][roleName]
+            request.user &&
+            request.user[roleName]
         ).length > 0 : null;
 
         const hasPermission = permissions ?
-            req['user'] &&
-            req['user'] instanceof User &&
-            req['user'].checkPermissions(permissions) : null;
+            request.user &&
+            request.user instanceof User &&
+            request.user.checkPermissions(permissions) : null;
         return hasRole === true || hasPermission === true || (hasRole === null && hasPermission === null);
     }
 }

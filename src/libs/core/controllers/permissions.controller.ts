@@ -11,7 +11,6 @@ import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { PermissionsService } from '../services/permissions.service';
 
-
 @ApiUseTags('permissions')
 @ApiBearerAuth()
 @Controller('/api/permissions')
@@ -63,7 +62,7 @@ export class PermissionsController {
             return plainToClass(
                 OutPermissionDto,
                 await this.service.update({
-                    id: id,
+                    id,
                     item: plainToClass(Permission, dto)
                 })
             );
@@ -87,7 +86,7 @@ export class PermissionsController {
         try {
             return plainToClass(OutPermissionDto,
                 await this.service.delete({
-                    id: id
+                    id
                 })
             );
         } catch (error) {
@@ -111,7 +110,7 @@ export class PermissionsController {
             return plainToClass(
                 OutPermissionDto,
                 await this.service.load({
-                    id: id
+                    id
                 })
             );
         } catch (error) {
@@ -157,12 +156,12 @@ export class PermissionsController {
             return plainToClass(
                 OutPermissionsDto,
                 await this.service.loadAll({
-                    curPage: curPage,
-                    perPage: perPage,
-                    q: q,
-                    sort: sort,
-                    group: group,
-                    contentType: contentType
+                    curPage,
+                    perPage,
+                    q,
+                    sort,
+                    group,
+                    contentType
                 })
             );
         } catch (error) {

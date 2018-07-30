@@ -11,7 +11,6 @@ import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { ContentTypesService } from '../services/content-types.service';
 
-
 @ApiUseTags('content-types')
 @ApiBearerAuth()
 @Controller('/api/content_types')
@@ -63,7 +62,7 @@ export class ContentTypesController {
             return plainToClass(
                 OutContentTypeDto,
                 await this.service.update({
-                    id: id,
+                    id,
                     item: plainToClass(ContentType, dto)
                 })
             );
@@ -87,7 +86,7 @@ export class ContentTypesController {
         try {
             return plainToClass(OutContentTypeDto,
                 await this.service.delete({
-                    id: id
+                    id
                 })
             );
         } catch (error) {
@@ -111,7 +110,7 @@ export class ContentTypesController {
             return plainToClass(
                 OutContentTypeDto,
                 await this.service.load({
-                    id: id
+                    id
                 })
             );
         } catch (error) {
@@ -147,10 +146,10 @@ export class ContentTypesController {
             return plainToClass(
                 OutContentTypesDto,
                 await this.service.loadAll({
-                    curPage: curPage,
-                    perPage: perPage,
-                    q: q,
-                    sort: sort
+                    curPage,
+                    perPage,
+                    q,
+                    sort
                 })
             );
         } catch (error) {

@@ -1,9 +1,9 @@
-import { Component, MethodNotAllowedException } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Permission } from '../entities/permission.entity';
 
-@Component()
+@Injectable()
 export class PermissionsService {
     constructor(
         @InjectRepository(Permission)

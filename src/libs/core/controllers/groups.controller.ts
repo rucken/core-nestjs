@@ -11,7 +11,6 @@ import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { GroupsService } from '../services/groups.service';
 
-
 @ApiUseTags('groups')
 @ApiBearerAuth()
 @Controller('/api/groups')
@@ -63,7 +62,7 @@ export class GroupsController {
             return plainToClass(
                 OutGroupDto,
                 await this.service.update({
-                    id: id,
+                    id,
                     item: plainToClass(Group, dto)
                 })
             );
@@ -87,7 +86,7 @@ export class GroupsController {
         try {
             return plainToClass(OutGroupDto,
                 await this.service.delete({
-                    id: id
+                    id
                 })
             );
         } catch (error) {
@@ -111,7 +110,7 @@ export class GroupsController {
             return plainToClass(
                 OutGroupDto,
                 await this.service.load({
-                    id: id
+                    id
                 })
             );
         } catch (error) {
@@ -147,10 +146,10 @@ export class GroupsController {
             return plainToClass(
                 OutGroupsDto,
                 await this.service.loadAll({
-                    curPage: curPage,
-                    perPage: perPage,
-                    q: q,
-                    sort: sort
+                    curPage,
+                    perPage,
+                    q,
+                    sort
                 })
             );
         } catch (error) {

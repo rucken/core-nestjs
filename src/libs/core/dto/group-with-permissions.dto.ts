@@ -16,5 +16,5 @@ export class GroupWithPermissionsDto {
     title: string;
     @Type(() => PermissionDto)
     @ApiModelProperty({ type: PermissionDto, isArray: true })
-    permissions: PermissionDto[]
+    permissions: PermissionDto[];
 }

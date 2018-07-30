@@ -1,9 +1,8 @@
 import { IsNotEmpty, MaxLength, validateSync } from 'class-validator';
 import { BeforeInsert, BeforeUpdate, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
-
+import { CustomValidationError } from '../exceptions/custom-validation.error';
 import { Permission } from './permission.entity';
 import { User } from './user.entity';
-import { CustomValidationError } from '../exceptions/custom-validation.error';
 
 @Entity()
 export class Group {
@@ -24,7 +23,7 @@ export class Group {
         cascade: ['remove']
     })
     @JoinTable({
-        //not work on run cli migration: 
+        // not work on run cli migration:
         name: 'group_permissions',
         joinColumn: {
             name: 'group_id',
@@ -39,7 +38,7 @@ export class Group {
 
     @ManyToMany(type => User)
     @JoinTable({
-        //not work on run cli migration: 
+        // not work on run cli migration:
         name: 'user_groups',
         joinColumn: {
             name: 'group_id',
@@ -56,7 +55,7 @@ export class Group {
     doBeforeInsertion() {
         const errors = validateSync(this, { validationError: { target: false } });
         if (errors.length > 0) {
-            throw new CustomValidationError(errors)
+            throw new CustomValidationError(errors);
         }
     }
 
@@ -64,7 +63,7 @@ export class Group {
     doBeforeUpdate() {
         const errors = validateSync(this, { validationError: { target: false } });
         if (errors.length > 0) {
-            throw new CustomValidationError(errors)
+            throw new CustomValidationError(errors);
         }
     }
 }

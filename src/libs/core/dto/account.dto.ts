@@ -8,5 +8,5 @@ export class AccountDto extends UserDto {
 
     @Type(() => GroupWithPermissionsDto)
     @ApiModelProperty({ type: GroupWithPermissionsDto, isArray: true })
-    groups: GroupWithPermissionsDto[]
+    groups: GroupWithPermissionsDto[];
 }

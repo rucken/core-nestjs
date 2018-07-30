@@ -1,19 +1,8 @@
 import { IsNotEmpty, MaxLength, validateSync } from 'class-validator';
-import {
-    BeforeInsert,
-    BeforeUpdate,
-    Column,
-    Entity,
-    JoinColumn,
-    JoinTable,
-    ManyToMany,
-    ManyToOne,
-    PrimaryGeneratedColumn,
-} from 'typeorm';
-
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { CustomValidationError } from '../exceptions/custom-validation.error';
 import { ContentType } from './content-type.entity';
 import { Group } from './group.entity';
-import { CustomValidationError } from '../exceptions/custom-validation.error';
 
 @Entity()
 export class Permission {
@@ -31,12 +20,12 @@ export class Permission {
     title: string = undefined;
 
     @ManyToOne(type => ContentType, { eager: true, nullable: true })
-    @JoinColumn({ name: "content_type_id" })
+    @JoinColumn({ name: 'content_type_id' })
     contentType: ContentType = undefined;
 
     @ManyToMany(type => Group)
     @JoinTable({
-        //not work on run cli migration: 
+        // not work on run cli migration:
         name: 'group_permissions',
         joinColumn: {
             name: 'permission_id',
@@ -53,7 +42,7 @@ export class Permission {
     doBeforeInsertion() {
         const errors = validateSync(this, { validationError: { target: false } });
         if (errors.length > 0) {
-            throw new CustomValidationError(errors)
+            throw new CustomValidationError(errors);
         }
     }
 
@@ -61,7 +50,7 @@ export class Permission {
     doBeforeUpdate() {
         const errors = validateSync(this, { validationError: { target: false } });
         if (errors.length > 0) {
-            throw new CustomValidationError(errors)
+            throw new CustomValidationError(errors);
         }
     }
 }

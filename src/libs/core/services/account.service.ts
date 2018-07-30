@@ -1,13 +1,12 @@
-import { Component, MethodNotAllowedException } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { plainToClass, plainToClassFromExist } from 'class-transformer';
+import { plainToClassFromExist } from 'class-transformer';
 import { Repository } from 'typeorm';
-
 import { User } from '../entities/user.entity';
-import { TokenService } from './token.service';
 import { CustomError } from '../exceptions/custom.error';
+import { TokenService } from './token.service';
 
-@Component()
+@Injectable()
 export class AccountService {
     constructor(
         @InjectRepository(User)
@@ -19,14 +18,14 @@ export class AccountService {
     async info(options: { token: string }) {
         try {
             if (this.tokenService.verify(options.token)) {
-                let tokenData: any = this.tokenService.decode(options.token);
+                const tokenData: any = this.tokenService.decode(options.token);
                 let object = await this.usersRepository.findOneOrFail(
                     tokenData.id,
                     { relations: ['groups', 'groups.permissions'] }
                 );
                 if (this.tokenService.getSecretKey(tokenData) === this.tokenService.getSecretKey(object)) {
                     object = await this.usersRepository.save(object);
-                    return { user: object, token: options.token }
+                    return { user: object, token: options.token };
                 } else {
                     throw new CustomError('Invalid token');
                 }
@@ -38,15 +37,15 @@ export class AccountService {
     async refresh(options: { token: string }) {
         try {
             if (this.tokenService.verify(options.token)) {
-                let tokenData: any = this.tokenService.decode(options.token);
+                const tokenData: any = this.tokenService.decode(options.token);
                 let object = await this.usersRepository.findOneOrFail(
                     tokenData.id,
                     { relations: ['groups', 'groups.permissions'] }
                 );
                 if (this.tokenService.getSecretKey(tokenData) === this.tokenService.getSecretKey(object)) {
                     object = await this.usersRepository.save(object);
-                    return { user: object, token: this.tokenService.sign(object) }
-                };
+                    return { user: object, token: this.tokenService.sign(object) };
+                }
             } else {
                 throw new CustomError('Invalid token');
             }
@@ -70,7 +69,7 @@ export class AccountService {
                     relations: ['groups', 'groups.permissions']
                 });
             }
-            if (!object || !object.verifyPassword(options.password)) {
+            if (!object || !await object.verifyPassword(options.password)) {
                 throw new CustomError('Wrong password');
             }
             object = await this.usersRepository.save(object);
@@ -90,7 +89,7 @@ export class AccountService {
             object.firstName = options.email;
             object.firstName = options.email;
             object.lastName = options.email;
-            object.setPassword(options.password);
+            await object.setPassword(options.password);
             object = await this.usersRepository.save(object);
             object = await this.usersRepository.findOneOrFail(
                 object.id,
@@ -111,7 +110,7 @@ export class AccountService {
                 { relations: ['groups', 'groups.permissions'] }
             );
             object = plainToClassFromExist(object, options.user);
-            object.setPassword(options.user.password);
+            await object.setPassword(options.user.password);
             object = await this.usersRepository.save(object);
             return { user: object, token: this.tokenService.sign(object) };
         } catch (error) {
