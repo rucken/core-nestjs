@@ -57,7 +57,7 @@
     "frontend": "npm-run-all md-to-html",
     "build": "npm-run-all clean prepare:core docs migrate prestart:prod frontend",
     "heroku-postbuild": "npm run build",
-    "prepare:core": "rucken make-ts-list src/libs/core"
+    "prepare:core": "./node_modules/.bin/rucken make-ts-list ./src/libs/core"
   },
   "dependencies": {
     "@nestjs/common": "^5.1.0",
