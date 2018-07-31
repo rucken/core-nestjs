@@ -1,8 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { decode, sign, verify } from 'jsonwebtoken';
+import { AUTH_CONFIG_TOKEN, IAuthConfig } from '../configs/auth.config';
 
 @Injectable()
 export class TokenService {
+    constructor(
+        @Inject(AUTH_CONFIG_TOKEN) private readonly authConfig: IAuthConfig
+    ) {
+
+    }
     sign(user: any) {
         return sign(
             {
@@ -22,7 +28,7 @@ export class TokenService {
                 groups: user.groups
             }),
             {
-                expiresIn: process.env.JWT_EXPIRATION_DELTA
+                expiresIn: this.authConfig.jwt.expirationDelta
             }
         );
     }
@@ -38,7 +44,7 @@ export class TokenService {
         );
     }
     getSecretKey(data: any) {
-        return process.env.SECRET_KEY +
+        return this.authConfig.jwt.secretKey +
             (data ? (
                 '$' + data.id +
                 '$' + data.isStaff +

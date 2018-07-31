@@ -1,17 +1,18 @@
-import { Injectable, MethodNotAllowedException } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 import { Group } from '../entities/group.entity';
+import { ICoreConfig, CORE_CONFIG_TOKEN } from '../configs/core.config';
 
 @Injectable()
 export class GroupsService {
     items: Group[] = null;
     constructor(
+        @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
         @InjectRepository(Group)
         private readonly repository: Repository<Group>
     ) {
-        this.fullLoadAll();
     }
     async create(options: { item: Group }) {
         try {
@@ -22,7 +23,7 @@ export class GroupsService {
         }
     }
     async update(options: { id: number; item: Group }) {
-        if (process.env.DEMO === 'true') {
+        if (this.coreConfig.demo) {
             throw new MethodNotAllowedException('Not allowed in DEMO mode');
         }
         options.item.id = options.id;
@@ -34,7 +35,7 @@ export class GroupsService {
         }
     }
     async delete(options: { id: number }) {
-        if (process.env.DEMO === 'true') {
+        if (this.coreConfig.demo) {
             throw new MethodNotAllowedException('Not allowed in DEMO mode');
         }
         try {

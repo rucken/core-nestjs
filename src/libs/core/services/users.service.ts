@@ -1,17 +1,19 @@
-import { Injectable, MethodNotAllowedException } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
+import { CORE_CONFIG_TOKEN, ICoreConfig } from '../configs/core.config';
 
 @Injectable()
 export class UsersService {
     constructor(
+        @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
         @InjectRepository(User)
         private readonly repository: Repository<User>
     ) {
     }
     async create(options: { item: User }) {
-        if (options.item.isSuperuser && process.env.DEMO === 'true') {
+        if (options.item.isSuperuser && this.coreConfig.demo) {
             throw new MethodNotAllowedException('Not allowed in DEMO mode');
         }
         try {
@@ -22,7 +24,7 @@ export class UsersService {
         }
     }
     async update(options: { id: number; item: User }) {
-        if (process.env.DEMO === 'true') {
+        if (this.coreConfig.demo) {
             throw new MethodNotAllowedException('Not allowed in DEMO mode');
         }
         options.item.id = options.id;
@@ -34,7 +36,7 @@ export class UsersService {
         }
     }
     async delete(options: { id: number }) {
-        if (process.env.DEMO === 'true') {
+        if (this.coreConfig.demo) {
             throw new MethodNotAllowedException('Not allowed in DEMO mode');
         }
         try {

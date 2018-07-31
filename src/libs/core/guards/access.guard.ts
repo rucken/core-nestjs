@@ -1,18 +1,21 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, Inject } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { plainToClass } from 'class-transformer';
 import { Observable } from 'rxjs';
 import { User } from '../entities/user.entity';
 import { GroupsService } from '../services/groups.service';
 import { TokenService } from '../services/token.service';
+import { IAuthConfig, AUTH_CONFIG_TOKEN } from '../configs/auth.config';
 
 @Injectable()
 export class AccessGuard implements CanActivate {
     constructor(
+        @Inject(AUTH_CONFIG_TOKEN) private readonly authConfig: IAuthConfig,
         private readonly reflector: Reflector,
         private readonly tokenService: TokenService,
         private readonly groupsService: GroupsService
     ) {
+        groupsService.fullLoadAll();
     }
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         const roles = this.reflector.get<string[]>('roles', context.getHandler());
@@ -25,10 +28,10 @@ export class AccessGuard implements CanActivate {
         if (roles && roles.length > 0 &&
             permissions && permissions.length > 0 &&
             authorizationHeader &&
-            authorizationHeader.indexOf(process.env.JWT_AUTH_HEADER_PREFIX) === 0) {
+            authorizationHeader.indexOf(this.authConfig.jwt.authHeaderPrefix) === 0) {
             let token =
-                process.env.JWT_AUTH_HEADER_PREFIX ?
-                    authorizationHeader.split(process.env.JWT_AUTH_HEADER_PREFIX)[1] :
+                this.authConfig.jwt.authHeaderPrefix ?
+                    authorizationHeader.split(this.authConfig.jwt.authHeaderPrefix)[1] :
                     authorizationHeader;
             token = token.trim();
             if (token && this.tokenService.verify(token)) {

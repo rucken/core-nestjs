@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { configs } from './configs';
 import { controllers } from './controllers/index';
 import { entities } from './entities/index';
 import { services } from './services/index';
@@ -12,6 +13,7 @@ import { services } from './services/index';
     ...controllers
   ],
   providers: [
+    ...configs,
     ...services
   ],
   exports: [
@@ -19,4 +21,23 @@ import { services } from './services/index';
   ]
 })
 export class CoreModule {
+  static forRoot(options: { providers: Provider[] }): DynamicModule {
+    return {
+      module: CoreModule,
+      imports: [
+        TypeOrmModule.forFeature([...entities])
+      ],
+      controllers: [
+        ...controllers
+      ],
+      providers: [
+        ...configs,
+        ...options.providers,
+        ...services
+      ],
+      exports: [
+        ...services
+      ]
+    };
+  }
 }

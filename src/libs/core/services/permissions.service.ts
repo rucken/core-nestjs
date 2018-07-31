@@ -1,11 +1,13 @@
-import { Injectable, MethodNotAllowedException } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Permission } from '../entities/permission.entity';
+import { CORE_CONFIG_TOKEN, ICoreConfig } from '../configs/core.config';
 
 @Injectable()
 export class PermissionsService {
     constructor(
+        @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
         @InjectRepository(Permission)
         private readonly repository: Repository<Permission>
     ) {
@@ -19,7 +21,7 @@ export class PermissionsService {
         }
     }
     async update(options: { id: number; item: Permission }) {
-        if (process.env.DEMO === 'true') {
+        if (this.coreConfig.demo) {
             throw new MethodNotAllowedException('Not allowed in DEMO mode');
         }
         options.item.id = options.id;
@@ -31,7 +33,7 @@ export class PermissionsService {
         }
     }
     async delete(options: { id: number }) {
-        if (process.env.DEMO === 'true') {
+        if (this.coreConfig.demo) {
             throw new MethodNotAllowedException('Not allowed in DEMO mode');
         }
         try {
