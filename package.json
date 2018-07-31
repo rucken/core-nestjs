@@ -55,7 +55,7 @@
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out www/docs src",
     "md-to-html": "showdown makehtml -i README.md -o www/index.html",
     "frontend": "npm-run-all md-to-html",
-    "build": "npm-run-all clean prepare:core docs migrate prestart:prod frontend",
+    "build": "npm-run-all clean docs migrate prestart:prod frontend",
     "heroku-postbuild": "npm run build",
     "prepare:core": "./node_modules/.bin/rucken make-ts-list ./src/libs/core"
   },
