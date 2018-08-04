@@ -65,7 +65,7 @@ async function bootstrap() {
     .setVersion(packageBody.version)
     .addBearerAuth('Authorization', 'header');
 
-  if (coreConfig.protocol === 'http') {
+  if (coreConfig.protocol === 'https') {
     documentBuilder = documentBuilder
       .setSchemes('https', 'http');
   } else {
