@@ -1,13 +1,14 @@
-import { Injectable, MethodNotAllowedException, Inject } from '@nestjs/common';
+import { Inject, Injectable, MethodNotAllowedException, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
+import { CORE_CONFIG_TOKEN } from '../configs/core.config';
 import { Group } from '../entities/group.entity';
-import { ICoreConfig, CORE_CONFIG_TOKEN } from '../configs/core.config';
+import { ICoreConfig } from '../interfaces/core-config.interface';
 
 @Injectable()
 export class GroupsService {
-    items: Group[] = null;
+    items: Group[];
     constructor(
         @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
         @InjectRepository(Group)
@@ -50,7 +51,7 @@ export class GroupsService {
             throw error;
         }
     }
-    async load(options: { id: number }) {
+    async findById(options: { id: number }) {
         try {
             const item = await this.repository.findOneOrFail(
                 options.id,
@@ -61,7 +62,7 @@ export class GroupsService {
             throw error;
         }
     }
-    async loadAll(options: {
+    async findAll(options: {
         curPage: number;
         perPage: number;
         q?: string;
@@ -102,15 +103,15 @@ export class GroupsService {
             throw error;
         }
     }
-    getGroupByName(name: string) {
-        const groups = this.items.filter(group => group.name === name);
+    getGroupByName(options: { name: string }) {
+        const groups = (this.items ? this.items : []).filter(group => group.name === options.name);
         if (groups.length) {
             return groups[0];
         }
-        return null;
+        throw new NotFoundException(`Group with name "${options.name}" not exists`);
     }
-    async fullLoadAll() {
-        if (this.items === null) {
+    async preloadAll() {
+        if (!this.items) {
             try {
                 const groups = await this.repository.createQueryBuilder('group')
                     .leftJoinAndSelect('group.permissions', 'permission')

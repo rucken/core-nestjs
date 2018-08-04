@@ -1,16 +1,14 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { defaultFacebookConfig, defaultJwtConfig, FACEBOOK_CONFIG_TOKEN, IFacebookConfig, IJwtConfig, JWT_CONFIG_TOKEN } from '@rucken/auth-nestjs';
+import { appFilters, appPipes, CORE_CONFIG_TOKEN, defaultCoreConfig, ICoreConfig } from '@rucken/core-nestjs';
+import { AppModule } from 'apps/demo/app.module';
 import { config } from 'dotenv';
-import { AUTH_CONFIG_TOKEN, IAuthConfig } from 'libs/core/configs/auth.config';
-import { CORE_CONFIG_TOKEN, ICoreConfig } from 'libs/core/configs/core.config';
-import * as path from 'path';
-import { AppModule } from './apps/demo/app.module';
-import { appFilters } from './libs/core/filters';
-import { appPipes } from './libs/core/pipes';
 import { accessSync } from 'fs';
+import * as path from 'path';
 
 declare const module: any;
-
 async function bootstrap() {
   const packageBody = require('../package.json');
   const WWW_ROOT = path.resolve(__dirname, '..', 'www');
@@ -18,34 +16,41 @@ async function bootstrap() {
   try {
     accessSync(`${nodeEnv}.env`);
     config({ path: `${nodeEnv}.env` });
-    // tslint:disable-next-line:no-console
-    console.log(`env file: ${nodeEnv}.env`);
+    Logger.log(`env file: ${nodeEnv}.env`, 'Main');
   } catch (error) {
     try {
       accessSync(`.env`);
       config();
-      // tslint:disable-next-line:no-console
-      console.log(`env file: .env`);
+      Logger.log(`env file: .env`, 'Main');
     } catch (error) {
     }
   }
   const coreConfig: ICoreConfig = {
+    ...defaultCoreConfig,
     debug: process.env.DEBUG === 'true',
     demo: process.env.DEMO === 'true',
-    port: process.env.PORT ? +process.env.PORT : undefined
-
+    port: process.env.PORT ? +process.env.PORT : undefined,
+    protocol: process.env.PROTOCOL === 'https' ? 'https' : 'http',
+    externalPort: process.env.EXTERNAL_PORT ? +process.env.EXTERNAL_PORT : undefined,
+    domain: process.env.DOMAIN
   };
-  const authConfig: IAuthConfig = {
-    jwt: {
-      authHeaderPrefix: process.env.JWT_AUTH_HEADER_PREFIX,
-      expirationDelta: process.env.JWT_EXPIRATION_DELTA,
-      secretKey: process.env.SECRET_KEY
-    }
+  const jwtConfig: IJwtConfig = {
+    ...defaultJwtConfig,
+    authHeaderPrefix: process.env.JWT_AUTH_HEADER_PREFIX,
+    expirationDelta: process.env.JWT_EXPIRATION_DELTA,
+    secretKey: process.env.JWT_SECRET_KEY
+  };
+  const facebookConfig: IFacebookConfig = {
+    ...defaultFacebookConfig,
+    client_id: process.env.FACEBOOK_CLIENT_ID,
+    client_secret: process.env.FACEBOOK_CLIENT_SECRET,
+    oauth_redirect_uri: process.env.FACEBOOK_OAUTH_REDIRECT_URI
   };
   const app = await NestFactory.create(AppModule.forRoot({
     providers: [
       { provide: CORE_CONFIG_TOKEN, useValue: coreConfig },
-      { provide: AUTH_CONFIG_TOKEN, useValue: authConfig },
+      { provide: JWT_CONFIG_TOKEN, useValue: jwtConfig },
+      { provide: FACEBOOK_CONFIG_TOKEN, useValue: facebookConfig },
       ...appFilters,
       ...appPipes
     ]
@@ -61,12 +66,12 @@ async function bootstrap() {
     .setVersion(packageBody.version)
     .addBearerAuth('Authorization', 'header');
 
-  if (coreConfig.debug) {
-    documentBuilder = documentBuilder
-      .setSchemes('http');
-  } else {
+  if (coreConfig.protocol === 'http') {
     documentBuilder = documentBuilder
       .setSchemes('https', 'http');
+  } else {
+    documentBuilder = documentBuilder
+      .setSchemes('http', 'https');
   }
   const options = documentBuilder.build();
 
@@ -74,7 +79,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('/swagger', app, document);
 
-  await app.listen(coreConfig.port ? coreConfig.port : 5000);
+  await app.listen(coreConfig.port);
 
   if (module.hot) {
     module.hot.accept();

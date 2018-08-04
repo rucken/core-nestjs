@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
 import { Permissions } from '../decorators/permissions.decorator';
@@ -104,13 +105,13 @@ export class UsersController {
     @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
     @ApiImplicitParam({ name: 'id', type: Number })
     @Get(':id')
-    async load(
+    async findById(
         @Param('id', new ParseIntPipe()) id
     ) {
         try {
             return plainToClass(
                 OutUserDto,
-                await this.service.load({
+                await this.service.findById({
                     id
                 })
             );
@@ -141,7 +142,7 @@ export class UsersController {
         description: 'Group id for filter data by group. (default: empty)'
     })
     @Get()
-    async loadAll(
+    async findAll(
         @Query('cur_page', new ParseIntWithDefaultPipe(1)) curPage,
         @Query('per_page', new ParseIntWithDefaultPipe(10)) perPage,
         @Query('q') q,
@@ -151,7 +152,7 @@ export class UsersController {
         try {
             return plainToClass(
                 OutUsersDto,
-                await this.service.loadAll({
+                await this.service.findAll({
                     curPage,
                     perPage,
                     q,

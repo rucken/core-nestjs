@@ -1,8 +1,9 @@
-import { Injectable, MethodNotAllowedException, Inject } from '@nestjs/common';
+import { Inject, Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CORE_CONFIG_TOKEN } from '../configs/core.config';
 import { Permission } from '../entities/permission.entity';
-import { CORE_CONFIG_TOKEN, ICoreConfig } from '../configs/core.config';
+import { ICoreConfig } from '../interfaces/core-config.interface';
 
 @Injectable()
 export class PermissionsService {
@@ -43,7 +44,7 @@ export class PermissionsService {
             throw error;
         }
     }
-    async load(options: { id: number }) {
+    async findById(options: { id: number }) {
         try {
             const item = await this.repository.findOneOrFail(
                 options.id,
@@ -54,7 +55,7 @@ export class PermissionsService {
             throw error;
         }
     }
-    async loadAll(options: {
+    async findAll(options: {
         curPage: number;
         perPage: number;
         q?: string;

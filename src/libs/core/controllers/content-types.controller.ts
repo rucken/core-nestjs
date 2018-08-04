@@ -103,13 +103,13 @@ export class ContentTypesController {
     @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
     @ApiImplicitParam({ name: 'id', type: Number })
     @Get(':id')
-    async load(
+    async findById(
         @Param('id', new ParseIntPipe()) id
     ) {
         try {
             return plainToClass(
                 OutContentTypeDto,
-                await this.service.load({
+                await this.service.findById({
                     id
                 })
             );
@@ -136,7 +136,7 @@ export class ContentTypesController {
         description: 'A page number within the paginated result set. (default: 1)'
     })
     @Get()
-    async loadAll(
+    async findAll(
         @Query('cur_page', new ParseIntWithDefaultPipe(1)) curPage,
         @Query('per_page', new ParseIntWithDefaultPipe(10)) perPage,
         @Query('q') q,
@@ -145,7 +145,7 @@ export class ContentTypesController {
         try {
             return plainToClass(
                 OutContentTypesDto,
-                await this.service.loadAll({
+                await this.service.findAll({
                     curPage,
                     perPage,
                     q,

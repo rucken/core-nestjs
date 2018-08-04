@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner} from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class DefaultValueForBooleanFields1524322965692 implements MigrationInterface {
 
@@ -11,7 +11,7 @@ export class DefaultValueForBooleanFields1524322965692 implements MigrationInter
         await queryRunner.query(`INSERT INTO "temporary_group_permissions"("group_id", "permission_id") SELECT "group_id", "permission_id" FROM "group_permissions"`);
         await queryRunner.query(`DROP TABLE "group_permissions"`);
         await queryRunner.query(`ALTER TABLE "temporary_group_permissions" RENAME TO "group_permissions"`);
-        await queryRunner.query(`CREATE TABLE "temporary_user" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "password" varchar(128) NOT NULL, "last_login" datetime DEFAULT (datetime('now')), "is_superuser" boolean NOT NULL DEFAULT (0), "username" varchar(150) NOT NULL, "first_name" varchar(30) NOT NULL, "last_name" varchar(30) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" boolean NOT NULL DEFAULT (0), "is_active" boolean NOT NULL DEFAULT (0), "date_joined" datetime NOT NULL DEFAULT (datetime('now')), "date_of_birth" datetime, CONSTRAINT "UQ_78a916df40e02a9deb1c4b75edb" UNIQUE ("username"))`);
+        await queryRunner.query(`CREATE TABLE "temporary_user" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "password" varchar(128) NOT NULL, "last_login" datetime DEFAULT (datetime('now')), "is_superuser" boolean NOT NULL DEFAULT (0), "username" varchar(150), "first_name" varchar(30), "last_name" varchar(30), "email" varchar(254) NOT NULL, "is_staff" boolean NOT NULL DEFAULT (0), "is_active" boolean NOT NULL DEFAULT (0), "date_joined" datetime NOT NULL DEFAULT (datetime('now')), "date_of_birth" datetime, CONSTRAINT "UQ_USER_USERNAME" UNIQUE ("username"), CONSTRAINT "UQ_USER_EMAIL" UNIQUE ("email"))`);
         await queryRunner.query(`INSERT INTO "temporary_user"("id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "date_of_birth") SELECT "id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "date_of_birth" FROM "user"`);
         await queryRunner.query(`DROP TABLE "user"`);
         await queryRunner.query(`ALTER TABLE "temporary_user" RENAME TO "user"`);
@@ -35,7 +35,7 @@ export class DefaultValueForBooleanFields1524322965692 implements MigrationInter
         await queryRunner.query(`INSERT INTO "user_groups"("user_id", "group_id") SELECT "user_id", "group_id" FROM "temporary_user_groups"`);
         await queryRunner.query(`DROP TABLE "temporary_user_groups"`);
         await queryRunner.query(`ALTER TABLE "user" RENAME TO "temporary_user"`);
-        await queryRunner.query(`CREATE TABLE "user" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "password" varchar(128) NOT NULL, "last_login" datetime DEFAULT (datetime('now')), "is_superuser" boolean NOT NULL, "username" varchar(150) NOT NULL, "first_name" varchar(30) NOT NULL, "last_name" varchar(30) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" boolean NOT NULL, "is_active" boolean NOT NULL, "date_joined" datetime NOT NULL DEFAULT (datetime('now')), "date_of_birth" datetime, CONSTRAINT "UQ_78a916df40e02a9deb1c4b75edb" UNIQUE ("username"))`);
+        await queryRunner.query(`CREATE TABLE "user" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "password" varchar(128) NOT NULL, "last_login" datetime DEFAULT (datetime('now')), "is_superuser" boolean NOT NULL, "username" varchar(150) NOT NULL, "first_name" varchar(30) NOT NULL, "last_name" varchar(30) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" boolean NOT NULL, "is_active" boolean NOT NULL, "date_joined" datetime NOT NULL DEFAULT (datetime('now')), "date_of_birth" datetime, CONSTRAINT "UQ_USER_USERNAME" UNIQUE ("username"), CONSTRAINT "UQ_USER_EMAIL" UNIQUE ("email"))`);
         await queryRunner.query(`INSERT INTO "user"("id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "date_of_birth") SELECT "id", "password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "date_of_birth" FROM "temporary_user"`);
         await queryRunner.query(`DROP TABLE "temporary_user"`);
         await queryRunner.query(`ALTER TABLE "group_permissions" RENAME TO "temporary_group_permissions"`);

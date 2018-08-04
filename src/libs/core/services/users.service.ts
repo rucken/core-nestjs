@@ -1,15 +1,16 @@
-import { Injectable, MethodNotAllowedException, Inject } from '@nestjs/common';
+import { Inject, Injectable, MethodNotAllowedException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CORE_CONFIG_TOKEN } from '../configs/core.config';
 import { User } from '../entities/user.entity';
-import { CORE_CONFIG_TOKEN, ICoreConfig } from '../configs/core.config';
+import { ICoreConfig } from '../interfaces/core-config.interface';
+import { classToClass } from '../../../../node_modules/class-transformer';
 
 @Injectable()
 export class UsersService {
     constructor(
         @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
-        @InjectRepository(User)
-        private readonly repository: Repository<User>
+        @InjectRepository(User) private readonly repository: Repository<User>
     ) {
     }
     async create(options: { item: User }) {
@@ -18,7 +19,8 @@ export class UsersService {
         }
         try {
             options.item = await this.repository.save(options.item);
-            return { user: options.item };
+            const { user } = await this.findById({ id: options.item.id });
+            return { user };
         } catch (error) {
             throw error;
         }
@@ -27,10 +29,12 @@ export class UsersService {
         if (this.coreConfig.demo) {
             throw new MethodNotAllowedException('Not allowed in DEMO mode');
         }
+        options.item.lastLogin = new Date();
         options.item.id = options.id;
         try {
             options.item = await this.repository.save(options.item);
-            return { user: options.item };
+            const { user } = await this.findById({ id: options.item.id });
+            return { user };
         } catch (error) {
             throw error;
         }
@@ -51,7 +55,7 @@ export class UsersService {
             throw error;
         }
     }
-    async load(options: { id: number }) {
+    async findById(options: { id: number }) {
         try {
             const item = await this.repository.findOneOrFail(
                 options.id,
@@ -62,7 +66,7 @@ export class UsersService {
             throw error;
         }
     }
-    async loadAll(options: {
+    async findAll(options: {
         curPage: number;
         perPage: number;
         q?: string;
@@ -108,6 +112,36 @@ export class UsersService {
             };
         } catch (error) {
             throw error;
+        }
+    }
+    async findByEmail(options: { email: string }) {
+        try {
+            const item = await this.repository.findOneOrFail({
+                where: {
+                    email: options.email
+                },
+                relations: ['groups', 'groups.permissions']
+            });
+            return {
+                user: item
+            };
+        } catch (error) {
+            throw new NotFoundException(`User with email "${options.email}" not founded`);
+        }
+    }
+    async findByUserName(options: { username: string }) {
+        try {
+            const item = await this.repository.findOneOrFail({
+                where: {
+                    username: options.username
+                },
+                relations: ['groups', 'groups.permissions']
+            });
+            return {
+                user: item
+            };
+        } catch (error) {
+            throw new NotFoundException(`User with username "${options.username}" not founded`);
         }
     }
 }

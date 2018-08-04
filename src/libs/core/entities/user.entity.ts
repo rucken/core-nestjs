@@ -21,21 +21,21 @@ export class User {
     isSuperuser: boolean = undefined;
 
     @Column({ length: 150, unique: true })
-    @IsNotEmpty()
     @MaxLength(150)
+    @IsOptional()
     username: string = undefined;
 
     @Column({ name: 'first_name', length: 30 })
-    @IsNotEmpty()
     @MaxLength(30)
+    @IsOptional()
     firstName: string = undefined;
 
     @Column({ name: 'last_name', length: 30 })
-    @IsNotEmpty()
     @MaxLength(30)
+    @IsOptional()
     lastName: string = undefined;
 
-    @Column({ length: 254 })
+    @Column({ length: 254, unique: true })
     @IsNotEmpty()
     @IsEmail()
     @MaxLength(254)
@@ -86,20 +86,20 @@ export class User {
         }
     }
 
-    async makePassword(password: string) {
+    async createPassword(password: string) {
         const h = new hashers.PBKDF2PasswordHasher();
         const hash = await h.encode(password, h.salt());
         return hash;
     }
 
-    async verifyPassword(password: string) {
+    async validatePassword(password: string) {
         const h = new hashers.PBKDF2PasswordHasher();
         return await h.verify(password, this.password);
     }
 
     async setPassword(password: string) {
         if (password) {
-            this.password = await this.makePassword(password);
+            this.password = await this.createPassword(password);
         }
         return this;
     }

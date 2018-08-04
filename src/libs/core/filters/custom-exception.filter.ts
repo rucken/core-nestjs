@@ -1,11 +1,11 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Inject } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Inject, Logger } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
-import { JsonWebTokenError } from 'jsonwebtoken';
-import { CORE_CONFIG_TOKEN, ICoreConfig } from '../configs/core.config';
+import { CORE_CONFIG_TOKEN } from '../configs/core.config';
 import { CustomValidationError } from '../exceptions/custom-validation.error';
 import { CustomError } from '../exceptions/custom.error';
+import { ICoreConfig } from '../interfaces/core-config.interface';
 
-@Catch(SyntaxError, CustomValidationError, CustomError, JsonWebTokenError, HttpException)
+@Catch(SyntaxError, CustomValidationError, CustomError, HttpException)
 export class CustomExceptionFilter implements ExceptionFilter {
     constructor(
         @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig
@@ -13,7 +13,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
 
     }
     private response(
-        exception: CustomValidationError | JsonWebTokenError | SyntaxError | Error | HttpException,
+        exception: CustomValidationError | SyntaxError | Error | HttpException,
         host: ArgumentsHost,
         data: any,
         status?: number
@@ -21,10 +21,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
         const request = ctx.getRequest();
-        if (this.coreConfig.debug) {
-            // tslint:disable-next-line:no-console
-            console.log(exception);
-        }
+        Logger.error(JSON.stringify(exception), undefined, CustomExceptionFilter.name);
         if (
             request.originalUrl.indexOf('/api/') !== 0 &&
             request.accepts('html') &&
@@ -35,7 +32,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
             response.status(status ? status : HttpStatus.BAD_REQUEST).json(data);
         }
     }
-    catch(exception: CustomValidationError | JsonWebTokenError | SyntaxError | Error | HttpException, host: ArgumentsHost) {
+    catch(exception: CustomValidationError | SyntaxError | Error | HttpException, host: ArgumentsHost) {
         const errors = {};
         if (exception instanceof CustomValidationError) {
             exception.errors.forEach((error: ValidationError) => {
@@ -53,15 +50,6 @@ export class CustomExceptionFilter implements ExceptionFilter {
                 host,
                 {
                     validationErrors: errors
-                }
-            );
-        }
-        if (exception instanceof JsonWebTokenError) {
-            this.response(
-                exception,
-                host,
-                {
-                    message: 'Invalid token'
                 }
             );
         }

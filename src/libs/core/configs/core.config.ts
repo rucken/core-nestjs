@@ -1,12 +1,10 @@
-export interface ICoreConfig {
-    debug: boolean;
-    demo: boolean;
-    port?: number;
-    indexFile?: string;
-}
-export const coreConfig: ICoreConfig = {
+import { ICoreConfig } from '../interfaces/core-config.interface';
+
+export const defaultCoreConfig: ICoreConfig = {
     debug: false,
     demo: false,
-    port: 5000
+    port: 5000,
+    protocol: 'http',
+    domain: 'localhost'
 };
 export const CORE_CONFIG_TOKEN: string = 'CoreConfigToken';

@@ -103,13 +103,13 @@ export class PermissionsController {
     @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
     @ApiImplicitParam({ name: 'id', type: Number })
     @Get(':id')
-    async load(
+    async findById(
         @Param('id', new ParseIntPipe()) id
     ) {
         try {
             return plainToClass(
                 OutPermissionDto,
-                await this.service.load({
+                await this.service.findById({
                     id
                 })
             );
@@ -144,7 +144,7 @@ export class PermissionsController {
         description: 'Content type id for filter data by content type. (default: empty)'
     })
     @Get()
-    async loadAll(
+    async findAll(
         @Query('cur_page', new ParseIntWithDefaultPipe(1)) curPage,
         @Query('per_page', new ParseIntWithDefaultPipe(10)) perPage,
         @Query('q') q,
@@ -155,7 +155,7 @@ export class PermissionsController {
         try {
             return plainToClass(
                 OutPermissionsDto,
-                await this.service.loadAll({
+                await this.service.findAll({
                     curPage,
                     perPage,
                     q,

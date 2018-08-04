@@ -1,8 +1,7 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, MaxLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, MaxLength, IsOptional } from 'class-validator';
 
-
-export class InAccountRegisterDto {
+export class RegisterDto {
 
     @IsNotEmpty()
     @IsEmail()
@@ -19,4 +18,12 @@ export class InAccountRegisterDto {
     @MaxLength(128)
     @ApiModelProperty()
     password: string;
+
+    @MaxLength(30)
+    @IsOptional()
+    firstName?: string = undefined;
+
+    @MaxLength(30)
+    @IsOptional()
+    lastName?: string = undefined;
 }

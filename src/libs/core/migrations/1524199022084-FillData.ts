@@ -134,7 +134,7 @@ export class FillData1524199022084 implements MigrationInterface {
                 [{
                     username: 'admin',
                     email: 'admin@admin.com',
-                    password: await tempUser.makePassword('12345678'),
+                    password: await tempUser.createPassword('12345678'),
                     firstName: 'AdminFirstName',
                     lastName: 'AdminLastName',
                     isSuperuser: false,
@@ -145,7 +145,7 @@ export class FillData1524199022084 implements MigrationInterface {
                 {
                     username: 'user1',
                     email: 'user1@user1.com',
-                    password: await tempUser.makePassword('12345678'),
+                    password: await tempUser.createPassword('12345678'),
                     firstName: 'User1FirstName',
                     lastName: 'User1LastName',
                     isSuperuser: false,
@@ -156,7 +156,7 @@ export class FillData1524199022084 implements MigrationInterface {
                 {
                     username: 'user2',
                     email: 'user2@user2.com',
-                    password: await tempUser.makePassword('12345678'),
+                    password: await tempUser.createPassword('12345678'),
                     firstName: 'User2FirstName',
                     lastName: 'User2LastName',
                     isSuperuser: false,

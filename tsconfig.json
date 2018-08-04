@@ -12,11 +12,22 @@
     "sourceMap": true,
     "allowJs": true,
     "outDir": "./dist",
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "paths": {
+      "@rucken/core-nestjs": [
+        "libs/core"
+      ],
+      "@rucken/core-nestjs/*": [
+        "libs/core/*"
+      ],
+      "@rucken/auth-nestjs": [
+        "libs/auth"
+      ],
+      "@rucken/auth-nestjs/*": [
+        "libs/auth/*"
+      ],
+    }
   },
-  "include": [
-    "src/**/*"
-  ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts"

@@ -1,11 +1,13 @@
 import { Module, DynamicModule, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CoreModule } from '../../libs/core/core.module';
+import { CoreModule } from '@rucken/core-nestjs';
+import { AuthModule } from '@rucken/auth-nestjs';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
-    CoreModule
+    CoreModule,
+    AuthModule
   ]
 })
 export class AppModule {
@@ -14,7 +16,8 @@ export class AppModule {
       module: AppModule,
       imports: [
         TypeOrmModule.forRoot(),
-        CoreModule.forRoot(options)
+        CoreModule.forRoot(options),
+        AuthModule.forRoot(options)
       ]
     };
   }

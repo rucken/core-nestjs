@@ -1,12 +1,12 @@
 import { IsEmail, IsNotEmpty, MaxLength, IsOptional } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 
-export class InAccountLoginDto {
+export class LoginDto {
 
     @IsNotEmpty()
     @MaxLength(150)
     @ApiModelProperty()
-    username: string;
+    email: string;
 
     @IsNotEmpty()
     @MaxLength(128)
