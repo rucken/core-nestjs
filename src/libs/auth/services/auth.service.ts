@@ -111,9 +111,9 @@ export class AuthService {
           return reject(getBody.error);
         }
         Logger.log(
-          getBody
+          JSON.stringify(getBody)
           , AuthService.name + ':facebookSignIn#112');
-        const { access_token } = getBody.access_token;
+        const access_token = getBody.access_token;
         const uriToken = `${this.url}/api/auth/facebook/token`;
         Logger.log(uriToken, AuthService.name + ':facebookSignIn#114');
         Logger.log(access_token, AuthService.name + ':facebookSignIn#115');
