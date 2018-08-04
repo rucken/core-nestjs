@@ -1,4 +1,4 @@
-import { DynamicModule, MiddlewareConsumer, Module, NestModule, Provider } from '@nestjs/common';
+import { DynamicModule, MiddlewareConsumer, Module, NestModule, Provider, HttpModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { entities as coreEntities, CoreModule } from '@rucken/core-nestjs';
 import { authenticate } from 'passport';
@@ -10,6 +10,7 @@ import { passportStrategies } from './passport';
 
 @Module({
   imports: [
+    HttpModule,
     TypeOrmModule.forFeature([
       ...coreEntities,
       ...entities
@@ -32,6 +33,7 @@ export class AuthModule implements NestModule {
     return {
       module: AuthModule,
       imports: [
+        HttpModule,
         CoreModule.forFeature()
       ],
       providers: [
@@ -46,6 +48,7 @@ export class AuthModule implements NestModule {
     return {
       module: AuthModule,
       imports: [
+        HttpModule,
         TypeOrmModule.forFeature([
           ...coreEntities,
           ...entities
