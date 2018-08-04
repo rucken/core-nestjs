@@ -57,8 +57,8 @@
     "frontend": "npm-run-all md-to-html",
     "build": "npm-run-all clean prepare docs migrate prestart:prod frontend",
     "heroku-postbuild": "npm run build",
-    "prepare:core": "rucken make-ts-list ./src/libs/core",
-    "prepare:auth": "rucken make-ts-list ./src/libs/auth",
+    "prepare:core": "./node_modules/.bin/rucken make-ts-list ./src/libs/core",
+    "prepare:auth": "./node_modules/.bin/rucken make-ts-list ./src/libs/auth",
     "prepare": "npm-run-all prepare:core prepare:auth"
   },
   "dependencies": {
