@@ -55,11 +55,11 @@
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out www/docs src",
     "md-to-html": "showdown makehtml -i README.md -o www/index.html",
     "frontend": "npm-run-all md-to-html",
-    "build": "npm-run-all clean prepare docs migrate prestart:prod frontend",
+    "build": "npm-run-all clean prepare:all docs migrate prestart:prod frontend",
     "heroku-postbuild": "npm run build",
-    "prepare:core": "./node_modules/.bin/rucken make-ts-list ./src/libs/core",
-    "prepare:auth": "./node_modules/.bin/rucken make-ts-list ./src/libs/auth",
-    "prepare": "npm-run-all prepare:core prepare:auth"
+    "prepare:core": "rucken make-ts-list ./src/libs/core",
+    "prepare:auth": "rucken make-ts-list ./src/libs/auth",
+    "prepare:all": "npm-run-all prepare:core prepare:auth"
   },
   "dependencies": {
     "@nestjs/common": "^5.1.0",
