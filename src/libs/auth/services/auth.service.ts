@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable, Logger, BadRequestException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
 import { LoginDto } from '@rucken/auth-nestjs/dto/login.dto';
 import { RegisterDto } from '@rucken/auth-nestjs/dto/register.dto';
 import { CORE_CONFIG_TOKEN, CustomError, GroupsService, ICoreConfig, User, UsersService } from '@rucken/core-nestjs';
@@ -94,19 +94,25 @@ export class AuthService {
       `code=${code}`
     ];
     const uri: string = `${this.fbConfig.access_token_uri}?${queryParams.join('&')}`;
-    Logger.log(uri, AuthService.name + ':facebookSignIn');
+    Logger.log(uri, AuthService.name + ':facebookSignIn#97');
     return new Promise((resolve, reject) => {
       get(uri, (error: Error, response: Response, getBody: any) => {
         if (error) {
+          Logger.error(JSON.stringify(
+            error
+          ), AuthService.name + ':facebookSignIn#103');
           return reject(error);
         }
         if (getBody.error) {
+          Logger.error(JSON.stringify(
+            error
+          ), AuthService.name + ':facebookSignIn#109');
           return reject(getBody.error);
         }
         const { access_token } = JSON.parse(getBody);
         const uriToken = `${this.url}/api/auth/facebook/token`;
-        Logger.log(uriToken, AuthService.name + ':facebookSignIn');
-        Logger.log(access_token, AuthService.name + ':facebookSignIn');
+        Logger.log(uriToken, AuthService.name + ':facebookSignIn#114');
+        Logger.log(access_token, AuthService.name + ':facebookSignIn#115');
         post({
           url: uriToken,
           headers: {
@@ -119,18 +125,18 @@ export class AuthService {
           if (err) {
             Logger.log(JSON.stringify(
               err
-            ), AuthService.name + ':facebookSignIn');
+            ), AuthService.name + ':facebookSignIn#128');
             return reject(err);
           }
           if (postBody.error) {
             Logger.error(JSON.stringify(
               postBody.error
-            ), AuthService.name + ':facebookSignIn');
+            ), AuthService.name + ':facebookSignIn#134');
             return reject(postBody.error);
           }
           Logger.log(JSON.stringify(
             postBody
-          ), AuthService.name + ':facebookSignIn');
+          ), AuthService.name + ':facebookSignIn#139');
           resolve(postBody);
         });
       });
@@ -139,7 +145,7 @@ export class AuthService {
 
   async requestTwitterRedirectUri(): Promise<{ redirect_uri: string } | any> {
     return new Promise((resolve, reject) => {
-      Logger.log(this.twitterConfig.request_token_uri, AuthService.name + ':requestTwitterRedirectUri');
+      Logger.log(this.twitterConfig.request_token_uri, AuthService.name + ':requestTwitterRedirectUri#148');
       post({
         url: this.twitterConfig.request_token_uri,
         oauth: {
@@ -156,7 +162,7 @@ export class AuthService {
         }
         const { oauth_token } = this.parseTwitterResponse(body);
         const redirect_uri: string = `${this.twitterConfig.login_dialog_uri}?oauth_token=${oauth_token}`;
-        Logger.log(redirect_uri, AuthService.name + ':requestTwitterRedirectUri');
+        Logger.log(redirect_uri, AuthService.name + ':requestTwitterRedirectUri#165');
         resolve({
           redirect_uri
         });
@@ -165,7 +171,7 @@ export class AuthService {
   }
   async twitterSignIn(oauth_token: string, oauth_verifier: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      Logger.log(this.twitterConfig.access_token_uri, AuthService.name + ':twitterSignIn');
+      Logger.log(this.twitterConfig.access_token_uri, AuthService.name + ':twitterSignIn#174');
       post({
         url: this.twitterConfig.access_token_uri,
         oauth: {
@@ -183,7 +189,7 @@ export class AuthService {
         }
         const { resp_oauth_token, resp_oauth_token_secret, resp_user_id } = this.parseTwitterResponse(body);
         const uriToken = `${this.url}/api/auth/twitter/token`;
-        Logger.log(uriToken, AuthService.name + ':twitterSignIn');
+        Logger.log(uriToken, AuthService.name + ':twitterSignIn#192');
         post({
           url: uriToken,
           headers: {
@@ -214,14 +220,14 @@ export class AuthService {
       `scope=${this.googleConfig.scopes.join(' ')}`
     ];
     const redirect_uri: string = `${this.googleConfig.login_dialog_uri}?${queryParams.join('&')}`;
-    Logger.log(redirect_uri, AuthService.name + ':requestGoogleRedirectUri');
+    Logger.log(redirect_uri, AuthService.name + ':requestGoogleRedirectUri#223');
     return {
       redirect_uri
     };
   }
   async googleSignIn(code: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      Logger.log(this.googleConfig.access_token_uri, AuthService.name + ':googleSignIn');
+      Logger.log(this.googleConfig.access_token_uri, AuthService.name + ':googleSignIn#230');
       post({
         url: this.googleConfig.access_token_uri,
         headers: {
@@ -243,7 +249,7 @@ export class AuthService {
         }
         const { access_token } = JSON.parse(body);
         const uriToken = `${this.url}/api/auth/google/token`;
-        Logger.log(uriToken, AuthService.name + ':googleSignIn');
+        Logger.log(uriToken, AuthService.name + ':googleSignIn#252');
         post({
           url: uriToken,
           headers: {
