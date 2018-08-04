@@ -96,7 +96,8 @@ export class AuthService {
     const uri: string = `${this.fbConfig.access_token_uri}?${queryParams.join('&')}`;
     Logger.log(uri, AuthService.name + ':facebookSignIn#97');
     return new Promise((resolve, reject) => {
-      get(uri, (error: Error, response: Response, getBody: any) => {
+      get(uri, (error: Error, response: Response, body: any) => {
+        const getBody = JSON.parse(body);
         if (error) {
           Logger.error(JSON.stringify(
             error
@@ -112,7 +113,7 @@ export class AuthService {
         Logger.log(
           getBody
           , AuthService.name + ':facebookSignIn#112');
-        const { access_token } = JSON.parse(getBody);
+        const { access_token } = getBody.access_token;
         const uriToken = `${this.url}/api/auth/facebook/token`;
         Logger.log(uriToken, AuthService.name + ':facebookSignIn#114');
         Logger.log(access_token, AuthService.name + ':facebookSignIn#115');
