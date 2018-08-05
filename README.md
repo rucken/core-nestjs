@@ -26,12 +26,14 @@ A simple application demonstrating the basic usage of permissions with NestJS (J
 
 ### Swagger
 - local: [`http://localhost:5000/swagger`](http://localhost:5000/swagger)
-- online: [`https://rucken-core-nestjs.herokuapp.com/swagger`](https://rucken-core-nestjs.herokuapp.com/swagger)
+- online on heroku: [`https://rucken-core-nestjs.herokuapp.com/swagger`](https://rucken-core-nestjs.herokuapp.com/swagger)
+- online on now: [`https://rucken-core-nestjs.now.sh/swagger`](https://rucken-core-nestjs.now.sh/swagger)
 - apiKey template: ```JWT <token_generated_on_login>```
 
 ### Docs
 - local: [`http://localhost:5000/docs`](http://localhost:5000/docs)
-- online: [`https://rucken-core-nestjs.herokuapp.com/docs`](https://rucken-core-nestjs.herokuapp.com/docs)
+- online on heroku: [`https://rucken-core-nestjs.herokuapp.com/docs`](https://rucken-core-nestjs.herokuapp.com/docs)
+- online on now: [`https://rucken-core-nestjs.now.sh/docs`](https://rucken-core-nestjs.now.sh/docs)
 
 ## License
 
