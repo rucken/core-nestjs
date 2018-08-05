@@ -6,6 +6,7 @@
         "DEBUG": "@debug",
         "DEMO": "true",
         "DOMAIN": "@domain",
+        "PROTOCOL": "https",
         "JWT_SECRET_KEY": "@jwt_secret_key",
         "JWT_EXPIRATION_DELTA": "7 days",
         "JWT_AUTH_HEADER_PREFIX": "JWT",
