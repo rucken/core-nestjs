@@ -35,7 +35,7 @@ async function bootstrap() {
       accessSync(`.env`);
       config();
       Logger.log(`env file: .env`, 'Main');
-    } catch (error) { }
+    } catch (error) {}
   }
   const coreConfig: ICoreConfig = {
     ...defaultCoreConfig,

@@ -11,7 +11,7 @@ export class ContentTypesService {
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @InjectRepository(ContentType)
     private readonly repository: Repository<ContentType>
-  ) { }
+  ) {}
   async create(options: { item: ContentType }) {
     try {
       options.item = await this.repository.save(options.item);
@@ -81,7 +81,7 @@ export class ContentTypesService {
       }
       options.sort =
         options.sort &&
-          new ContentType().hasOwnProperty(options.sort.replace('-', ''))
+        new ContentType().hasOwnProperty(options.sort.replace('-', ''))
           ? options.sort
           : '-id';
       const field = options.sort.replace('-', '');

@@ -49,9 +49,10 @@ export class FacebookStrategy {
               });
               done(null, user);
             } catch (err) {
-              const email = profile.emails && profile.emails.length
-                ? profile.emails[0].value
-                : `${profile.id}@facebook.com`;
+              const email =
+                profile.emails && profile.emails.length
+                  ? profile.emails[0].value
+                  : `${profile.id}@facebook.com`;
               const username = `facebook_${profile.id}`;
               const firstName = profile.name.givenName;
               const lastName = profile.name.familyName;

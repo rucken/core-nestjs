@@ -14,7 +14,7 @@ export class OauthTokensAccesstokensService {
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @InjectRepository(OauthTokensAccesstoken)
     private readonly repository: Repository<OauthTokensAccesstoken>
-  ) { }
+  ) {}
   async create(options: { item: OauthTokensAccesstoken }) {
     try {
       options.item = await this.repository.save(options.item);
@@ -82,9 +82,9 @@ export class OauthTokensAccesstokensService {
       }
       options.sort =
         options.sort &&
-          new OauthTokensAccesstoken().hasOwnProperty(
-            options.sort.replace('-', '')
-          )
+        new OauthTokensAccesstoken().hasOwnProperty(
+          options.sort.replace('-', '')
+        )
           ? options.sort
           : '-id';
       const field = options.sort.replace('-', '');

@@ -19,13 +19,11 @@ import { stringify } from 'querystring';
 import { map } from 'rxjs/operators';
 import { FACEBOOK_CONFIG_TOKEN } from '../configs/facebook.config';
 import { GOOGLE_CONFIG_TOKEN } from '../configs/google-plus.config';
-import { TWITTER_CONFIG_TOKEN } from '../configs/twitter.config';
 import { LoginDto } from '../dto/login.dto';
 import { RedirectUriDto } from '../dto/redirect-uri.dto';
 import { RegisterDto } from '../dto/register.dto';
 import { IFacebookConfig } from '../interfaces/facebook-config.interface';
 import { IGooglePlusConfig } from '../interfaces/google-plus-config.interface';
-import { ITwitterConfig } from '../interfaces/twitter-config.interface';
 @Injectable()
 export class AuthService {
   private url: string;
@@ -33,8 +31,6 @@ export class AuthService {
   constructor(
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @Inject(FACEBOOK_CONFIG_TOKEN) private readonly fbConfig: IFacebookConfig,
-    @Inject(TWITTER_CONFIG_TOKEN)
-    private readonly twitterConfig: ITwitterConfig,
     @Inject(GOOGLE_CONFIG_TOKEN)
     private readonly googlePlusConfig: IGooglePlusConfig,
     private readonly httpService: HttpService,
@@ -163,76 +159,6 @@ export class AuthService {
       throw new BadRequestException(error.response.data.error.message);
     }
   }
-  /*
-    async requestTwitterRedirectUri(): Promise<RedirectUriDto | any> {
-      return new Promise((resolve, reject) => {
-        Logger.log(this.twitterConfig.request_token_uri, AuthService.name + ':requestTwitterRedirectUri#148');
-        post({
-          url: this.twitterConfig.request_token_uri,
-          oauth: {
-            consumer_key: this.twitterConfig.consumer_key,
-            consumer_secret: this.twitterConfig.consumer_secret,
-            callback: this.twitterConfig.oauth_redirect_uri
-          }
-        }, async (err: Error, res: Response, body: any) => {
-          if (err) {
-            return reject(err);
-          }
-          if (body.error) {
-            return reject(body.error);
-          }
-          const { oauth_token } = this.parseTwitterResponse(body);
-          const redirect_uri: string = `${this.twitterConfig.login_dialog_uri}?oauth_token=${oauth_token}`;
-          Logger.log(redirect_uri, AuthService.name + ':requestTwitterRedirectUri#165');
-          resolve({
-            redirect_uri
-          });
-        });
-      });
-    }
-    async twitterSignIn(oauth_token: string, oauth_verifier: string): Promise<any> {
-      return new Promise((resolve, reject) => {
-        Logger.log(this.twitterConfig.access_token_uri, AuthService.name + ':twitterSignIn#174');
-        post({
-          url: this.twitterConfig.access_token_uri,
-          oauth: {
-            consumer_key: this.twitterConfig.consumer_key,
-            consumer_secret: this.twitterConfig.consumer_secret,
-            token: oauth_token,
-            verifier: oauth_verifier
-          }
-        }, async (err: Error, res: Response, body: any) => {
-          if (err) {
-            return reject(err);
-          }
-          if (body.error) {
-            return reject(body.error);
-          }
-          const { resp_oauth_token, resp_oauth_token_secret, resp_user_id } = this.parseTwitterResponse(body);
-          const uriToken = `${this.url}/api/auth/twitter/token`;
-          Logger.log(uriToken, AuthService.name + ':twitterSignIn#192');
-          post({
-            url: uriToken,
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            form: {
-              resp_oauth_token,
-              resp_oauth_token_secret,
-              resp_user_id
-            }
-          }, async (resp_err: Error, resp_res: Response, resp_body: any) => {
-            if (resp_err) {
-              return reject(resp_err);
-            }
-            if (resp_body.error) {
-              return reject(resp_body.error);
-            }
-            resolve(resp_body);
-          });
-        });
-      });
-    }*/
   async requestGoogleRedirectUri(): Promise<RedirectUriDto | any> {
     const queryParams: string[] = [
       `client_id=${this.googlePlusConfig.client_id}`,
@@ -297,17 +223,5 @@ export class AuthService {
       );
       throw new BadRequestException(error.response.data.error_description);
     }
-  } /*
-    private parseTwitterResponse(response: string): { [key: string]: string | boolean } {
-      const regex: RegExp = /([a-z_]+?)=([a-zA-Z0-9_-]+)/g;
-      const parsedResponse: { [key: string]: string } = {};
-      let match: RegExpMatchArray = regex.exec(response);
-      while (match) {
-        match.shift();
-        parsedResponse[match.shift()] = match.shift();
-        match = regex.exec(response);
-      }
-      return parsedResponse;
-    }
-    */
+  }
 }

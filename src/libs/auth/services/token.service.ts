@@ -8,7 +8,7 @@ import { IJwtConfig } from '../interfaces/jwt-config.interface';
 export class TokenService {
   constructor(
     @Inject(JWT_CONFIG_TOKEN) private readonly jwtConfig: IJwtConfig
-  ) { }
+  ) {}
   create(user: User) {
     return sign(
       {
@@ -47,14 +47,14 @@ export class TokenService {
       this.jwtConfig.secretKey +
       (user
         ? '$' +
-        user.id +
-        '$' +
-        user.isStaff +
-        '$' +
-        user.isActive +
-        '$' +
-        user.isSuperuser +
-        (user.groups ? user.groups.map(group => '$' + group.name) : '')
+          user.id +
+          '$' +
+          user.isStaff +
+          '$' +
+          user.isActive +
+          '$' +
+          user.isSuperuser +
+          (user.groups ? user.groups.map(group => '$' + group.name) : '')
         : '')
     );
   }

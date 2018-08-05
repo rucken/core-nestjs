@@ -12,7 +12,7 @@ import { plainToClass } from 'class-transformer';
 import { AccountTokenDto } from '../dto/account-token.dto';
 import { FacebookSignInDto } from '../dto/facebook-signIn.dto';
 import { FacebookTokenDto } from '../dto/facebook-token.dto';
-import { GoogleApiSignInDto } from '../dto/google-api-signIn.dto';
+import { GooglePlusSignInDto } from '../dto/google-plus-signIn.dto';
 import { LoginDto } from '../dto/login.dto';
 import { RedirectUriDto } from '../dto/redirect-uri.dto';
 import { RegisterDto } from '../dto/register.dto';
@@ -90,36 +90,6 @@ export class AuthController {
     const token = await this.tokenService.create(req.user);
     return plainToClass(AccountTokenDto, { user: req.user, token });
   }
-  /*
-    @HttpCode(HttpStatus.OK)
-    @ApiResponse({
-        status: HttpStatus.OK,
-        description: 'twitter/uri'
-    })
-    @Get('twitter/uri')
-    async requestTwitterRedirectUri(): Promise<any> {
-        return await this.authService.requestTwitterRedirectUri();
-    }
-    @HttpCode(HttpStatus.OK)
-    @ApiResponse({
-        status: HttpStatus.OK,
-        description: 'twitter/signin'
-    })
-    @Post('twitter/signin')
-    async twitterSignIn(@Body() twitterSignInDto: TwitterSignInDto): Promise<any> {
-        return await this.authService.twitterSignIn(twitterSignInDto.oauth_token, twitterSignInDto.oauth_verifier);
-    }
-    @HttpCode(HttpStatus.OK)
-    @ApiResponse({
-        status: HttpStatus.OK,
-        description: 'twitter/token'
-    })
-    @Post('twitter/token')
-    async requestJsonWebTokenAfterTwitterSignIn(@Req() req): Promise<TokenDto> {
-        const token = await this.tokenService.create(req.user);
-        return plainToClass(AccountTokenDto, { user: req.user, token });
-    }
-    */
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
@@ -136,7 +106,7 @@ export class AuthController {
   })
   @Post('google/signin')
   async googleSignIn(
-    @Body() googleSignInDto: GoogleApiSignInDto
+    @Body() googleSignInDto: GooglePlusSignInDto
   ): Promise<any> {
     return this.authService.googleSignIn(googleSignInDto.code);
   }
