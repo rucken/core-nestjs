@@ -2,8 +2,8 @@
   "name": "rucken-core-nestjs",
   "version": "0.6.0",
   "engines": {
-    "node": "8.11.x",
-    "npm": "5.8.x"
+    "node": "8",
+    "npm": ">=6.1.0"
   },
   "license": "MIT",
   "author": {
@@ -21,7 +21,8 @@
   },
   "keywords": [
     "jwt",
-    "passwordhash",
+    "oauth",
+    "passport",
     "user",
     "group",
     "permission",
