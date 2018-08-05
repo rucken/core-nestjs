@@ -7,7 +7,10 @@ import {
   FACEBOOK_CONFIG_TOKEN,
   IFacebookConfig,
   IJwtConfig,
-  JWT_CONFIG_TOKEN
+  JWT_CONFIG_TOKEN,
+  IGooglePlusConfig,
+  defaultGooglePlusConfig,
+  GOOGLE_CONFIG_TOKEN
 } from '@rucken/auth-nestjs';
 import {
   appFilters,
@@ -22,6 +25,7 @@ import { accessSync } from 'fs';
 import * as path from 'path';
 
 declare const module: any;
+
 async function bootstrap() {
   const packageBody = require('../package.json');
   const WWW_ROOT = path.resolve(__dirname, '..', 'www');
@@ -60,12 +64,19 @@ async function bootstrap() {
     client_secret: process.env.FACEBOOK_CLIENT_SECRET,
     oauth_redirect_uri: process.env.FACEBOOK_OAUTH_REDIRECT_URI
   };
+  const googlePlusConfig: IGooglePlusConfig = {
+    ...defaultGooglePlusConfig,
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    client_secret: process.env.GOOGLE_CLIENT_SECRET,
+    oauth_redirect_uri: process.env.GOOGLE_OAUTH_REDIRECT_URI
+  };
   const app = await NestFactory.create(
     AppModule.forRoot({
       providers: [
         { provide: CORE_CONFIG_TOKEN, useValue: coreConfig },
         { provide: JWT_CONFIG_TOKEN, useValue: jwtConfig },
         { provide: FACEBOOK_CONFIG_TOKEN, useValue: facebookConfig },
+        { provide: GOOGLE_CONFIG_TOKEN, useValue: googlePlusConfig },
         ...appFilters,
         ...appPipes
       ]
