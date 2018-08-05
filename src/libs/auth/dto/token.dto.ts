@@ -1,9 +1,8 @@
 import { IsNotEmpty } from 'class-validator';
 import { ApiModelProperty } from '@nestjs/swagger';
 
-export class InTokenDto {
-
-    @ApiModelProperty()
-    @IsNotEmpty()
-    token: string;
+export class TokenDto {
+  @ApiModelProperty()
+  @IsNotEmpty()
+  token: string;
 }

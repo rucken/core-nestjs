@@ -1,4 +1,22 @@
 {
   "language": "ts",
-  "collection": "@nestjs/schematics"
+  "collection": "@nestjs/schematics",
+  "projects": {
+    "demo": {
+      "root": "src/apps/demo/",
+      "sourceRoot": "src/apps/demo",
+      "projectType": "application"
+    },
+    "@rucken/core-nestjs": {
+      "root": "src/libs/core/",
+      "sourceRoot": "src/libs/core",
+      "projectType": "library"
+    },
+    "@rucken/auth-nestjs": {
+      "root": "src/libs/auth/",
+      "sourceRoot": "src/libs/auth",
+      "projectType": "library"
+    }
+  },
+  "defaultProject": "demo"
 }

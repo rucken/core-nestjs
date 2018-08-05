@@ -1,3 +1,19 @@
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/rucken/core-nestjs/compare/0.5.0...0.6.0) (2018-08-05)
+
+
+### Bug Fixes
+
+* **auth:** Add catch facebookSignIn errors ([e5fde9b](https://github.com/rucken/core-nestjs/commit/e5fde9b))
+
+
+### Features
+
+* **auth:** Add auth module and add local, jwt, facebook authorization with passport ([ff66ae3](https://github.com/rucken/core-nestjs/commit/ff66ae3))
+* **auth:** Add google auth controller action and reformat all source files ([387e22e](https://github.com/rucken/core-nestjs/commit/387e22e))
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/rucken/core-nestjs/compare/0.4.1...0.5.0) (2018-07-30)
 

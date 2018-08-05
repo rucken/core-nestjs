@@ -1,30 +1,87 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { config } from 'dotenv';
-import * as express from 'express';
-import * as path from 'path';
+import {
+  defaultFacebookConfig,
+  defaultJwtConfig,
+  FACEBOOK_CONFIG_TOKEN,
+  IFacebookConfig,
+  IJwtConfig,
+  JWT_CONFIG_TOKEN,
+  IGooglePlusConfig,
+  defaultGooglePlusConfig,
+  GOOGLE_CONFIG_TOKEN
+} from '@rucken/auth-nestjs';
+import {
+  appFilters,
+  appPipes,
+  CORE_CONFIG_TOKEN,
+  defaultCoreConfig,
+  ICoreConfig
+} from '@rucken/core-nestjs';
 import { AppModule } from './apps/demo/app.module';
-import { CustomExceptionFilter } from './libs/core/exceptions/custom-exception.filter';
-import { ValidationPipe } from './libs/core/pipes/validation.pipe';
+import { config } from 'dotenv';
+import { accessSync } from 'fs';
+import * as path from 'path';
 
 async function bootstrap() {
-  config();
   const packageBody = require('../package.json');
-
   const WWW_ROOT = path.resolve(__dirname, '..', 'www');
-  const app = await NestFactory.create(AppModule);
-  app.use(express.static(WWW_ROOT));
-  app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    next();
-  });
-
-  app.useGlobalFilters(new CustomExceptionFilter(
-    path.join(WWW_ROOT, 'index.html')
-  ));
-  app.useGlobalPipes(new ValidationPipe());
+  const nodeEnv = process.env.NODE_ENV;
+  try {
+    accessSync(`${nodeEnv}.env`);
+    config({ path: `${nodeEnv}.env` });
+    Logger.log(`env file: ${nodeEnv}.env`, 'Main');
+  } catch (error) {
+    try {
+      accessSync(`.env`);
+      config();
+      Logger.log(`env file: .env`, 'Main');
+    } catch (error) {}
+  }
+  const coreConfig: ICoreConfig = {
+    ...defaultCoreConfig,
+    debug: process.env.DEBUG === 'true',
+    demo: process.env.DEMO === 'true',
+    port: process.env.PORT ? +process.env.PORT : undefined,
+    protocol: process.env.PROTOCOL === 'https' ? 'https' : 'http',
+    externalPort: process.env.EXTERNAL_PORT
+      ? +process.env.EXTERNAL_PORT
+      : undefined,
+    domain: process.env.DOMAIN
+  };
+  const jwtConfig: IJwtConfig = {
+    ...defaultJwtConfig,
+    authHeaderPrefix: process.env.JWT_AUTH_HEADER_PREFIX,
+    expirationDelta: process.env.JWT_EXPIRATION_DELTA,
+    secretKey: process.env.JWT_SECRET_KEY
+  };
+  const facebookConfig: IFacebookConfig = {
+    ...defaultFacebookConfig,
+    client_id: process.env.FACEBOOK_CLIENT_ID,
+    client_secret: process.env.FACEBOOK_CLIENT_SECRET,
+    oauth_redirect_uri: process.env.FACEBOOK_OAUTH_REDIRECT_URI
+  };
+  const googlePlusConfig: IGooglePlusConfig = {
+    ...defaultGooglePlusConfig,
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    client_secret: process.env.GOOGLE_CLIENT_SECRET,
+    oauth_redirect_uri: process.env.GOOGLE_OAUTH_REDIRECT_URI
+  };
+  const app = await NestFactory.create(
+    AppModule.forRoot({
+      providers: [
+        { provide: CORE_CONFIG_TOKEN, useValue: coreConfig },
+        { provide: JWT_CONFIG_TOKEN, useValue: jwtConfig },
+        { provide: FACEBOOK_CONFIG_TOKEN, useValue: facebookConfig },
+        { provide: GOOGLE_CONFIG_TOKEN, useValue: googlePlusConfig },
+        ...appFilters,
+        ...appPipes
+      ]
+    }),
+    { cors: true }
+  );
+  app.useStaticAssets(WWW_ROOT);
 
   let documentBuilder = new DocumentBuilder()
     .setTitle(packageBody.name)
@@ -35,12 +92,10 @@ async function bootstrap() {
     .setVersion(packageBody.version)
     .addBearerAuth('Authorization', 'header');
 
-  if (process.env.DEBUG === 'true') {
-    documentBuilder = documentBuilder
-      .setSchemes('http');
+  if (coreConfig.protocol === 'https') {
+    documentBuilder = documentBuilder.setSchemes('https', 'http');
   } else {
-    documentBuilder = documentBuilder
-      .setSchemes('https', 'http');
+    documentBuilder = documentBuilder.setSchemes('http', 'https');
   }
   const options = documentBuilder.build();
 
@@ -48,6 +103,6 @@ async function bootstrap() {
 
   SwaggerModule.setup('/swagger', app, document);
 
-  await app.listen(process.env.PORT && !isNaN(+process.env.PORT) ? +process.env.PORT : 5000);
+  await app.listen(coreConfig.port);
 }
 bootstrap();
