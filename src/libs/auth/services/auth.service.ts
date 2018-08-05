@@ -1,15 +1,17 @@
-import { BadRequestException, ConflictException, HttpService, Inject, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, ConflictException, HttpService, Inject, Injectable, Logger, HttpException } from '@nestjs/common';
 import { LoginDto } from '@rucken/auth-nestjs/dto/login.dto';
 import { RegisterDto } from '@rucken/auth-nestjs/dto/register.dto';
 import { CORE_CONFIG_TOKEN, CustomError, GroupsService, ICoreConfig, User, UsersService } from '@rucken/core-nestjs';
 import { plainToClass } from 'class-transformer';
+import { stringify } from 'querystring';
+import { map, catchError } from 'rxjs/operators';
 import { FACEBOOK_CONFIG_TOKEN } from '../configs/facebook.config';
 import { GOOGLE_CONFIG_TOKEN } from '../configs/google.config';
 import { TWITTER_CONFIG_TOKEN } from '../configs/twitter.config';
 import { IFacebookConfig } from '../interfaces/facebook-config.interface';
 import { IGoogleConfig } from '../interfaces/google-config.interface';
 import { ITwitterConfig } from '../interfaces/twitter-config.interface';
-
+import { from } from '../../../../node_modules/rxjs';
 @Injectable()
 export class AuthService {
   private url: string;
@@ -94,34 +96,31 @@ export class AuthService {
       `code=${code}`
     ];
     const uri: string = `${this.fbConfig.access_token_uri}?${queryParams.join('&')}`;
-    Logger.log(uri, AuthService.name + ':facebookSignIn#97');
     try {
-      const accessTokenRequest = await this.httpService.get(uri).toPromise();
-      if (accessTokenRequest.data.error) {
-        throw new CustomError(accessTokenRequest.data.error);
-      }
-      const access_token = accessTokenRequest.data.access_token;
-      const uriToken = `${this.url}/api/auth/facebook/token`;
-      Logger.log(uriToken, AuthService.name + ':facebookSignIn#114');
-      Logger.log(access_token, AuthService.name + ':facebookSignIn#115');
-
-      const profileRequest = await this.httpService.post(
-        uri,
-        {
-          access_token
-        },
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
-        }
+      const response = await this.httpService.get(uri).pipe(
+        map((res) => res.data)
       ).toPromise();
-      if (profileRequest.data.error) {
-        throw new CustomError(profileRequest.data.error);
+      if (response.error) {
+        Logger.error(JSON.stringify(response), AuthService.name);
+        throw new BadRequestException(response.error.message);
       }
-      return profileRequest.data;
+      const access_token = response.access_token;
+      const uriToken = `${this.url}/api/auth/facebook/token`;
+      const profileResponse = await this.httpService.post(
+        uriToken,
+        stringify({ access_token }),
+        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+      ).pipe(
+        map((res) => res.data)
+      ).toPromise();
+      if (profileResponse.error) {
+        Logger.error(JSON.stringify(profileResponse), AuthService.name);
+        throw new BadRequestException(profileResponse.error.message);
+      }
+      return profileResponse;
     } catch (error) {
-      throw error;
+      Logger.error(JSON.stringify(error.response.data), AuthService.name);
+      throw new BadRequestException(error.response.data.error.message);
     }
   }
   /*
