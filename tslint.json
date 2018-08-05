@@ -1,12 +1,15 @@
 {
   "defaultSeverity": "error",
   "extends": [
-    "tslint:recommended"
+    "tslint:recommended",
+    "tslint:latest",
+    "tslint-config-prettier"
   ],
   "jsRules": {
     "no-unused-expression": true
   },
   "rules": {
+    "prefer-conditional-expression": false,
     "trailing-comma": [
       true,
       {
@@ -15,8 +18,7 @@
           "arrays": "never",
           "functions": "never",
           "typeLiterals": "ignore"
-        },
-        "esSpecCompliant": true
+        }
       }
     ],
     "eofline": false,
@@ -51,7 +53,8 @@
     "object-literal-sort-keys": false,
     "no-unused-expression": false,
     "max-classes-per-file": [
-      false
+      true,
+      1
     ],
     "variable-name": [
       false

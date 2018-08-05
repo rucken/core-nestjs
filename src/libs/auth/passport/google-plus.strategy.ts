@@ -1,18 +1,19 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { OauthTokensAccesstoken } from '../entities/oauth-tokens-accesstoken.entity';
 import { plainToClass } from 'class-transformer';
 import { use } from 'passport';
-import * as FacebookTokenStrategy from 'passport-facebook-token';
-import { FACEBOOK_CONFIG_TOKEN } from '../configs/facebook.config';
+import * as GoogleTokenStrategy from 'passport-google-plus-token';
+import { GOOGLE_CONFIG_TOKEN } from '../configs/google-plus.config';
 import { RegisterDto } from '../dto/register.dto';
-import { IFacebookConfig } from '../interfaces/facebook-config.interface';
+import { OauthTokensAccesstoken } from '../entities/oauth-tokens-accesstoken.entity';
+import { IGooglePlusConfig } from '../interfaces/google-plus-config.interface';
 import { AuthService } from '../services/auth.service';
 import { OauthTokensAccesstokensService } from '../services/oauth-tokens-accesstokens.service';
 
 @Injectable()
-export class FacebookStrategy {
+export class GooglePlusStrategy {
   constructor(
-    @Inject(FACEBOOK_CONFIG_TOKEN) private readonly fbConfig: IFacebookConfig,
+    @Inject(GOOGLE_CONFIG_TOKEN)
+    private readonly googlePlusConfig: IGooglePlusConfig,
     private readonly oauthTokensAccesstokensService: OauthTokensAccesstokensService,
     private readonly authService: AuthService
   ) {
@@ -21,11 +22,11 @@ export class FacebookStrategy {
 
   private init(): void {
     use(
-      'facebook',
-      new FacebookTokenStrategy(
+      'google',
+      new GoogleTokenStrategy(
         {
-          clientID: this.fbConfig.client_id,
-          clientSecret: this.fbConfig.client_secret
+          clientID: this.googlePlusConfig.client_id,
+          clientSecret: this.googlePlusConfig.client_secret
         },
         async (
           accessToken: string,
@@ -33,7 +34,7 @@ export class FacebookStrategy {
           profile: any,
           done
         ) => {
-          Logger.log(JSON.stringify(profile), FacebookStrategy.name);
+          Logger.log(JSON.stringify(profile), GooglePlusStrategy.name);
           if (!profile.id) {
             done(null, null);
           }
@@ -51,11 +52,11 @@ export class FacebookStrategy {
             } catch (err) {
               const email = profile.emails && profile.emails.length
                 ? profile.emails[0].value
-                : `${profile.id}@facebook.com`;
-              const username = `facebook_${profile.id}`;
-              const firstName = profile.name.givenName;
-              const lastName = profile.name.familyName;
-              const password = `facebook_${profile.id}`;
+                : `${profile.id}@google.com`;
+              const username = `google_${profile.id}`;
+              const firstName = profile.displayName;
+              const lastName = '';
+              const password = `google_${profile.id}`;
               const { user } = await this.authService.register(
                 plainToClass(RegisterDto, {
                   email,

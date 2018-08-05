@@ -1,10 +1,3 @@
-import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsOptional, MaxLength } from 'class-validator';
+import { UserDto } from '../dto/user.dto';
 
-import { GroupDto } from './group.dto';
-import { UserDto } from './user.dto';
-
-export class InUserDto extends UserDto {
-
-}
+export class InUserDto extends UserDto {}

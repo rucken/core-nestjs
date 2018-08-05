@@ -1,9 +1,25 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { defaultFacebookConfig, defaultJwtConfig, FACEBOOK_CONFIG_TOKEN, IFacebookConfig, IJwtConfig, JWT_CONFIG_TOKEN } from '@rucken/auth-nestjs';
-import { appFilters, appPipes, CORE_CONFIG_TOKEN, defaultCoreConfig, ICoreConfig } from '@rucken/core-nestjs';
-import { AppModule } from 'apps/demo/app.module';
+import {
+  defaultFacebookConfig,
+  defaultJwtConfig,
+  FACEBOOK_CONFIG_TOKEN,
+  IFacebookConfig,
+  IJwtConfig,
+  JWT_CONFIG_TOKEN,
+  IGooglePlusConfig,
+  defaultGooglePlusConfig,
+  GOOGLE_CONFIG_TOKEN
+} from '@rucken/auth-nestjs';
+import {
+  appFilters,
+  appPipes,
+  CORE_CONFIG_TOKEN,
+  defaultCoreConfig,
+  ICoreConfig
+} from '@rucken/core-nestjs';
+import { AppModule } from './apps/demo/app.module';
 import { config } from 'dotenv';
 import { accessSync } from 'fs';
 import * as path from 'path';
@@ -21,8 +37,7 @@ async function bootstrap() {
       accessSync(`.env`);
       config();
       Logger.log(`env file: .env`, 'Main');
-    } catch (error) {
-    }
+    } catch (error) { }
   }
   const coreConfig: ICoreConfig = {
     ...defaultCoreConfig,
@@ -30,7 +45,9 @@ async function bootstrap() {
     demo: process.env.DEMO === 'true',
     port: process.env.PORT ? +process.env.PORT : undefined,
     protocol: process.env.PROTOCOL === 'https' ? 'https' : 'http',
-    externalPort: process.env.EXTERNAL_PORT ? +process.env.EXTERNAL_PORT : undefined,
+    externalPort: process.env.EXTERNAL_PORT
+      ? +process.env.EXTERNAL_PORT
+      : undefined,
     domain: process.env.DOMAIN
   };
   const jwtConfig: IJwtConfig = {
@@ -45,15 +62,25 @@ async function bootstrap() {
     client_secret: process.env.FACEBOOK_CLIENT_SECRET,
     oauth_redirect_uri: process.env.FACEBOOK_OAUTH_REDIRECT_URI
   };
-  const app = await NestFactory.create(AppModule.forRoot({
-    providers: [
-      { provide: CORE_CONFIG_TOKEN, useValue: coreConfig },
-      { provide: JWT_CONFIG_TOKEN, useValue: jwtConfig },
-      { provide: FACEBOOK_CONFIG_TOKEN, useValue: facebookConfig },
-      ...appFilters,
-      ...appPipes
-    ]
-  }), { cors: true });
+  const googlePlusConfig: IGooglePlusConfig = {
+    ...defaultGooglePlusConfig,
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    client_secret: process.env.GOOGLE_CLIENT_SECRET,
+    oauth_redirect_uri: process.env.GOOGLE_OAUTH_REDIRECT_URI
+  };
+  const app = await NestFactory.create(
+    AppModule.forRoot({
+      providers: [
+        { provide: CORE_CONFIG_TOKEN, useValue: coreConfig },
+        { provide: JWT_CONFIG_TOKEN, useValue: jwtConfig },
+        { provide: FACEBOOK_CONFIG_TOKEN, useValue: facebookConfig },
+        { provide: GOOGLE_CONFIG_TOKEN, useValue: googlePlusConfig },
+        ...appFilters,
+        ...appPipes
+      ]
+    }),
+    { cors: true }
+  );
   app.useStaticAssets(WWW_ROOT);
 
   let documentBuilder = new DocumentBuilder()
@@ -66,11 +93,9 @@ async function bootstrap() {
     .addBearerAuth('Authorization', 'header');
 
   if (coreConfig.protocol === 'https') {
-    documentBuilder = documentBuilder
-      .setSchemes('https', 'http');
+    documentBuilder = documentBuilder.setSchemes('https', 'http');
   } else {
-    documentBuilder = documentBuilder
-      .setSchemes('http', 'https');
+    documentBuilder = documentBuilder.setSchemes('http', 'https');
   }
   const options = documentBuilder.build();
 

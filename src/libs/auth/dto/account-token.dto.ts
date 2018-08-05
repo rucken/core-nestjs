@@ -3,11 +3,10 @@ import { Type } from 'class-transformer';
 import { AccountDto } from '@rucken/core-nestjs';
 
 export class AccountTokenDto {
+  @ApiModelProperty()
+  token: string;
 
-    @ApiModelProperty()
-    token: string;
-
-    @Type(() => AccountDto)
-    @ApiModelProperty({ type: AccountDto })
-    user: AccountDto;
+  @Type(() => AccountDto)
+  @ApiModelProperty({ type: AccountDto })
+  user: AccountDto;
 }

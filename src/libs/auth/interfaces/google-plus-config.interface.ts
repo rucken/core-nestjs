@@ -1,4 +1,4 @@
-export interface IGoogleConfig {
+export interface IGooglePlusConfig {
   readonly login_dialog_uri: string;
   readonly client_id: string;
   readonly client_secret: string;

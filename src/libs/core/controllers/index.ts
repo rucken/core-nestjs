@@ -1,13 +1,13 @@
-import { AccountController } from './account.controller';
-import { ContentTypesController } from './content-types.controller';
-import { GroupsController } from './groups.controller';
-import { PermissionsController } from './permissions.controller';
-import { UsersController } from './users.controller';
+import { AccountController } from '../controllers/account.controller';
+import { ContentTypesController } from '../controllers/content-types.controller';
+import { GroupsController } from '../controllers/groups.controller';
+import { PermissionsController } from '../controllers/permissions.controller';
+import { UsersController } from '../controllers/users.controller';
 
 export const controllers = [
-    AccountController,
-    ContentTypesController,
-    PermissionsController,
-    UsersController,
-    GroupsController
+  AccountController,
+  ContentTypesController,
+  PermissionsController,
+  UsersController,
+  GroupsController
 ];

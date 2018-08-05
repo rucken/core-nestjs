@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  UnauthorizedException
+} from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { GroupsService, User } from '@rucken/core-nestjs';
 import { plainToClass } from 'class-transformer';
@@ -12,24 +17,19 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly tokenService: TokenService,
     private readonly groupsService: GroupsService
   ) {
-    super(
-      {
-        passReqToCallback: true,
-        jwtFromRequest: (req) => {
-          const token = this.tokenService.extractTokenFromRequest(req);
-          return token;
-        },
-        secretOrKeyProvider: (req, token, done) => {
-          const secretKey = this.tokenService.createSecretKey(
-            plainToClass(
-              User,
-              this.tokenService.decode(token)
-            )
-          );
-          done(null, secretKey);
-        }
+    super({
+      passReqToCallback: true,
+      jwtFromRequest: req => {
+        const token = this.tokenService.extractTokenFromRequest(req);
+        return token;
+      },
+      secretOrKeyProvider: (req, token, done) => {
+        const secretKey = this.tokenService.createSecretKey(
+          plainToClass(User, this.tokenService.decode(token))
+        );
+        done(null, secretKey);
       }
-    );
+    });
   }
   public async validate(req, payload: IJwtPayload, done) {
     Logger.log(JSON.stringify(payload), JwtStrategy.name);

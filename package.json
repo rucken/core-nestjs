@@ -39,7 +39,7 @@
   ],
   "scripts": {
     "clean": "./node_modules/.bin/del-cli dist www/docs database/sqlitedb.db",
-    "format": "prettier --write \"**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\"",
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nodemon",
     "prestart:prod": "./node_modules/.bin/del-cli dist && tsc",
@@ -55,11 +55,11 @@
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out www/docs src",
     "md-to-html": "showdown makehtml -i README.md -o www/index.html",
     "frontend": "run-s md-to-html",
-    "build": "run-s clean docs migrate prestart:prod frontend",
+    "build": "run-s clean lint docs migrate prestart:prod frontend",
     "heroku-postbuild": "npm run build",
     "prepare:core": "rucken make-ts-list ./src/libs/core",
     "prepare:auth": "rucken make-ts-list ./src/libs/auth",
-    "prepare:all": "run-s prepare:core prepare:auth"
+    "prepare:all": "run-s prepare:core prepare:auth lint"
   },
   "dependencies": {
     "@nestjs/common": "^5.1.0",
@@ -79,6 +79,7 @@
     "node-django-hashers": "^1.1.1",
     "passport": "^0.4.0",
     "passport-facebook-token": "^3.3.0",
+    "passport-google-plus-token": "^2.1.0",
     "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
@@ -114,7 +115,8 @@
     "ts-loader": "^4.4.2",
     "ts-node": "^7.0.0",
     "tsconfig-paths": "^3.5.0",
-    "tslint": "5.11.0",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.14.0",
     "webpack": "^4.16.3",
     "webpack-cli": "^3.1.0",
     "webpack-node-externals": "^1.7.2"

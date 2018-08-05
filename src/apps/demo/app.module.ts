@@ -4,11 +4,7 @@ import { CoreModule } from '@rucken/core-nestjs';
 import { AuthModule } from '@rucken/auth-nestjs';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(),
-    CoreModule,
-    AuthModule
-  ]
+  imports: [TypeOrmModule.forRoot(), CoreModule, AuthModule]
 })
 export class AppModule {
   static forRoot(options: { providers: Provider[] }): DynamicModule {

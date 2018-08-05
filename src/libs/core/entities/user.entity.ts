@@ -1,115 +1,136 @@
-import { IsEmail, IsNotEmpty, IsOptional, MaxLength, validateSync } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  MaxLength,
+  validateSync
+} from 'class-validator';
 import * as hashers from 'node-django-hashers';
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
+import { Group } from '../entities/group.entity';
 import { CustomValidationError } from '../exceptions/custom-validation.error';
-import { Group } from './group.entity';
 
 @Entity()
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number = undefined;
+  @PrimaryGeneratedColumn()
+  id: number = undefined;
 
-    @Column({ length: 128 })
-    @MaxLength(128)
-    @IsOptional()
-    password: string = undefined;
+  @Column({ length: 128 })
+  @MaxLength(128)
+  @IsOptional()
+  password: string = undefined;
 
-    @UpdateDateColumn({ name: 'last_login', nullable: true })
-    lastLogin: Date = undefined;
+  @UpdateDateColumn({ name: 'last_login', nullable: true })
+  lastLogin: Date = undefined;
 
-    @Column({ name: 'is_superuser', default: false })
-    isSuperuser: boolean = undefined;
+  @Column({ name: 'is_superuser', default: false })
+  isSuperuser: boolean = undefined;
 
-    @Column({ length: 150, unique: true })
-    @MaxLength(150)
-    @IsOptional()
-    username: string = undefined;
+  @Column({ length: 150, unique: true })
+  @MaxLength(150)
+  @IsOptional()
+  username: string = undefined;
 
-    @Column({ name: 'first_name', length: 30 })
-    @MaxLength(30)
-    @IsOptional()
-    firstName: string = undefined;
+  @Column({ name: 'first_name', length: 30 })
+  @MaxLength(30)
+  @IsOptional()
+  firstName: string = undefined;
 
-    @Column({ name: 'last_name', length: 30 })
-    @MaxLength(30)
-    @IsOptional()
-    lastName: string = undefined;
+  @Column({ name: 'last_name', length: 30 })
+  @MaxLength(30)
+  @IsOptional()
+  lastName: string = undefined;
 
-    @Column({ length: 254, unique: true })
-    @IsNotEmpty()
-    @IsEmail()
-    @MaxLength(254)
-    email: string = undefined;
+  @Column({ length: 254, unique: true })
+  @IsNotEmpty()
+  @IsEmail()
+  @MaxLength(254)
+  email: string = undefined;
 
-    @Column({ name: 'is_staff', default: false })
-    isStaff: boolean = undefined;
+  @Column({ name: 'is_staff', default: false })
+  isStaff: boolean = undefined;
 
-    @Column({ name: 'is_active', default: false })
-    isActive: boolean = undefined;
+  @Column({ name: 'is_active', default: false })
+  isActive: boolean = undefined;
 
-    @CreateDateColumn({ name: 'date_joined' })
-    dateJoined: Date = undefined;
+  @CreateDateColumn({ name: 'date_joined' })
+  dateJoined: Date = undefined;
 
-    @Column({ type: Date, name: 'date_of_birth', nullable: true })
-    dateOfBirth: Date = undefined;
+  @Column({ type: Date, name: 'date_of_birth', nullable: true })
+  dateOfBirth: Date = undefined;
 
-    @ManyToMany(type => Group, {
-        cascade: ['remove']
-    })
-    @JoinTable({
-        // not work on run cli migration:
-        name: 'user_groups',
-        joinColumn: {
-            name: 'user_id',
-            referencedColumnName: 'id'
-        },
-        inverseJoinColumn: {
-            name: 'group_id',
-            referencedColumnName: 'id'
-        }
-    })
-    groups: Group[];
-
-    @BeforeInsert()
-    doBeforeInsertion() {
-        const errors = validateSync(this, { validationError: { target: false } });
-        if (errors.length > 0) {
-            throw new CustomValidationError(errors);
-        }
+  @ManyToMany(type => Group, {
+    cascade: ['remove']
+  })
+  @JoinTable({
+    // not work on run cli migration:
+    name: 'user_groups',
+    joinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'group_id',
+      referencedColumnName: 'id'
     }
+  })
+  groups: Group[];
 
-    @BeforeUpdate()
-    doBeforeUpdate() {
-        const errors = validateSync(this, { validationError: { target: false } });
-        if (errors.length > 0) {
-            throw new CustomValidationError(errors);
-        }
+  @BeforeInsert()
+  doBeforeInsertion() {
+    const errors = validateSync(this, { validationError: { target: false } });
+    if (errors.length > 0) {
+      throw new CustomValidationError(errors);
     }
+  }
 
-    async createPassword(password: string) {
-        const h = new hashers.PBKDF2PasswordHasher();
-        const hash = await h.encode(password, h.salt());
-        return hash;
+  @BeforeUpdate()
+  doBeforeUpdate() {
+    const errors = validateSync(this, { validationError: { target: false } });
+    if (errors.length > 0) {
+      throw new CustomValidationError(errors);
     }
+  }
 
-    async validatePassword(password: string) {
-        const h = new hashers.PBKDF2PasswordHasher();
-        return await h.verify(password, this.password);
-    }
+  async createPassword(password: string) {
+    const h = new hashers.PBKDF2PasswordHasher();
+    const hash = await h.encode(password, h.salt());
+    return hash;
+  }
 
-    async setPassword(password: string) {
-        if (password) {
-            this.password = await this.createPassword(password);
-        }
-        return this;
-    }
+  async validatePassword(password: string) {
+    const h = new hashers.PBKDF2PasswordHasher();
+    return await h.verify(password, this.password);
+  }
 
-    checkPermissions(permissions: string[]) {
-        permissions = permissions.map(permission => permission.toLowerCase());
-        return this.groups.filter(group =>
-            group && group.permissions.filter(permission =>
-                permissions.indexOf(permission.name.toLowerCase()) !== -1
-            ).length > 0
-        ).length > 0;
+  async setPassword(password: string) {
+    if (password) {
+      this.password = await this.createPassword(password);
     }
+    return this;
+  }
+
+  checkPermissions(permissions: string[]) {
+    permissions = permissions.map(permission => permission.toLowerCase());
+    return (
+      this.groups.filter(
+        group =>
+          group &&
+          group.permissions.filter(
+            permission =>
+              permissions.indexOf(permission.name.toLowerCase()) !== -1
+          ).length > 0
+      ).length > 0
+    );
+  }
 }
