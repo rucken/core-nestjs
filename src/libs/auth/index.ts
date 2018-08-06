@@ -5,7 +5,7 @@ export * from './configs/index';
 export * from './configs/jwt.config';
 export * from './controllers/auth.controller';
 export * from './controllers/index';
-export * from './dto/account-token.dto';
+export * from './dto/user-token.dto';
 export * from './dto/facebook-signIn.dto';
 export * from './dto/facebook-token.dto';
 export * from './dto/google-plus-signIn.dto';

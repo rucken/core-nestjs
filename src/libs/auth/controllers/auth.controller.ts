@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
-import { AccountTokenDto } from '../dto/account-token.dto';
+import { UserTokenDto } from '../dto/user-token.dto';
 import { FacebookSignInDto } from '../dto/facebook-signIn.dto';
 import { FacebookTokenDto } from '../dto/facebook-token.dto';
 import { GooglePlusSignInDto } from '../dto/google-plus-signIn.dto';
@@ -31,31 +31,31 @@ export class AuthController {
   @Post('login')
   @ApiResponse({
     status: HttpStatus.OK,
-    type: AccountTokenDto,
+    type: UserTokenDto,
     description:
       'API View that checks the veracity of a token, returning the token if it is valid.'
   })
   async requestJsonWebTokenAfterLocalSignIn(
     @Req() req,
     @Body() loginDto: LoginDto
-  ): Promise<AccountTokenDto> {
+  ): Promise<UserTokenDto> {
     const token = await this.tokenService.create(req.user);
-    return plainToClass(AccountTokenDto, { user: req.user, token });
+    return plainToClass(UserTokenDto, { user: req.user, token });
   }
   @HttpCode(HttpStatus.CREATED)
   @Post('register')
   @ApiResponse({
     status: HttpStatus.OK,
-    type: AccountTokenDto,
+    type: UserTokenDto,
     description: `API View that receives a POST with a user's username and password.
         Returns a JSON Web Token that can be used for authenticated requests.`
   })
   async requestJsonWebTokenAfterLocalSignUp(
     @Req() req,
     @Body() registerDto: RegisterDto
-  ): Promise<AccountTokenDto> {
+  ): Promise<UserTokenDto> {
     const token = await this.tokenService.create(req.user);
-    return plainToClass(AccountTokenDto, { user: req.user, token });
+    return plainToClass(UserTokenDto, { user: req.user, token });
   }
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
@@ -88,7 +88,7 @@ export class AuthController {
     @Body() facebookTokenDto: FacebookTokenDto
   ): Promise<TokenDto> {
     const token = await this.tokenService.create(req.user);
-    return plainToClass(AccountTokenDto, { user: req.user, token });
+    return plainToClass(UserTokenDto, { user: req.user, token });
   }
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
@@ -118,6 +118,6 @@ export class AuthController {
   @Post('google/token')
   async requestJsonWebTokenAfterGoogleSignIn(@Req() req): Promise<TokenDto> {
     const token = await this.tokenService.create(req.user);
-    return plainToClass(AccountTokenDto, { user: req.user, token });
+    return plainToClass(UserTokenDto, { user: req.user, token });
   }
 }
