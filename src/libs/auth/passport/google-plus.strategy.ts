@@ -2,7 +2,7 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { use } from 'passport';
 import * as GoogleTokenStrategy from 'passport-google-plus-token';
-import { GOOGLE_CONFIG_TOKEN } from '../configs/google-plus.config';
+import { GOOGLE_PLUS_CONFIG_TOKEN } from '../configs/google-plus.config';
 import { RegisterDto } from '../dto/register.dto';
 import { OauthTokensAccesstoken } from '../entities/oauth-tokens-accesstoken.entity';
 import { IGooglePlusConfig } from '../interfaces/google-plus-config.interface';
@@ -12,7 +12,7 @@ import { OauthTokensAccesstokensService } from '../services/oauth-tokens-accesst
 @Injectable()
 export class GooglePlusStrategy {
   constructor(
-    @Inject(GOOGLE_CONFIG_TOKEN)
+    @Inject(GOOGLE_PLUS_CONFIG_TOKEN)
     private readonly googlePlusConfig: IGooglePlusConfig,
     private readonly oauthTokensAccesstokensService: OauthTokensAccesstokensService,
     private readonly authService: AuthService

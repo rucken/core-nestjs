@@ -10,7 +10,7 @@ import {
   JWT_CONFIG_TOKEN,
   IGooglePlusConfig,
   defaultGooglePlusConfig,
-  GOOGLE_CONFIG_TOKEN
+  GOOGLE_PLUS_CONFIG_TOKEN
 } from '@rucken/auth-nestjs';
 import {
   appFilters,
@@ -39,7 +39,7 @@ async function bootstrap() {
       accessSync(`.env`);
       config();
       Logger.log(`env file: .env`, 'Main');
-    } catch (error) {}
+    } catch (error) { }
   }
   const coreConfig: ICoreConfig = {
     ...defaultCoreConfig,
@@ -76,7 +76,7 @@ async function bootstrap() {
         { provide: CORE_CONFIG_TOKEN, useValue: coreConfig },
         { provide: JWT_CONFIG_TOKEN, useValue: jwtConfig },
         { provide: FACEBOOK_CONFIG_TOKEN, useValue: facebookConfig },
-        { provide: GOOGLE_CONFIG_TOKEN, useValue: googlePlusConfig },
+        { provide: GOOGLE_PLUS_CONFIG_TOKEN, useValue: googlePlusConfig },
         ...appFilters,
         ...appPipes
       ]

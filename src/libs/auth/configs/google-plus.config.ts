@@ -13,4 +13,4 @@ export const defaultGooglePlusConfig: IGooglePlusConfig = {
   ],
   grant_type: 'authorization_code'
 };
-export const GOOGLE_CONFIG_TOKEN: string = 'GooglePlusConfig';
+export const GOOGLE_PLUS_CONFIG_TOKEN: string = 'GooglePlusConfig';
