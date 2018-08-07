@@ -19,6 +19,9 @@ import { RegisterDto } from '../dto/register.dto';
 import { TokenDto } from '../dto/token.dto';
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
+import { IJwtPayload } from '../interfaces/jwt-payload.interface';
+import { OutAccountDto, OutUserDto } from '@rucken/core-nestjs';
+import { JsonWebTokenError } from 'jsonwebtoken';
 
 @ApiUseTags('auth')
 @Controller('/api/auth')
@@ -26,7 +29,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly tokenService: TokenService
-  ) {}
+  ) { }
   @HttpCode(HttpStatus.OK)
   @Post('login')
   @ApiResponse({
@@ -35,7 +38,7 @@ export class AuthController {
     description:
       'API View that checks the veracity of a token, returning the token if it is valid.'
   })
-  async requestJsonWebTokenAfterLocalSignIn(
+  async requestJsonWebTokenAfterLogin(
     @Req() req,
     @Body() loginDto: LoginDto
   ): Promise<UserTokenDto> {
@@ -50,12 +53,37 @@ export class AuthController {
     description: `API View that receives a POST with a user's username and password.
         Returns a JSON Web Token that can be used for authenticated requests.`
   })
-  async requestJsonWebTokenAfterLocalSignUp(
+  async requestJsonWebTokenAfterRegister(
     @Req() req,
     @Body() registerDto: RegisterDto
   ): Promise<UserTokenDto> {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });
+  }
+  @HttpCode(HttpStatus.OK)
+  @Post('info')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: UserTokenDto,
+    description:
+      'API View that checks the veracity of a token, returning the token if it is valid.'
+  })
+  async requestJsonWebTokenAfterInfo(
+    @Req() req,
+    @Body() tokenDto: TokenDto
+  ): Promise<OutAccountDto> {
+    try {
+      const validateTokenResult = await this.tokenService.validate(tokenDto.token);
+      if (validateTokenResult) {
+        const jwtPayload: IJwtPayload = await this.tokenService.decode(tokenDto.token);
+        const { user } = await this.authService.info({ id: jwtPayload.id });
+        return plainToClass(OutAccountDto, { user });
+      } else {
+        throw new JsonWebTokenError('invalid token');
+      }
+    } catch (error) {
+      throw error;
+    }
   }
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
@@ -74,7 +102,7 @@ export class AuthController {
   @Post('facebook/signin')
   async facebookSignIn(
     @Body() facebookSignInDto: FacebookSignInDto
-  ): Promise<TokenDto> {
+  ): Promise<UserTokenDto> {
     return this.authService.facebookSignIn(facebookSignInDto.code);
   }
   @HttpCode(HttpStatus.OK)
@@ -86,7 +114,7 @@ export class AuthController {
   async requestJsonWebTokenAfterFacebookSignIn(
     @Req() req,
     @Body() facebookTokenDto: FacebookTokenDto
-  ): Promise<TokenDto> {
+  ): Promise<UserTokenDto> {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });
   }
@@ -116,7 +144,7 @@ export class AuthController {
     description: 'google/token'
   })
   @Post('google/token')
-  async requestJsonWebTokenAfterGoogleSignIn(@Req() req): Promise<TokenDto> {
+  async requestJsonWebTokenAfterGoogleSignIn(@Req() req): Promise<UserTokenDto> {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });
   }

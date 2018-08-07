@@ -2,6 +2,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import {
+  appFilters as authAppFilters,
   defaultFacebookConfig,
   defaultJwtConfig,
   FACEBOOK_CONFIG_TOKEN,
@@ -37,7 +38,7 @@ async function bootstrap() {
       accessSync(`.env`);
       config();
       Logger.log(`env file: .env`, 'Main');
-    } catch (error) {}
+    } catch (error) { }
   }
   const coreConfig: ICoreConfig = {
     ...defaultCoreConfig,
@@ -76,6 +77,7 @@ async function bootstrap() {
         { provide: FACEBOOK_CONFIG_TOKEN, useValue: facebookConfig },
         { provide: GOOGLE_PLUS_CONFIG_TOKEN, useValue: googlePlusConfig },
         ...appFilters,
+        ...authAppFilters,
         ...appPipes
       ]
     }),

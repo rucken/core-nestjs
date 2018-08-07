@@ -69,9 +69,7 @@ export class User {
   @Column({ type: Date, name: 'date_of_birth', nullable: true })
   dateOfBirth: Date = undefined;
 
-  @ManyToMany(type => Group, {
-    cascade: ['remove']
-  })
+  @ManyToMany(type => Group)
   @JoinTable({
     // not work on run cli migration:
     name: 'user_groups',
@@ -110,7 +108,7 @@ export class User {
 
   async validatePassword(password: string) {
     const h = new hashers.PBKDF2PasswordHasher();
-    return await h.verify(password, this.password);
+    return h.verify(password, this.password);
   }
 
   async setPassword(password: string) {
