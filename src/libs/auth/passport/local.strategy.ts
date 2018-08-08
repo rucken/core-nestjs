@@ -10,7 +10,7 @@ export class LocalStrategy {
   }
   private init(): void {
     use(
-      'login',
+      'signin',
       new Strategy(
         {
           usernameField: 'email',
@@ -19,7 +19,7 @@ export class LocalStrategy {
         },
         async (req, email: string, password: string, done) => {
           try {
-            const { user } = await this.authService.login({ email, password });
+            const { user } = await this.authService.signIn({ email, password });
             done(null, user);
           } catch (error) {
             done(error, false);
@@ -28,7 +28,7 @@ export class LocalStrategy {
       )
     );
     use(
-      'register',
+      'signup',
       new Strategy(
         {
           usernameField: 'email',
@@ -37,7 +37,7 @@ export class LocalStrategy {
         },
         async (req, email: string, password: string, done) => {
           try {
-            const { user } = await this.authService.register({
+            const { user } = await this.authService.signUp({
               email,
               password,
               username: req.body.username

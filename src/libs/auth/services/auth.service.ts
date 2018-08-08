@@ -19,9 +19,9 @@ import { stringify } from 'querystring';
 import { map } from 'rxjs/operators';
 import { FACEBOOK_CONFIG_TOKEN } from '../configs/facebook.config';
 import { GOOGLE_PLUS_CONFIG_TOKEN } from '../configs/google-plus.config';
-import { LoginDto } from '../dto/login.dto';
+import { SignInDto } from '../dto/sign-in.dto';
 import { RedirectUriDto } from '../dto/redirect-uri.dto';
-import { RegisterDto } from '../dto/register.dto';
+import { SignUpDto } from '../dto/sign-up.dto';
 import { IFacebookConfig } from '../interfaces/facebook-config.interface';
 import { IGooglePlusConfig } from '../interfaces/google-plus-config.interface';
 @Injectable()
@@ -40,7 +40,7 @@ export class AuthService {
     if (this.coreConfig.externalPort) {
       this.url = `${this.coreConfig.protocol}://${this.coreConfig.domain}:${
         this.coreConfig.externalPort
-      }`;
+        }`;
     } else {
       this.url = `${this.coreConfig.protocol}://${this.coreConfig.domain}`;
     }
@@ -52,7 +52,7 @@ export class AuthService {
       throw error;
     }
   }
-  async login(options: LoginDto) {
+  async signIn(options: SignInDto) {
     try {
       const { user } = await this.usersService.findByEmail(options);
       if (!(await user.validatePassword(options.password))) {
@@ -63,7 +63,7 @@ export class AuthService {
       throw error;
     }
   }
-  async register(options: RegisterDto) {
+  async signUp(options: SignUpDto) {
     try {
       await this.groupsService.preloadAll();
     } catch (error) {
@@ -77,7 +77,7 @@ export class AuthService {
         throw new ConflictException(
           `User with email "${options.email}" is exists`
         );
-      } catch (error) {}
+      } catch (error) { }
     }
     if (options.username) {
       try {
@@ -87,7 +87,7 @@ export class AuthService {
         throw new ConflictException(
           `User with username "${options.username}" is exists`
         );
-      } catch (error) {}
+      } catch (error) { }
     }
     const group = this.groupsService.getGroupByName({ name: 'user' });
     const newUser = await plainToClass(User, options).setPassword(
@@ -104,7 +104,7 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.fbConfig.login_dialog_uri
-    }?${queryParams.join('&')}`;
+      }?${queryParams.join('&')}`;
     Logger.log(redirect_uri, AuthService.name + ':requestFacebookRedirectUri');
     return {
       redirect_uri
@@ -168,7 +168,7 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.googlePlusConfig.login_dialog_uri
-    }?${queryParams.join('&')}`;
+      }?${queryParams.join('&')}`;
     Logger.log(redirect_uri, AuthService.name + ':requestGoogleRedirectUri');
     return {
       redirect_uri

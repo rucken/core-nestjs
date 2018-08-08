@@ -13,9 +13,9 @@ import { UserTokenDto } from '../dto/user-token.dto';
 import { FacebookSignInDto } from '../dto/facebook-signIn.dto';
 import { FacebookTokenDto } from '../dto/facebook-token.dto';
 import { GooglePlusSignInDto } from '../dto/google-plus-signIn.dto';
-import { LoginDto } from '../dto/login.dto';
+import { SignInDto } from '../dto/sign-in.dto';
 import { RedirectUriDto } from '../dto/redirect-uri.dto';
-import { RegisterDto } from '../dto/register.dto';
+import { SignUpDto } from '../dto/sign-up.dto';
 import { TokenDto } from '../dto/token.dto';
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
@@ -31,31 +31,31 @@ export class AuthController {
     private readonly tokenService: TokenService
   ) { }
   @HttpCode(HttpStatus.OK)
-  @Post('login')
+  @Post('signin')
   @ApiResponse({
     status: HttpStatus.OK,
     type: UserTokenDto,
     description:
       'API View that checks the veracity of a token, returning the token if it is valid.'
   })
-  async requestJsonWebTokenAfterLogin(
+  async requestJsonWebTokenAfterSignIn(
     @Req() req,
-    @Body() loginDto: LoginDto
+    @Body() signInDto: SignInDto
   ): Promise<UserTokenDto> {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });
   }
   @HttpCode(HttpStatus.CREATED)
-  @Post('register')
+  @Post('signup')
   @ApiResponse({
     status: HttpStatus.OK,
     type: UserTokenDto,
     description: `API View that receives a POST with a user's username and password.
         Returns a JSON Web Token that can be used for authenticated requests.`
   })
-  async requestJsonWebTokenAfterRegister(
+  async requestJsonWebTokenAfterSignUp(
     @Req() req,
-    @Body() registerDto: RegisterDto
+    @Body() signUpDto: SignUpDto
   ): Promise<UserTokenDto> {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });

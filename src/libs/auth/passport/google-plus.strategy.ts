@@ -3,7 +3,7 @@ import { plainToClass } from 'class-transformer';
 import { use } from 'passport';
 import * as GoogleTokenStrategy from 'passport-google-plus-token';
 import { GOOGLE_PLUS_CONFIG_TOKEN } from '../configs/google-plus.config';
-import { RegisterDto } from '../dto/register.dto';
+import { SignUpDto } from '../dto/sign-up.dto';
 import { OauthTokensAccesstoken } from '../entities/oauth-tokens-accesstoken.entity';
 import { IGooglePlusConfig } from '../interfaces/google-plus-config.interface';
 import { AuthService } from '../services/auth.service';
@@ -58,8 +58,8 @@ export class GooglePlusStrategy {
               const firstName = profile.displayName;
               const lastName = '';
               const password = `google_${profile.id}`;
-              const { user } = await this.authService.register(
-                plainToClass(RegisterDto, {
+              const { user } = await this.authService.signUp(
+                plainToClass(SignUpDto, {
                   email,
                   username,
                   password,
