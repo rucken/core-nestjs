@@ -66,6 +66,6 @@ export class AuthModule implements NestModule {
       .forRoutes('api/auth/facebook/token');
     consumer
       .apply(authenticate('google', { session: false }))
-      .forRoutes('api/auth/google/token');
+      .forRoutes('api/auth/google-plus/token');
   }
 }

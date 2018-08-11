@@ -51,7 +51,7 @@ export class GooglePlusStrategy {
               done(null, user);
             } catch (err) {
               const email =
-                profile.emails && profile.emails.length
+                (profile.emails && profile.emails.length && profile.emails[0].value)
                   ? profile.emails[0].value
                   : `${profile.id}@google.com`;
               const username = `google_${profile.id}`;

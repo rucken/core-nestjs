@@ -50,7 +50,7 @@ export class FacebookStrategy {
               done(null, user);
             } catch (err) {
               const email =
-                profile.emails && profile.emails.length
+                (profile.emails && profile.emails.length && profile.emails[0].value)
                   ? profile.emails[0].value
                   : `${profile.id}@facebook.com`;
               const username = `facebook_${profile.id}`;

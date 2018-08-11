@@ -91,8 +91,12 @@ export class AuthController {
     description: 'facebook/uri'
   })
   @Get('facebook/uri')
-  async requestFacebookRedirectUrl(): Promise<RedirectUriDto> {
-    return this.authService.requestFacebookRedirectUri();
+  async requestFacebookRedirectUrl(
+    @Req() req
+  ): Promise<RedirectUriDto> {
+    return this.authService.requestFacebookRedirectUri(
+      req.get('origin') || req.get('host')
+    );
   }
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
@@ -101,9 +105,13 @@ export class AuthController {
   })
   @Post('facebook/signin')
   async facebookSignIn(
+    @Req() req,
     @Body() facebookSignInDto: FacebookSignInDto
   ): Promise<UserTokenDto> {
-    return this.authService.facebookSignIn(facebookSignInDto.code);
+    return this.authService.facebookSignIn(
+      facebookSignInDto.code,
+      req.get('origin') || req.get('host')
+    );
   }
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
@@ -121,29 +129,37 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'google/uri'
+    description: 'google-plus/uri'
   })
-  @Get('google/uri')
-  async requestGoogleRedirectUri(): Promise<RedirectUriDto> {
-    return this.authService.requestGoogleRedirectUri();
+  @Get('google-plus/uri')
+  async requestGoogleRedirectUri(
+    @Req() req
+  ): Promise<RedirectUriDto> {
+    return this.authService.requestGoogleRedirectUri(
+      req.get('origin') || req.get('host')
+    );
   }
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'google/signin'
+    description: 'google-plus/signin'
   })
-  @Post('google/signin')
+  @Post('google-plus/signin')
   async googleSignIn(
+    @Req() req,
     @Body() googleSignInDto: GooglePlusSignInDto
   ): Promise<any> {
-    return this.authService.googleSignIn(googleSignInDto.code);
+    return this.authService.googleSignIn(
+      googleSignInDto.code,
+      req.get('origin') || req.get('host')
+    );
   }
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'google/token'
+    description: 'google-plus/token'
   })
-  @Post('google/token')
+  @Post('google-plus/token')
   async requestJsonWebTokenAfterGoogleSignIn(@Req() req): Promise<UserTokenDto> {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });
