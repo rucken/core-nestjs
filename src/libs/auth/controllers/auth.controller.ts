@@ -29,7 +29,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly tokenService: TokenService
-  ) {}
+  ) { }
   @HttpCode(HttpStatus.OK)
   @Post('signin')
   @ApiResponse({
@@ -97,7 +97,7 @@ export class AuthController {
   @Get('facebook/uri')
   async requestFacebookRedirectUrl(@Req() req): Promise<RedirectUriDto> {
     return this.authService.requestFacebookRedirectUri(
-      req.get('origin') || req.get('host')
+      req.get('origin') || (req.protocol + '://' + req.get('host'))
     );
   }
   @HttpCode(HttpStatus.OK)
@@ -112,7 +112,7 @@ export class AuthController {
   ): Promise<UserTokenDto> {
     return this.authService.facebookSignIn(
       facebookSignInDto.code,
-      req.get('origin') || req.get('host')
+      req.get('origin') || (req.protocol + '://' + req.get('host'))
     );
   }
   @HttpCode(HttpStatus.OK)
@@ -136,7 +136,7 @@ export class AuthController {
   @Get('google-plus/uri')
   async requestGoogleRedirectUri(@Req() req): Promise<RedirectUriDto> {
     return this.authService.requestGoogleRedirectUri(
-      req.get('origin') || req.get('host')
+      req.get('origin') || (req.protocol + '://' + req.get('host'))
     );
   }
   @HttpCode(HttpStatus.OK)
@@ -151,7 +151,7 @@ export class AuthController {
   ): Promise<any> {
     return this.authService.googleSignIn(
       googleSignInDto.code,
-      req.get('origin') || req.get('host')
+      req.get('origin') || (req.protocol + '://' + req.get('host'))
     );
   }
   @HttpCode(HttpStatus.OK)
