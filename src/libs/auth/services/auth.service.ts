@@ -40,7 +40,7 @@ export class AuthService {
     if (this.coreConfig.externalPort) {
       this.url = `${this.coreConfig.protocol}://${this.coreConfig.domain}:${
         this.coreConfig.externalPort
-        }`;
+      }`;
     } else {
       this.url = `${this.coreConfig.protocol}://${this.coreConfig.domain}`;
     }
@@ -77,7 +77,7 @@ export class AuthService {
         throw new ConflictException(
           `User with email "${options.email}" is exists`
         );
-      } catch (error) { }
+      } catch (error) {}
     }
     if (options.username) {
       try {
@@ -87,7 +87,7 @@ export class AuthService {
         throw new ConflictException(
           `User with username "${options.username}" is exists`
         );
-      } catch (error) { }
+      } catch (error) {}
     }
     const group = this.groupsService.getGroupByName({ name: 'user' });
     const newUser = await plainToClass(User, options).setPassword(
@@ -104,7 +104,7 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.fbConfig.login_dialog_uri
-      }?${queryParams.join('&')}`.replace('{host}', host);
+    }?${queryParams.join('&')}`.replace('{host}', host);
     Logger.log(redirect_uri, AuthService.name + ':requestFacebookRedirectUri');
     return {
       redirect_uri
@@ -169,7 +169,7 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.googlePlusConfig.login_dialog_uri
-      }?${queryParams.join('&')}`.replace('{host}', host);
+    }?${queryParams.join('&')}`.replace('{host}', host);
     Logger.log(redirect_uri, AuthService.name + ':requestGoogleRedirectUri');
     return {
       redirect_uri
@@ -180,10 +180,16 @@ export class AuthService {
       code,
       client_id: this.googlePlusConfig.client_id,
       client_secret: this.googlePlusConfig.client_secret,
-      redirect_uri: this.googlePlusConfig.oauth_redirect_uri.replace('{host}', host),
+      redirect_uri: this.googlePlusConfig.oauth_redirect_uri.replace(
+        '{host}',
+        host
+      ),
       grant_type: this.googlePlusConfig.grant_type
     };
-    const uri: string = this.googlePlusConfig.access_token_uri.replace('{host}', host);
+    const uri: string = this.googlePlusConfig.access_token_uri.replace(
+      '{host}',
+      host
+    );
     Logger.log(uri, AuthService.name + ':googleSignIn');
     try {
       const response = await this.httpService

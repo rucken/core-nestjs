@@ -59,7 +59,9 @@ export class AuthModule implements NestModule {
       )
       .forRoutes('api/auth/signup');
     consumer
-      .apply(authenticate('signin', { session: false, passReqToCallback: true }))
+      .apply(
+        authenticate('signin', { session: false, passReqToCallback: true })
+      )
       .forRoutes('api/auth/signin');
     consumer
       .apply(authenticate('facebook', { session: false }))

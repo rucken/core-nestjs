@@ -9,7 +9,7 @@ import { IJwtPayload } from '../interfaces/jwt-payload.interface';
 export class TokenService {
   constructor(
     @Inject(JWT_CONFIG_TOKEN) private readonly jwtConfig: IJwtConfig
-  ) { }
+  ) {}
   create(user: User) {
     return sign(
       {
@@ -35,7 +35,9 @@ export class TokenService {
     return decode(this.removeHeaderPrefix(token)) as IJwtPayload;
   }
   removeHeaderPrefix(token: string) {
-    return this.jwtConfig.authHeaderPrefix && token && token.split(this.jwtConfig.authHeaderPrefix + ' ').length > 1
+    return this.jwtConfig.authHeaderPrefix &&
+      token &&
+      token.split(this.jwtConfig.authHeaderPrefix + ' ').length > 1
       ? token.split(this.jwtConfig.authHeaderPrefix + ' ')[1]
       : token;
   }
@@ -51,14 +53,14 @@ export class TokenService {
       this.jwtConfig.secretKey +
       (user
         ? '$' +
-        user.id +
-        '$' +
-        user.isStaff +
-        '$' +
-        user.isActive +
-        '$' +
-        user.isSuperuser +
-        (user.groups ? user.groups.map(group => '$' + group.name) : '')
+          user.id +
+          '$' +
+          user.isStaff +
+          '$' +
+          user.isActive +
+          '$' +
+          user.isSuperuser +
+          (user.groups ? user.groups.map(group => '$' + group.name) : '')
         : '')
     );
   }

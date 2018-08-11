@@ -28,10 +28,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
     );
     response.status(status ? status : HttpStatus.BAD_REQUEST).json(data);
   }
-  catch(
-    exception: JsonWebTokenError,
-    host: ArgumentsHost
-  ) {
+  catch(exception: JsonWebTokenError, host: ArgumentsHost) {
     if (exception instanceof JsonWebTokenError) {
       this.response(exception, host, {
         message: exception.message

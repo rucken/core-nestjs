@@ -29,7 +29,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly tokenService: TokenService
-  ) { }
+  ) {}
   @HttpCode(HttpStatus.OK)
   @Post('signin')
   @ApiResponse({
@@ -73,9 +73,13 @@ export class AuthController {
     @Body() tokenDto: TokenDto
   ): Promise<OutAccountDto> {
     try {
-      const validateTokenResult = await this.tokenService.validate(tokenDto.token);
+      const validateTokenResult = await this.tokenService.validate(
+        tokenDto.token
+      );
       if (validateTokenResult) {
-        const jwtPayload: IJwtPayload = await this.tokenService.decode(tokenDto.token);
+        const jwtPayload: IJwtPayload = await this.tokenService.decode(
+          tokenDto.token
+        );
         const { user } = await this.authService.info({ id: jwtPayload.id });
         return plainToClass(OutAccountDto, { user });
       } else {
@@ -91,9 +95,7 @@ export class AuthController {
     description: 'facebook/uri'
   })
   @Get('facebook/uri')
-  async requestFacebookRedirectUrl(
-    @Req() req
-  ): Promise<RedirectUriDto> {
+  async requestFacebookRedirectUrl(@Req() req): Promise<RedirectUriDto> {
     return this.authService.requestFacebookRedirectUri(
       req.get('origin') || req.get('host')
     );
@@ -132,9 +134,7 @@ export class AuthController {
     description: 'google-plus/uri'
   })
   @Get('google-plus/uri')
-  async requestGoogleRedirectUri(
-    @Req() req
-  ): Promise<RedirectUriDto> {
+  async requestGoogleRedirectUri(@Req() req): Promise<RedirectUriDto> {
     return this.authService.requestGoogleRedirectUri(
       req.get('origin') || req.get('host')
     );
@@ -160,7 +160,9 @@ export class AuthController {
     description: 'google-plus/token'
   })
   @Post('google-plus/token')
-  async requestJsonWebTokenAfterGoogleSignIn(@Req() req): Promise<UserTokenDto> {
+  async requestJsonWebTokenAfterGoogleSignIn(
+    @Req() req
+  ): Promise<UserTokenDto> {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });
   }
