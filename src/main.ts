@@ -40,21 +40,17 @@ async function bootstrap() {
       accessSync(`.env`);
       config();
       Logger.log(`env file: .env`, 'Main');
-    } catch (error) { }
+    } catch (error) {}
   }
   const connectionString = new ConnectionString(process.env.DATABASE_URL);
   if (connectionString.protocol === 'sqlite') {
-    const dbFile = './' +
+    const dbFile =
+      './' +
       connectionString.hosts[0].name +
       (connectionString.path.length ? '/' + connectionString.path[0] : '');
     try {
-      chmod(
-        dbFile,
-        777
-      );
-    } catch (error) {
-
-    }
+      chmod(dbFile, 777);
+    } catch (error) {}
   }
   const coreConfig: ICoreConfig = {
     ...defaultCoreConfig,
