@@ -1,3 +1,20 @@
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/rucken/core-nestjs/compare/0.6.0...0.7.0) (2018-08-12)
+
+
+### Bug Fixes
+
+* Change token name GOOGLE_CONFIG_TOKEN => GOOGLE_PLUS_CONFIG_TOKEN ([1f3e7de](https://github.com/rucken/core-nestjs/commit/1f3e7de))
+* **auth:** Add correct host name for generate redirect_uri ([7302066](https://github.com/rucken/core-nestjs/commit/7302066))
+* **auth:** Add protocol for detect host if origin is not set ([4e40ce8](https://github.com/rucken/core-nestjs/commit/4e40ce8))
+
+
+### Features
+
+* **auth:** Add info action and remove bad migrations ([e60b8e9](https://github.com/rucken/core-nestjs/commit/e60b8e9))
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/rucken/core-nestjs/compare/0.5.0...0.6.0) (2018-08-05)
 
