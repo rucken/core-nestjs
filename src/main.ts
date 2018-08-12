@@ -26,6 +26,8 @@ import { accessSync } from 'fs';
 import * as path from 'path';
 
 async function bootstrap() {
+  const ConnectionString = require('connection-string').ConnectionString;
+  const chmod = require('chmod');
   const packageBody = require('../package.json');
   const WWW_ROOT = path.resolve(__dirname, '..', 'www');
   const nodeEnv = process.env.NODE_ENV;
@@ -38,13 +40,20 @@ async function bootstrap() {
       accessSync(`.env`);
       config();
       Logger.log(`env file: .env`, 'Main');
-    } catch (error) {}
+    } catch (error) { }
+  }
+  const connectionString = new ConnectionString(process.env.DATABASE_URL);
+  if (connectionString.protocol === 'sqlite') {
+    chmod(
+      './' + connectionString.hosts[0].name + (connectionString.path.length ? '/' + connectionString.path[0] : '')
+      , 777
+    );
   }
   const coreConfig: ICoreConfig = {
     ...defaultCoreConfig,
     debug: process.env.DEBUG === 'true',
     demo: process.env.DEMO === 'true',
-    port: process.env.PORT ? +process.env.PORT : undefined,
+    port: process.env.PORT ? +process.env.PORT : 3000,
     protocol: process.env.PROTOCOL === 'https' ? 'https' : 'http',
     externalPort: process.env.EXTERNAL_PORT
       ? +process.env.EXTERNAL_PORT

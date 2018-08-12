@@ -26,7 +26,7 @@ import { IFacebookConfig } from '../interfaces/facebook-config.interface';
 import { IGooglePlusConfig } from '../interfaces/google-plus-config.interface';
 @Injectable()
 export class AuthService {
-  private url: string;
+  private localUri: string;
 
   constructor(
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
@@ -37,12 +37,12 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly groupsService: GroupsService
   ) {
-    if (this.coreConfig.externalPort) {
-      this.url = `${this.coreConfig.protocol}://${this.coreConfig.domain}:${
-        this.coreConfig.externalPort
-      }`;
+    if (this.coreConfig.port) {
+      this.localUri = `http://${this.coreConfig.domain}:${
+        this.coreConfig.port
+        }`;
     } else {
-      this.url = `${this.coreConfig.protocol}://${this.coreConfig.domain}`;
+      this.localUri = `http://${this.coreConfig.domain}`;
     }
   }
   async info(options: { id: number }) {
@@ -77,7 +77,7 @@ export class AuthService {
         throw new ConflictException(
           `User with email "${options.email}" is exists`
         );
-      } catch (error) {}
+      } catch (error) { }
     }
     if (options.username) {
       try {
@@ -87,7 +87,7 @@ export class AuthService {
         throw new ConflictException(
           `User with username "${options.username}" is exists`
         );
-      } catch (error) {}
+      } catch (error) { }
     }
     const group = this.groupsService.getGroupByName({ name: 'user' });
     const newUser = await plainToClass(User, options).setPassword(
@@ -104,7 +104,7 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.fbConfig.login_dialog_uri
-    }?${queryParams.join('&')}`.replace('{host}', host);
+      }?${queryParams.join('&')}`.replace('{host}', host);
     Logger.log(redirect_uri, AuthService.name + ':requestFacebookRedirectUri');
     return {
       redirect_uri
@@ -131,7 +131,7 @@ export class AuthService {
         throw new BadRequestException(response.error.message);
       }
       const access_token = response.access_token;
-      const uriToken = `${this.url}/api/auth/facebook/token`;
+      const uriToken = `${this.localUri}/api/auth/facebook/token`;
       const profileResponse = await this.httpService
         .post(uriToken, stringify({ access_token }), {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
@@ -153,11 +153,21 @@ export class AuthService {
       return profileResponse;
     } catch (error) {
       Logger.error(
-        JSON.stringify(error.response.data),
+        JSON.stringify(
+          (error &&
+            error.response) ?
+            error.response.data : error.message
+        ),
         undefined,
         AuthService.name
       );
-      throw new BadRequestException(error.response.data.error.message);
+      throw new BadRequestException(
+        (error &&
+          error.response &&
+          error.response.data &&
+          error.response.data.error) ?
+          error.response.data.error.message : error.message
+      );
     }
   }
   async requestGoogleRedirectUri(host?: string): Promise<RedirectUriDto | any> {
@@ -169,7 +179,7 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.googlePlusConfig.login_dialog_uri
-    }?${queryParams.join('&')}`.replace('{host}', host);
+      }?${queryParams.join('&')}`.replace('{host}', host);
     Logger.log(redirect_uri, AuthService.name + ':requestGoogleRedirectUri');
     return {
       redirect_uri
@@ -203,7 +213,7 @@ export class AuthService {
         throw new BadRequestException(response.error_description);
       }
       const access_token = response.access_token;
-      const uriToken = `${this.url}/api/auth/google-plus/token`;
+      const uriToken = `${this.localUri}/api/auth/google-plus/token`;
       const profileResponse = await this.httpService
         .post(uriToken, stringify({ access_token }), {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
@@ -225,11 +235,20 @@ export class AuthService {
       return profileResponse;
     } catch (error) {
       Logger.error(
-        JSON.stringify(error.response.data),
+        JSON.stringify(
+          (error &&
+            error.response) ?
+            error.response.data : error.message
+        ),
         undefined,
         AuthService.name
       );
-      throw new BadRequestException(error.response.data.error_description);
+      throw new BadRequestException(
+        (error &&
+          error.response &&
+          error.response.data) ?
+          error.response.data.error_description : error.message
+      );
     }
   }
 }

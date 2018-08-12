@@ -6,8 +6,16 @@
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/rucken/core-nestjs)
 
-A simple application demonstrating the basic usage of permissions with NestJS (JWT, PasswordHash, User, Group, Permission, ContentType)
+A simple application demonstrating the basic usage of permissions with NestJS (JWT, Passport, Facebook, Google+, User, Group, Permission)
 
+
+## Features
+
+* [NestJS](https://github.com/nestjs/nest) - a JS backend framework providing architecture out of the box with a syntax similar to Angular
+* [TypeORM](https://github.com/mongodb/mongo) - ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases.
+* [TypeScript](https://github.com/Microsoft/TypeScript) - superset of JS which compiles to JS, providing compile-time type checking
+* [Passport](https://github.com/jaredhanson/passport) - a popular library used to implement JavaScript authentication (Facebook, Google+)
+* [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) - a JavaScript json web tokens implementation by auth0
 
 ## Usage
 - clone or fork [repository](https://github.com/rucken/core-nestjs.git) `git clone --recursive https://github.com/rucken/core-nestjs.git`
@@ -34,6 +42,11 @@ A simple application demonstrating the basic usage of permissions with NestJS (J
 - local: [`http://localhost:5000/docs`](http://localhost:5000/docs)
 - online on heroku: [`https://rucken-core-nestjs.herokuapp.com/docs`](https://rucken-core-nestjs.herokuapp.com/docs)
 - online on now: [`https://rucken-core-nestjs.now.sh/docs`](https://rucken-core-nestjs.now.sh/docs)
+
+### With UI on Angular 6+
+- online on now with gh-pages: [`https://rucken.github.io/core`](https://rucken.github.io/core)
+- online on now with ssr: [`https://rucken.now.sh`](https://rucken.now.sh)
+- online on heroku with ssr: [`https://rucken.herokuapp.com`](https://rucken.herokuapp.com)
 
 ## License
 

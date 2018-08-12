@@ -5,7 +5,9 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Req
+  Req,
+  Inject,
+  Logger
 } from '@nestjs/common';
 import { ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
@@ -20,13 +22,14 @@ import { TokenDto } from '../dto/token.dto';
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
 import { IJwtPayload } from '../interfaces/jwt-payload.interface';
-import { OutAccountDto, OutUserDto } from '@rucken/core-nestjs';
+import { OutAccountDto, OutUserDto, CORE_CONFIG_TOKEN, ICoreConfig } from '@rucken/core-nestjs';
 import { JsonWebTokenError } from 'jsonwebtoken';
 
 @ApiUseTags('auth')
 @Controller('/api/auth')
 export class AuthController {
   constructor(
+    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     private readonly authService: AuthService,
     private readonly tokenService: TokenService
   ) { }
@@ -96,8 +99,9 @@ export class AuthController {
   })
   @Get('facebook/uri')
   async requestFacebookRedirectUrl(@Req() req): Promise<RedirectUriDto> {
+    Logger.log(req.get('origin'), AuthController.name + ':requestFacebookRedirectUrl#origin');
     return this.authService.requestFacebookRedirectUri(
-      req.get('origin') || (req.protocol + '://' + req.get('host'))
+      req.get('origin') || (this.coreConfig.protocol + '://' + req.get('host'))
     );
   }
   @HttpCode(HttpStatus.OK)
@@ -110,9 +114,10 @@ export class AuthController {
     @Req() req,
     @Body() facebookSignInDto: FacebookSignInDto
   ): Promise<UserTokenDto> {
+    Logger.log(req.get('origin'), AuthController.name + ':facebookSignIn#origin');
     return this.authService.facebookSignIn(
       facebookSignInDto.code,
-      req.get('origin') || (req.protocol + '://' + req.get('host'))
+      req.get('origin') || (this.coreConfig.protocol + '://' + req.get('host'))
     );
   }
   @HttpCode(HttpStatus.OK)
@@ -135,8 +140,9 @@ export class AuthController {
   })
   @Get('google-plus/uri')
   async requestGoogleRedirectUri(@Req() req): Promise<RedirectUriDto> {
+    Logger.log(req.get('origin'), AuthController.name + ':requestGoogleRedirectUri#origin');
     return this.authService.requestGoogleRedirectUri(
-      req.get('origin') || (req.protocol + '://' + req.get('host'))
+      req.get('origin') || (this.coreConfig.protocol + '://' + req.get('host'))
     );
   }
   @HttpCode(HttpStatus.OK)
@@ -149,9 +155,10 @@ export class AuthController {
     @Req() req,
     @Body() googleSignInDto: GooglePlusSignInDto
   ): Promise<any> {
+    Logger.log(req.get('origin'), AuthController.name + ':googleSignIn#origin');
     return this.authService.googleSignIn(
       googleSignInDto.code,
-      req.get('origin') || (req.protocol + '://' + req.get('host'))
+      req.get('origin') || (this.coreConfig.protocol + '://' + req.get('host'))
     );
   }
   @HttpCode(HttpStatus.OK)
