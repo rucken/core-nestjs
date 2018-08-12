@@ -4,4 +4,6 @@ cache:
     - node_modules
     - frontend/node_modules
 node_js:
-  - '7'
+  - "8"
+before_install:
+  - npm install -g npm@6.1.0

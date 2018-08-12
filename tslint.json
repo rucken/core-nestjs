@@ -9,10 +9,6 @@
     "no-unused-expression": true
   },
   "rules": {
-    "no-implicit-dependencies": [
-      true,
-      "optional"
-    ],
     "prefer-conditional-expression": false,
     "trailing-comma": [
       true,

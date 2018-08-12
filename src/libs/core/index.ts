@@ -45,7 +45,6 @@ export * from './interfaces/core-config.interface';
 export * from './migrations/1524197725191-Init';
 export * from './migrations/1524199022084-FillData';
 export * from './migrations/1524199144534-FillFrontendData';
-export * from './migrations/1524322965692-DefaultValueForBooleanFields';
 export * from './pipes/index';
 export * from './pipes/parse-int-with-default.pipe';
 export * from './pipes/validation.pipe';

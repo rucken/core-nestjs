@@ -18,31 +18,31 @@ import { plainToClass } from 'class-transformer';
 import { stringify } from 'querystring';
 import { map } from 'rxjs/operators';
 import { FACEBOOK_CONFIG_TOKEN } from '../configs/facebook.config';
-import { GOOGLE_CONFIG_TOKEN } from '../configs/google-plus.config';
-import { LoginDto } from '../dto/login.dto';
+import { GOOGLE_PLUS_CONFIG_TOKEN } from '../configs/google-plus.config';
+import { SignInDto } from '../dto/sign-in.dto';
 import { RedirectUriDto } from '../dto/redirect-uri.dto';
-import { RegisterDto } from '../dto/register.dto';
+import { SignUpDto } from '../dto/sign-up.dto';
 import { IFacebookConfig } from '../interfaces/facebook-config.interface';
 import { IGooglePlusConfig } from '../interfaces/google-plus-config.interface';
 @Injectable()
 export class AuthService {
-  private url: string;
+  private localUri: string;
 
   constructor(
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @Inject(FACEBOOK_CONFIG_TOKEN) private readonly fbConfig: IFacebookConfig,
-    @Inject(GOOGLE_CONFIG_TOKEN)
+    @Inject(GOOGLE_PLUS_CONFIG_TOKEN)
     private readonly googlePlusConfig: IGooglePlusConfig,
     private readonly httpService: HttpService,
     private readonly usersService: UsersService,
     private readonly groupsService: GroupsService
   ) {
-    if (this.coreConfig.externalPort) {
-      this.url = `${this.coreConfig.protocol}://${this.coreConfig.domain}:${
-        this.coreConfig.externalPort
+    if (this.coreConfig.port) {
+      this.localUri = `http://${this.coreConfig.domain}:${
+        this.coreConfig.port
       }`;
     } else {
-      this.url = `${this.coreConfig.protocol}://${this.coreConfig.domain}`;
+      this.localUri = `http://${this.coreConfig.domain}`;
     }
   }
   async info(options: { id: number }) {
@@ -52,7 +52,7 @@ export class AuthService {
       throw error;
     }
   }
-  async login(options: LoginDto) {
+  async signIn(options: SignInDto) {
     try {
       const { user } = await this.usersService.findByEmail(options);
       if (!(await user.validatePassword(options.password))) {
@@ -63,7 +63,7 @@ export class AuthService {
       throw error;
     }
   }
-  async register(options: RegisterDto) {
+  async signUp(options: SignUpDto) {
     try {
       await this.groupsService.preloadAll();
     } catch (error) {
@@ -96,7 +96,7 @@ export class AuthService {
     newUser.groups = [group];
     return this.usersService.create({ item: newUser });
   }
-  async requestFacebookRedirectUri(): Promise<RedirectUriDto> {
+  async requestFacebookRedirectUri(host?: string): Promise<RedirectUriDto> {
     const queryParams: string[] = [
       `client_id=${this.fbConfig.client_id}`,
       `redirect_uri=${this.fbConfig.oauth_redirect_uri}`,
@@ -104,13 +104,13 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.fbConfig.login_dialog_uri
-    }?${queryParams.join('&')}`;
+    }?${queryParams.join('&')}`.replace('{host}', host);
     Logger.log(redirect_uri, AuthService.name + ':requestFacebookRedirectUri');
     return {
       redirect_uri
     };
   }
-  async facebookSignIn(code: string): Promise<any> {
+  async facebookSignIn(code: string, host?: string): Promise<any> {
     const queryParams: string[] = [
       `client_id=${this.fbConfig.client_id}`,
       `redirect_uri=${this.fbConfig.oauth_redirect_uri}`,
@@ -119,7 +119,8 @@ export class AuthService {
     ];
     const uri: string = `${this.fbConfig.access_token_uri}?${queryParams.join(
       '&'
-    )}`;
+    )}`.replace('{host}', host);
+    Logger.log(uri, AuthService.name + ':facebookSignIn');
     try {
       const response = await this.httpService
         .get(uri)
@@ -130,7 +131,7 @@ export class AuthService {
         throw new BadRequestException(response.error.message);
       }
       const access_token = response.access_token;
-      const uriToken = `${this.url}/api/auth/facebook/token`;
+      const uriToken = `${this.localUri}/api/auth/facebook/token`;
       const profileResponse = await this.httpService
         .post(uriToken, stringify({ access_token }), {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
@@ -152,14 +153,23 @@ export class AuthService {
       return profileResponse;
     } catch (error) {
       Logger.error(
-        JSON.stringify(error.response.data),
+        JSON.stringify(
+          error && error.response ? error.response.data : error.message
+        ),
         undefined,
         AuthService.name
       );
-      throw new BadRequestException(error.response.data.error.message);
+      throw new BadRequestException(
+        error &&
+        error.response &&
+        error.response.data &&
+        error.response.data.error
+          ? error.response.data.error.message
+          : error.message
+      );
     }
   }
-  async requestGoogleRedirectUri(): Promise<RedirectUriDto | any> {
+  async requestGoogleRedirectUri(host?: string): Promise<RedirectUriDto | any> {
     const queryParams: string[] = [
       `client_id=${this.googlePlusConfig.client_id}`,
       `redirect_uri=${this.googlePlusConfig.oauth_redirect_uri}`,
@@ -168,21 +178,28 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.googlePlusConfig.login_dialog_uri
-    }?${queryParams.join('&')}`;
+    }?${queryParams.join('&')}`.replace('{host}', host);
     Logger.log(redirect_uri, AuthService.name + ':requestGoogleRedirectUri');
     return {
       redirect_uri
     };
   }
-  async googleSignIn(code: string): Promise<any> {
+  async googleSignIn(code: string, host?: string): Promise<any> {
     const formData: any = {
       code,
       client_id: this.googlePlusConfig.client_id,
       client_secret: this.googlePlusConfig.client_secret,
-      redirect_uri: this.googlePlusConfig.oauth_redirect_uri,
+      redirect_uri: this.googlePlusConfig.oauth_redirect_uri.replace(
+        '{host}',
+        host
+      ),
       grant_type: this.googlePlusConfig.grant_type
     };
-    const uri: string = this.googlePlusConfig.access_token_uri;
+    const uri: string = this.googlePlusConfig.access_token_uri.replace(
+      '{host}',
+      host
+    );
+    Logger.log(uri, AuthService.name + ':googleSignIn');
     try {
       const response = await this.httpService
         .post(uri, stringify(formData), {
@@ -195,7 +212,7 @@ export class AuthService {
         throw new BadRequestException(response.error_description);
       }
       const access_token = response.access_token;
-      const uriToken = `${this.url}/api/auth/google/token`;
+      const uriToken = `${this.localUri}/api/auth/google-plus/token`;
       const profileResponse = await this.httpService
         .post(uriToken, stringify({ access_token }), {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
@@ -217,11 +234,17 @@ export class AuthService {
       return profileResponse;
     } catch (error) {
       Logger.error(
-        JSON.stringify(error.response.data),
+        JSON.stringify(
+          error && error.response ? error.response.data : error.message
+        ),
         undefined,
         AuthService.name
       );
-      throw new BadRequestException(error.response.data.error_description);
+      throw new BadRequestException(
+        error && error.response && error.response.data
+          ? error.response.data.error_description
+          : error.message
+      );
     }
   }
 }

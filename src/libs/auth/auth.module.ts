@@ -55,17 +55,23 @@ export class AuthModule implements NestModule {
   public configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(
-        authenticate('register', { session: false, passReqToCallback: true })
+        authenticate('signup', { session: false, passReqToCallback: true })
       )
-      .forRoutes('api/auth/register');
+      .forRoutes('api/auth/signup');
     consumer
-      .apply(authenticate('login', { session: false, passReqToCallback: true }))
-      .forRoutes('api/auth/login');
+      .apply(
+        authenticate('signin', { session: false, passReqToCallback: true })
+      )
+      .forRoutes('api/auth/signin');
     consumer
-      .apply(authenticate('facebook', { session: false }))
+      .apply(
+        authenticate('facebook', { session: false, passReqToCallback: true })
+      )
       .forRoutes('api/auth/facebook/token');
     consumer
-      .apply(authenticate('google', { session: false }))
-      .forRoutes('api/auth/google/token');
+      .apply(
+        authenticate('google', { session: false, passReqToCallback: true })
+      )
+      .forRoutes('api/auth/google-plus/token');
   }
 }

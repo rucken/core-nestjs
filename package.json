@@ -1,16 +1,16 @@
 {
   "name": "rucken-core-nestjs",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "engines": {
-    "node": "8.11.x",
-    "npm": "5.8.x"
+    "node": "8",
+    "npm": ">=6.1.0"
   },
   "license": "MIT",
   "author": {
     "name": "EndyKaufman",
     "email": "admin@site15.ru"
   },
-  "description": "A simple application demonstrating the basic usage of permissions with NestJS (JWT, PasswordHash, User, Group, Permission, ContentType)",
+  "description": "A simple application demonstrating the basic usage of permissions with NestJS (JWT, Passport, Facebook, Google+, User, Group, Permission)",
   "bugs": {
     "url": "https://github.com/rucken/core-nestjs/issues"
   },
@@ -21,7 +21,10 @@
   },
   "keywords": [
     "jwt",
-    "passwordhash",
+    "oauth",
+    "passport",
+    "facebook",
+    "google+",
     "user",
     "group",
     "permission",
@@ -69,6 +72,7 @@
     "@nestjs/typeorm": "^5.1.0",
     "@types/passport-facebook-token": "^0.4.33",
     "@types/passport-local": "^1.0.33",
+    "chmod": "^0.2.1",
     "class-transformer": "^0.1.9",
     "class-validator": "^0.9.1",
     "connection-string": "^1.0.1",
@@ -88,7 +92,7 @@
     "sqlite3": "^4.0.2",
     "typedoc": "^0.11.1",
     "typeorm": "^0.2.7",
-    "typescript": "^2.9.2"
+    "typescript": "^2.7.2"
   },
   "cacheDirectories": [
     "node_modules"

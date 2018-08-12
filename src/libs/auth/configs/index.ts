@@ -4,7 +4,7 @@ import {
 } from '../configs/facebook.config';
 import {
   defaultGooglePlusConfig,
-  GOOGLE_CONFIG_TOKEN
+  GOOGLE_PLUS_CONFIG_TOKEN
 } from '../configs/google-plus.config';
 import { defaultJwtConfig, JWT_CONFIG_TOKEN } from '../configs/jwt.config';
 
@@ -18,7 +18,7 @@ export const configs = [
     useValue: defaultFacebookConfig
   },
   {
-    provide: GOOGLE_CONFIG_TOKEN,
+    provide: GOOGLE_PLUS_CONFIG_TOKEN,
     useValue: defaultGooglePlusConfig
   }
 ];

@@ -1,0 +1,21 @@
+{
+    "alias": [
+        "rucken-core-nestjs.now.sh"
+    ],
+    "env": {
+        "DEBUG": "@debug",
+        "DEMO": "true",
+        "DOMAIN": "@domain",
+        "PROTOCOL": "https",
+        "JWT_SECRET_KEY": "@jwt_secret_key",
+        "JWT_EXPIRATION_DELTA": "7 days",
+        "JWT_AUTH_HEADER_PREFIX": "JWT",
+        "FACEBOOK_CLIENT_ID": "@facebook_client_id",
+        "FACEBOOK_CLIENT_SECRET": "@facebook_client_secret",
+        "FACEBOOK_OAUTH_REDIRECT_URI": "@facebook_oauth_redirect_uri",
+        "GOOGLE_CLIENT_ID": "@google_client_id",
+        "GOOGLE_CLIENT_SECRET": "@google_client_secret",
+        "GOOGLE_OAUTH_REDIRECT_URI": "@google_oauth_redirect_uri",
+        "DATABASE_URL": "sqlite://database/sqlitedb.db"
+    }
+}

@@ -4,7 +4,7 @@ import { plainToClass } from 'class-transformer';
 import { use } from 'passport';
 import * as FacebookTokenStrategy from 'passport-facebook-token';
 import { FACEBOOK_CONFIG_TOKEN } from '../configs/facebook.config';
-import { RegisterDto } from '../dto/register.dto';
+import { SignUpDto } from '../dto/sign-up.dto';
 import { IFacebookConfig } from '../interfaces/facebook-config.interface';
 import { AuthService } from '../services/auth.service';
 import { OauthTokensAccesstokensService } from '../services/oauth-tokens-accesstokens.service';
@@ -50,15 +50,17 @@ export class FacebookStrategy {
               done(null, user);
             } catch (err) {
               const email =
-                profile.emails && profile.emails.length
+                profile.emails &&
+                profile.emails.length &&
+                profile.emails[0].value
                   ? profile.emails[0].value
                   : `${profile.id}@facebook.com`;
               const username = `facebook_${profile.id}`;
               const firstName = profile.name.givenName;
               const lastName = profile.name.familyName;
               const password = `facebook_${profile.id}`;
-              const { user } = await this.authService.register(
-                plainToClass(RegisterDto, {
+              const { user } = await this.authService.signUp(
+                plainToClass(SignUpDto, {
                   email,
                   username,
                   password,
