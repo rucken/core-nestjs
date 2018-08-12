@@ -10,7 +10,7 @@
     "name": "EndyKaufman",
     "email": "admin@site15.ru"
   },
-  "description": "A simple application demonstrating the basic usage of permissions with NestJS (JWT, PasswordHash, User, Group, Permission, ContentType)",
+  "description": "A simple application demonstrating the basic usage of permissions with NestJS (JWT, Passport, Facebook, Google+, User, Group, Permission)",
   "bugs": {
     "url": "https://github.com/rucken/core-nestjs/issues"
   },
@@ -23,6 +23,8 @@
     "jwt",
     "oauth",
     "passport",
+    "facebook",
+    "google+",
     "user",
     "group",
     "permission",
