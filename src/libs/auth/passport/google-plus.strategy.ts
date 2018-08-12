@@ -52,13 +52,17 @@ export class GooglePlusStrategy {
             } catch (err) {
               const email =
                 profile.emails &&
-                  profile.emails.length &&
-                  profile.emails[0].value
+                profile.emails.length &&
+                profile.emails[0].value
                   ? profile.emails[0].value
                   : `${profile.id}@google.com`;
               const username = `google_${profile.id}`;
-              const firstName = profile.name ? profile.name.givenName : `google_${profile.id}`;
-              const lastName = profile.name ? profile.name.familyName : `google_${profile.id}`;
+              const firstName = profile.name
+                ? profile.name.givenName
+                : `google_${profile.id}`;
+              const lastName = profile.name
+                ? profile.name.familyName
+                : `google_${profile.id}`;
               const password = `google_${profile.id}`;
               const { user } = await this.authService.signUp(
                 plainToClass(SignUpDto, {
