@@ -13,6 +13,7 @@
     "allowJs": true,
     "outDir": "./dist",
     "baseUrl": "./src",
+    "rootDir": "./src",
     "paths": {
       "@rucken/core-nestjs": [
         "libs/core"
@@ -25,11 +26,14 @@
       ],
       "@rucken/auth-nestjs/*": [
         "libs/auth/*"
-      ],
+      ]
     }
   },
   "exclude": [
+    "dist",
     "node_modules",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/*-spec.ts",
+    "**/*.js"
   ]
 }

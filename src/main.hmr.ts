@@ -1,3 +1,15 @@
+// tslint:disable-next-line:no-var-requires
+const tsConfig = require('../tsconfig.json');
+// tslint:disable-next-line:no-var-requires no-implicit-dependencies
+const tsConfigPaths = require('tsconfig-paths');
+const NODE_ENV = process.env.NODE_ENV;
+if (NODE_ENV !== 'develop') {
+  tsConfigPaths.register({
+    baseUrl: __dirname,
+    paths: tsConfig.compilerOptions.paths
+  });
+}
+
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -22,7 +34,7 @@ import {
 } from '@rucken/core-nestjs';
 import { AppModule } from './apps/demo/app.module';
 import { config } from 'dotenv';
-import { accessSync } from 'fs';
+import { accessSync, readFileSync } from 'fs';
 import * as path from 'path';
 
 declare const module: any;
@@ -30,13 +42,16 @@ declare const module: any;
 async function bootstrap() {
   const ConnectionString = require('connection-string').ConnectionString;
   const chmod = require('chmod');
-  const packageBody = require('../package.json');
-  const WWW_ROOT = path.resolve(__dirname, '..', 'www');
-  const nodeEnv = process.env.NODE_ENV;
+  const packageBody = JSON.parse(readFileSync('./package.json').toString());
+  const STATIC_FOLDERS = [
+    path.resolve(__dirname, '..', 'www'),
+    path.resolve(__dirname, '..', 'frontend')
+  ];
+
   try {
-    accessSync(`${nodeEnv}.env`);
-    config({ path: `${nodeEnv}.env` });
-    Logger.log(`env file: ${nodeEnv}.env`, 'Main');
+    accessSync(`${NODE_ENV}.env`);
+    config({ path: `${NODE_ENV}.env` });
+    Logger.log(`env file: ${NODE_ENV}.env`, 'Main');
   } catch (error) {
     try {
       accessSync(`.env`);
@@ -97,7 +112,9 @@ async function bootstrap() {
     }),
     { cors: true }
   );
-  app.useStaticAssets(WWW_ROOT);
+  STATIC_FOLDERS.forEach(folder => {
+    app.useStaticAssets(folder);
+  });
 
   let documentBuilder = new DocumentBuilder()
     .setTitle(packageBody.name)

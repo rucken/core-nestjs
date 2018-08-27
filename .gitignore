@@ -31,3 +31,4 @@ npm-debug.log
 /database/sqlitedb.db
 /database/sqlitedb.db
 /www
+frontend/index.html
