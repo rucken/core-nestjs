@@ -57,7 +57,7 @@ async function bootstrap() {
       accessSync(`.env`);
       load();
       Logger.log(`env file: .env`, 'Main');
-    } catch (error) { }
+    } catch (error) {}
   }
   const connectionString = new ConnectionString(process.env.DATABASE_URL);
   if (connectionString.protocol === 'sqlite') {
@@ -67,7 +67,7 @@ async function bootstrap() {
       (connectionString.path.length ? '/' + connectionString.path[0] : '');
     try {
       chmod(dbFile, 777);
-    } catch (error) { }
+    } catch (error) {}
   }
   const coreConfig: ICoreConfig = {
     ...defaultCoreConfig,
