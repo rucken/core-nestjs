@@ -47,17 +47,21 @@ async function bootstrap() {
     path.resolve(__dirname, '..', 'www'),
     path.resolve(__dirname, '..', 'frontend')
   ];
-
+  Logger.log(NODE_ENV);
+  const envFile = path.resolve(__dirname, '..', `${NODE_ENV}.env`);
   try {
-    accessSync(`../${NODE_ENV}.env`);
-    load({ path: `../${NODE_ENV}.env` });
-    Logger.log(`env file: ${NODE_ENV}.env`, 'Main');
+    accessSync(envFile);
+    load({ path: envFile });
+    Logger.log(`env file: ${envFile}`, 'Main');
   } catch (error) {
+    Logger.log(`error on get env file: ${envFile}`, 'Main');
     try {
       accessSync(`.env`);
       load();
       Logger.log(`env file: .env`, 'Main');
-    } catch (error) {}
+    } catch (error) {
+      Logger.log(`error on get env file: .env`, 'Main');
+    }
   }
   const connectionString = new ConnectionString(process.env.DATABASE_URL);
   if (connectionString.protocol === 'sqlite') {
@@ -67,7 +71,7 @@ async function bootstrap() {
       (connectionString.path.length ? '/' + connectionString.path[0] : '');
     try {
       chmod(dbFile, 777);
-    } catch (error) {}
+    } catch (error) { }
   }
   const coreConfig: ICoreConfig = {
     ...defaultCoreConfig,

@@ -3,11 +3,9 @@ const load = require('dotenv').load;
 const path = require('path');
 const fs = require('fs');
 const NODE_ENV = process.env.NODE_ENV || 'develop';
+const DB_SOURCE_EXT = process.env.DB_SOURCE_EXT || 'js';
 // todo: wait resolve https://github.com/typeorm/typeorm/issues/2358
-// const dbSourceExt = NODE_ENV === 'develop' ? 'ts' : 'js';
-// const sourceRootKey = NODE_ENV === 'develop' ? 'sourceRoot' : 'outputPath';
-const dbSourceExt = 'ts';
-const sourceRootKey = 'sourceRoot';
+const sourceRootKey = (DB_SOURCE_EXT === 'ts' || NODE_ENV === 'develop') ? 'sourceRoot' : 'outputPath';
 const nestCliConfig = JSON.parse(fs.readFileSync('.nestcli.json'));
 try {
     fs.accessSync(`${NODE_ENV}.env`);
@@ -33,15 +31,15 @@ const defaultApp = nestCliConfig.projects[defaultProject];
 
 if (connectionString.protocol === 'sqlite') {
     const databaseUrl =
-        (dbSourceExt === 'ts' ? './' : '../') +
+        (DB_SOURCE_EXT === 'ts' ? './' : '../') +
         connectionString.hosts[0].name +
         (connectionString.path.length ? '/' + connectionString.path[0] : '');
     module.exports = {
         type: 'sqlite',
         database: databaseUrl,
-        entities: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/entities/**/*.entity.${dbSourceExt}`),
-        migrations: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/migrations/**/*.${dbSourceExt}`),
-        subscribers: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/subscribers/**/*.${dbSourceExt}`),
+        entities: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/entities/**/*.entity.${DB_SOURCE_EXT}`),
+        migrations: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/migrations/**/*.${DB_SOURCE_EXT}`),
+        subscribers: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/subscribers/**/*.${DB_SOURCE_EXT}`),
         logging: 'all',
         synchronize: false,
         cli: {
@@ -56,9 +54,9 @@ if (connectionString.protocol === 'sqlite') {
         username: connectionString.user,
         password: connectionString.password,
         database: connectionString.path[0],
-        entities: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/entities/**/*.entity.${dbSourceExt}`),
-        migrations: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/migrations/**/*.${dbSourceExt}`),
-        subscribers: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/subscribers/**/*.${dbSourceExt}`),
+        entities: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/entities/**/*.entity.${DB_SOURCE_EXT}`),
+        migrations: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/migrations/**/*.${DB_SOURCE_EXT}`),
+        subscribers: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/subscribers/**/*.${DB_SOURCE_EXT}`),
         logging: 'all',
         synchronize: false,
         cli: {
