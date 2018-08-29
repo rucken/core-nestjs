@@ -3,9 +3,9 @@ const load = require('dotenv').load;
 const path = require('path');
 const fs = require('fs');
 const NODE_ENV = process.env.NODE_ENV || 'develop';
-const DB_SOURCE_EXT = process.env.DB_SOURCE_EXT || 'js';
+const DB_SOURCE_EXT = process.env.DB_SOURCE_EXT || (NODE_ENV === 'develop' ? 'ts' : 'js');
 // todo: wait resolve https://github.com/typeorm/typeorm/issues/2358
-const sourceRootKey = (DB_SOURCE_EXT === 'ts' || NODE_ENV === 'develop') ? 'sourceRoot' : 'outputPath';
+const sourceRootKey = (DB_SOURCE_EXT === 'ts' || NODE_ENV === 'develop') ? 'sourceRoot' : '';
 const nestCliConfig = JSON.parse(fs.readFileSync('.nestcli.json'));
 try {
     fs.accessSync(`${NODE_ENV}.env`);
