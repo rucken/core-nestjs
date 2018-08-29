@@ -1,10 +1,97 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  TableIndex,
+  Table,
+  TableColumn,
+  TableForeignKey
+} from 'typeorm';
 
 export class AddOauthTokensAccesstokenTable1533634559617
   implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.query(
-      `CREATE TABLE "oauth_tokens_accesstoken" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "provider" varchar(20) NOT NULL, "providerClientId" varchar(200) NOT NULL, "granted_at" datetime NOT NULL DEFAULT (datetime('now')), "access_token" varchar(500) NOT NULL, "refresh_token" varchar(200), "expires_at" datetime, "token_type" varchar(200), "scope" varchar(512), "user_id" integer)`
+    await queryRunner.createTable(
+      new Table({
+        name: 'oauth_tokens_accesstoken',
+        columns: [
+          {
+            name: 'id',
+            type: 'integer'
+          },
+          {
+            name: 'provider',
+            type: 'varchar(20)',
+            isNullable: false
+          },
+          {
+            name: 'provider_client_id',
+            type: 'varchar(200)',
+            isNullable: false
+          },
+          {
+            name: 'granted_at',
+            type: queryRunner.connection.driver.mappedDataTypes.createDate.toString(),
+            isNullable: false,
+            default:
+              queryRunner.connection.driver.mappedDataTypes.createDateDefault
+          },
+          {
+            name: 'access_token',
+            type: 'varchar(500)',
+            isNullable: false
+          },
+          {
+            name: 'refresh_token',
+            type: 'varchar(500)'
+          },
+          {
+            name: 'expires_at',
+            type: queryRunner.connection.driver.mappedDataTypes.createDate.toString(),
+            isNullable: true
+          },
+          {
+            name: 'token_type',
+            type: 'varchar(200)'
+          },
+          {
+            name: 'scope',
+            type: 'varchar(512)'
+          },
+          {
+            name: 'user_id',
+            type: 'integer'
+          }
+        ]
+      }),
+      true
+    );
+    await queryRunner.changeColumn(
+      'oauth_tokens_accesstoken',
+      'id',
+      new TableColumn({
+        name: 'id',
+        type: 'integer',
+        isPrimary: true,
+        isGenerated: true,
+        generationStrategy: 'increment'
+      })
+    );
+    await queryRunner.createIndex(
+      'oauth_tokens_accesstoken',
+      new TableIndex({
+        name: 'IDX_TOK_ACC_U_ID',
+        columnNames: ['user_id']
+      })
+    );
+    await queryRunner.createForeignKey(
+      'oauth_tokens_accesstoken',
+      new TableForeignKey({
+        name: 'FK_TOK_ACC_U_ID',
+        columnNames: ['user_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'user',
+        onDelete: 'CASCADE'
+      })
     );
   }
 

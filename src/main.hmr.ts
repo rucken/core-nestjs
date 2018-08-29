@@ -2,7 +2,7 @@
 const tsConfig = require('../tsconfig.json');
 // tslint:disable-next-line:no-var-requires no-implicit-dependencies
 const tsConfigPaths = require('tsconfig-paths');
-const NODE_ENV = process.env.NODE_ENV;
+const NODE_ENV = process.env.NODE_ENV || 'develop';
 if (NODE_ENV !== 'develop') {
   tsConfigPaths.register({
     baseUrl: __dirname,
@@ -33,7 +33,7 @@ import {
   ICoreConfig
 } from '@rucken/core-nestjs';
 import { AppModule } from './apps/demo/app.module';
-import { config } from 'dotenv';
+import { load } from 'dotenv';
 import { accessSync, readFileSync } from 'fs';
 import * as path from 'path';
 
@@ -49,15 +49,15 @@ async function bootstrap() {
   ];
 
   try {
-    accessSync(`${NODE_ENV}.env`);
-    config({ path: `${NODE_ENV}.env` });
+    accessSync(`../${NODE_ENV}.env`);
+    load({ path: `../${NODE_ENV}.env` });
     Logger.log(`env file: ${NODE_ENV}.env`, 'Main');
   } catch (error) {
     try {
       accessSync(`.env`);
-      config();
+      load();
       Logger.log(`env file: .env`, 'Main');
-    } catch (error) {}
+    } catch (error) { }
   }
   const connectionString = new ConnectionString(process.env.DATABASE_URL);
   if (connectionString.protocol === 'sqlite') {
@@ -67,7 +67,7 @@ async function bootstrap() {
       (connectionString.path.length ? '/' + connectionString.path[0] : '');
     try {
       chmod(dbFile, 777);
-    } catch (error) {}
+    } catch (error) { }
   }
   const coreConfig: ICoreConfig = {
     ...defaultCoreConfig,

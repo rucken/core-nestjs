@@ -26,7 +26,7 @@ export class OauthTokensAccesstoken {
   @MaxLength(20)
   provider: string = undefined;
 
-  @Column({ length: 200 })
+  @Column({ name: 'provider_client_id', length: 200 })
   @IsNotEmpty()
   @MaxLength(200)
   providerClientId: string = undefined;
