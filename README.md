@@ -36,7 +36,7 @@ A simple application demonstrating the basic usage of permissions with NestJS (J
 - local: [`http://localhost:5000/swagger`](http://localhost:5000/swagger)
 - online on heroku: [`https://rucken-core-nestjs.herokuapp.com/swagger`](https://rucken-core-nestjs.herokuapp.com/swagger)
 - online on now with db sqlite: [`https://rucken-core-nestjs.now.sh/swagger`](https://rucken-core-nestjs.now.sh/swagger)
-- online on now with db postgres: [`https://rucken-core-nestjs-postgres.now.sh/swagger`](https://rucken-core-nestjs.now.sh/swagger)
+- online on now with db postgres: [`https://rucken-core-nestjs-postgres.now.sh/swagger`](https://rucken-core-nestjs-postgres.now.sh/swagger)
 - apiKey template: ```JWT <token_generated_on_login>```
 
 ### Docs
