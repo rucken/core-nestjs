@@ -5,7 +5,7 @@ const fs = require('fs');
 const NODE_ENV = process.env.NODE_ENV || 'develop';
 const DB_SOURCE_EXT = process.env.DB_SOURCE_EXT || (NODE_ENV === 'develop' ? 'ts' : 'js');
 // todo: wait resolve https://github.com/typeorm/typeorm/issues/2358
-const sourceRootKey = (DB_SOURCE_EXT === 'ts' || NODE_ENV === 'develop') ? 'sourceRoot' : '';
+const sourceRootKey = (DB_SOURCE_EXT === 'ts' || NODE_ENV === 'develop') ? 'sourceRoot' : 'outputPath';
 const nestCliConfig = JSON.parse(fs.readFileSync('.nestcli.json'));
 try {
     fs.accessSync(`${NODE_ENV}.env`);
@@ -31,7 +31,7 @@ const defaultApp = nestCliConfig.projects[defaultProject];
 
 if (connectionString.protocol === 'sqlite') {
     const databaseUrl =
-        (DB_SOURCE_EXT === 'ts' ? './' : '../') +
+        './' +
         connectionString.hosts[0].name +
         (connectionString.path.length ? '/' + connectionString.path[0] : '');
     module.exports = {

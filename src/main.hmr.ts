@@ -71,7 +71,9 @@ async function bootstrap() {
       (connectionString.path.length ? '/' + connectionString.path[0] : '');
     try {
       chmod(dbFile, 777);
-    } catch (error) { }
+    } catch (error) {
+      Logger.log(`error on set chmod 777 to database file ${dbFile}`, 'Main');
+    }
   }
   const coreConfig: ICoreConfig = {
     ...defaultCoreConfig,

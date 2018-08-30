@@ -30,6 +30,7 @@
     }
   },
   "exclude": [
+    "frontend",
     "dist",
     "node_modules",
     "**/*.spec.ts",
