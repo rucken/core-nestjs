@@ -1,4 +1,4 @@
-const ConnectionString = require('connection-string').ConnectionString;
+const ConnectionString = require('connection-string');
 const load = require('dotenv').load;
 const path = require('path');
 const fs = require('fs');
@@ -22,7 +22,7 @@ try {
     }
 }
 
-const connectionString = new ConnectionString(process.env.DATABASE_URL);
+const connectionString = new ConnectionString(process.env.DATABASE_URL || '');
 const projects = Object.keys(nestCliConfig.projects).map(key => nestCliConfig.projects[key]);
 const libs = Object.keys(nestCliConfig.projects).filter(key => nestCliConfig.projects[key].projectType === 'library').map(key => nestCliConfig.projects[key]);
 const apps = Object.keys(nestCliConfig.projects).filter(key => nestCliConfig.projects[key].projectType === 'application').map(key => nestCliConfig.projects[key]);
@@ -30,13 +30,13 @@ const defaultProject = nestCliConfig.defaultProject;
 const defaultApp = nestCliConfig.projects[defaultProject];
 
 if (connectionString.protocol === 'sqlite') {
-    const databaseUrl =
+    const dbFile =
         './' +
-        connectionString.hosts[0].name +
-        (connectionString.path.length ? '/' + connectionString.path[0] : '');
+        (connectionString.hosts ? connectionString.hosts[0].name : '') +
+        (connectionString.path ? '/' + connectionString.path[0] : '');
     module.exports = {
         type: 'sqlite',
-        database: databaseUrl,
+        database: dbFile,
         entities: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/entities/**/*.entity.${DB_SOURCE_EXT}`),
         migrations: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/migrations/**/*.${DB_SOURCE_EXT}`),
         subscribers: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/subscribers/**/*.${DB_SOURCE_EXT}`),
@@ -49,11 +49,11 @@ if (connectionString.protocol === 'sqlite') {
 } else {
     module.exports = {
         type: connectionString.protocol,
-        host: connectionString.hosts[0].name,
-        port: +connectionString.hosts[0].port,
+        host: connectionString.hosts && connectionString.hosts[0].name,
+        port: connectionString.hosts && +connectionString.hosts[0].port,
         username: connectionString.user,
         password: connectionString.password,
-        database: connectionString.path[0],
+        database: connectionString.path[0] && connectionString.path[0],
         entities: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/entities/**/*.entity.${DB_SOURCE_EXT}`),
         migrations: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/migrations/**/*.${DB_SOURCE_EXT}`),
         subscribers: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/subscribers/**/*.${DB_SOURCE_EXT}`),

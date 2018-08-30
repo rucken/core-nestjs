@@ -2,6 +2,10 @@
 const tsConfig = require('../tsconfig.json');
 // tslint:disable-next-line:no-var-requires no-implicit-dependencies
 const tsConfigPaths = require('tsconfig-paths');
+// tslint:disable-next-line:no-var-requires
+const ConnectionString = require('connection-string');
+// tslint:disable-next-line:no-var-requires
+const chmod = require('chmod');
 const NODE_ENV = process.env.NODE_ENV || 'develop';
 if (NODE_ENV !== 'develop') {
   tsConfigPaths.register({
@@ -42,8 +46,6 @@ declare const module: any;
 */
 
 async function bootstrap() {
-  const ConnectionString = require('connection-string').ConnectionString;
-  const chmod = require('chmod');
   const packageBody = JSON.parse(readFileSync('./package.json').toString());
   const STATIC_FOLDERS = [
     path.resolve(__dirname, '..', 'www'),
@@ -65,12 +67,12 @@ async function bootstrap() {
       Logger.log(`error on get env file: .env`, 'Main');
     }
   }
-  const connectionString = new ConnectionString(process.env.DATABASE_URL);
+  const connectionString = new ConnectionString(process.env.DATABASE_URL || '');
   if (connectionString.protocol === 'sqlite') {
     const dbFile =
       './' +
-      connectionString.hosts[0].name +
-      (connectionString.path.length ? '/' + connectionString.path[0] : '');
+      (connectionString.hosts ? connectionString.hosts[0].name : '') +
+      (connectionString.path ? '/' + connectionString.path[0] : '');
     try {
       chmod(dbFile, 777);
     } catch (error) {
