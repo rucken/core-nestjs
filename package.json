@@ -44,7 +44,7 @@
     "tsc": "tsc",
     "clean": "./node_modules/.bin/del-cli dist www/docs database/sqlitedb.db",
     "format": "prettier --write \"src/**/*.ts\"",
-    "start:dev": "nodemon",
+    "start:dev": "cross-env DB_SOURCE_EXT=ts nodemon",
     "start:prod": "cross-env NODE_ENV=production ./node_modules/.bin/pm2 start dist/main.js --name demo",
     "start:hmr": "cross-env NODE_ENV=production node dist/main.hmr.js",
     "start": "node dist/main.js",
@@ -61,11 +61,11 @@
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out www/docs src",
     "md-to-html": "showdown makehtml -i README.md -o frontend/index.html",
     "frontend": "run-s md-to-html",
-    "build": "run-s clean format docs tsc migrate frontend",
+    "build": "run-s clean prepare format docs tsc migrate frontend",
     "heroku-postbuild": "npm run build",
     "prepare:core": "rucken make-ts-list ./src/libs/core",
     "prepare:auth": "rucken make-ts-list ./src/libs/auth",
-    "prepare:all": "run-s prepare:core prepare:auth"
+    "prepare": "run-s prepare:core prepare:auth"
   },
   "dependencies": {
     "@nestjs/common": "^5.1.0",
