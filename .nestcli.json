@@ -5,16 +5,19 @@
     "demo": {
       "root": "src/apps/demo/",
       "sourceRoot": "src/apps/demo",
+      "outputPath": "dist/apps/demo",
       "projectType": "application"
     },
     "@rucken/core-nestjs": {
       "root": "src/libs/core/",
       "sourceRoot": "src/libs/core",
+      "outputPath": "dist/libs/core",
       "projectType": "library"
     },
     "@rucken/auth-nestjs": {
       "root": "src/libs/auth/",
       "sourceRoot": "src/libs/auth",
+      "outputPath": "dist/libs/auth",
       "projectType": "library"
     }
   },

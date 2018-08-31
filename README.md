@@ -21,10 +21,10 @@ A simple application demonstrating the basic usage of permissions with NestJS (J
 - clone or fork [repository](https://github.com/rucken/core-nestjs.git) `git clone --recursive https://github.com/rucken/core-nestjs.git`
 - make sure you have [node.js](https://nodejs.org/) installed version 8+
 - make sure you have NPM installed version 5+
-- copy `_env` to `.env` and set environments for use (on Windows copy with IDE)
+- copy `develop._env` to `develop.env` and set environments for use (on Windows copy with IDE)
 - run `npm install` to install project dependencies
 - run `npm build` to install project dependencies
-- run `npm run start` to fire up prod server (`npm run start:dev` - dev server)
+- run `npm run start:prod` to fire up prod server (`npm run start:dev` - dev server)
 - Open browser to [`http://localhost:5000/swagger`](http://localhost:5000/swagger)
 
 ### Users
@@ -35,7 +35,8 @@ A simple application demonstrating the basic usage of permissions with NestJS (J
 ### Swagger
 - local: [`http://localhost:5000/swagger`](http://localhost:5000/swagger)
 - online on heroku: [`https://rucken-core-nestjs.herokuapp.com/swagger`](https://rucken-core-nestjs.herokuapp.com/swagger)
-- online on now: [`https://rucken-core-nestjs.now.sh/swagger`](https://rucken-core-nestjs.now.sh/swagger)
+- online on now with db sqlite: [`https://rucken-core-nestjs.now.sh/swagger`](https://rucken-core-nestjs.now.sh/swagger)
+- online on now with db postgres: [`https://rucken-core-nestjs-postgres.now.sh/swagger`](https://rucken-core-nestjs-postgres.now.sh/swagger)
 - apiKey template: ```JWT <token_generated_on_login>```
 
 ### Docs

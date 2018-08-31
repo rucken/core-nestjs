@@ -1,24 +1,353 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableIndex,
+  TableForeignKey,
+  TableColumn
+} from 'typeorm';
 
 export class Init1524197725191 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.query(
-      `CREATE TABLE "user" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "password" varchar(128) NOT NULL, "last_login" datetime DEFAULT (datetime('now')), "is_superuser" boolean NOT NULL, "username" varchar(150) NOT NULL, "first_name" varchar(30) NOT NULL, "last_name" varchar(30) NOT NULL, "email" varchar(254) NOT NULL, "is_staff" boolean NOT NULL, "is_active" boolean NOT NULL, "date_joined" datetime NOT NULL DEFAULT (datetime('now')), "date_of_birth" datetime, CONSTRAINT "UQ_78a916df40e02a9deb1c4b75edb" UNIQUE ("username"))`
+    await queryRunner.createTable(
+      new Table({
+        name: 'user',
+        columns: [
+          {
+            name: 'id',
+            type: 'integer'
+          },
+          {
+            name: 'password',
+            type: 'varchar(128)',
+            isNullable: false
+          },
+          {
+            name: 'is_superuser',
+            type: 'boolean',
+            isNullable: false
+          },
+          {
+            name: 'is_staff',
+            type: 'boolean',
+            isNullable: false
+          },
+          {
+            name: 'is_active',
+            type: 'boolean',
+            isNullable: false
+          },
+          {
+            name: 'username',
+            type: 'varchar(150)',
+            isNullable: false
+          },
+          {
+            name: 'first_name',
+            type: 'varchar(30)',
+            isNullable: false
+          },
+          {
+            name: 'last_name',
+            type: 'varchar(30)',
+            isNullable: false
+          },
+          {
+            name: 'email',
+            type: 'varchar(254)',
+            isNullable: false
+          },
+          {
+            name: 'last_login',
+            type: queryRunner.connection.driver.mappedDataTypes.createDate.toString(),
+            default:
+              queryRunner.connection.driver.mappedDataTypes.updateDateDefault
+          },
+          {
+            name: 'date_joined',
+            type: queryRunner.connection.driver.mappedDataTypes.createDate.toString(),
+            isNullable: false,
+            default:
+              queryRunner.connection.driver.mappedDataTypes.createDateDefault
+          },
+          {
+            name: 'date_of_birth',
+            type: queryRunner.connection.driver.mappedDataTypes.createDate.toString(),
+            isNullable: true
+          }
+        ]
+      }),
+      true
     );
-    await queryRunner.query(
-      `CREATE TABLE "group" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) NOT NULL, "title" varchar(255) NOT NULL, CONSTRAINT "UQ_8a45300fd825918f3b40195fbdc" UNIQUE ("name"), CONSTRAINT "UQ_326ae60c2267f5780f1ecc09fac" UNIQUE ("title"))`
+    await queryRunner.changeColumn(
+      'user',
+      'id',
+      new TableColumn({
+        name: 'id',
+        type: 'integer',
+        isPrimary: true,
+        isGenerated: true,
+        generationStrategy: 'increment'
+      })
     );
-    await queryRunner.query(
-      `CREATE TABLE "permission" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) NOT NULL, "title" varchar(255) NOT NULL, "content_type_id" integer)`
+    await queryRunner.createIndex(
+      'user',
+      new TableIndex({
+        name: 'IDX_USE_E',
+        columnNames: ['email']
+      })
     );
-    await queryRunner.query(
-      `CREATE TABLE "content_type" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(100) NOT NULL, "title" varchar(255) NOT NULL)`
+    await queryRunner.createIndex(
+      'user',
+      new TableIndex({
+        name: 'UQ_USE_U',
+        isUnique: true,
+        columnNames: ['username']
+      })
     );
-    await queryRunner.query(
-      `CREATE TABLE "user_groups" ("user_id" integer NOT NULL, "group_id" integer NOT NULL, PRIMARY KEY ("user_id", "group_id"))`
+    await queryRunner.createTable(
+      new Table({
+        name: 'group',
+        columns: [
+          {
+            name: 'id',
+            type: 'integer'
+          },
+          {
+            name: 'name',
+            type: 'varchar(100)',
+            isNullable: false
+          },
+          {
+            name: 'title',
+            type: 'varchar(255)',
+            isNullable: false
+          }
+        ]
+      }),
+      true
     );
-    await queryRunner.query(
-      `CREATE TABLE "group_permissions" ("group_id" integer NOT NULL, "permission_id" integer NOT NULL, PRIMARY KEY ("group_id", "permission_id"))`
+    await queryRunner.changeColumn(
+      'group',
+      'id',
+      new TableColumn({
+        name: 'id',
+        type: 'integer',
+        isPrimary: true,
+        isGenerated: true,
+        generationStrategy: 'increment'
+      })
+    );
+    await queryRunner.createIndex(
+      'group',
+      new TableIndex({
+        name: 'UQ_GRO_N',
+        isUnique: true,
+        columnNames: ['name']
+      })
+    );
+    await queryRunner.createIndex(
+      'group',
+      new TableIndex({
+        name: 'UQ_GRO_T',
+        isUnique: true,
+        columnNames: ['title']
+      })
+    );
+    await queryRunner.createTable(
+      new Table({
+        name: 'content_type',
+        columns: [
+          {
+            name: 'id',
+            type: 'integer'
+          },
+          {
+            name: 'name',
+            type: 'varchar(100)',
+            isNullable: false
+          },
+          {
+            name: 'title',
+            type: 'varchar(255)',
+            isNullable: false
+          }
+        ]
+      }),
+      true
+    );
+    await queryRunner.changeColumn(
+      'content_type',
+      'id',
+      new TableColumn({
+        name: 'id',
+        type: 'integer',
+        isPrimary: true,
+        isGenerated: true,
+        generationStrategy: 'increment'
+      })
+    );
+    await queryRunner.createTable(
+      new Table({
+        name: 'permission',
+        columns: [
+          {
+            name: 'id',
+            type: 'integer'
+          },
+          {
+            name: 'name',
+            type: 'varchar(100)',
+            isNullable: false
+          },
+          {
+            name: 'title',
+            type: 'varchar(255)',
+            isNullable: false
+          },
+          {
+            name: 'content_type_id',
+            type: 'integer'
+          }
+        ]
+      }),
+      true
+    );
+    await queryRunner.changeColumn(
+      'permission',
+      'id',
+      new TableColumn({
+        name: 'id',
+        type: 'integer',
+        isPrimary: true,
+        isGenerated: true,
+        generationStrategy: 'increment'
+      })
+    );
+    await queryRunner.createForeignKey(
+      'permission',
+      new TableForeignKey({
+        name: 'FK_PER_C_T_ID',
+        columnNames: ['content_type_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'content_type',
+        onDelete: 'CASCADE'
+      })
+    );
+    await queryRunner.createIndex(
+      'permission',
+      new TableIndex({
+        name: 'IDX_PER_C_T_ID',
+        columnNames: ['content_type_id']
+      })
+    );
+    await queryRunner.createTable(
+      new Table({
+        name: 'user_groups',
+        columns: [
+          {
+            name: 'user_id',
+            type: 'integer',
+            isNullable: false,
+            isPrimary: true
+          },
+          {
+            name: 'group_id',
+            type: 'integer',
+            isNullable: false,
+            isPrimary: true
+          }
+        ]
+      }),
+      true
+    );
+    await queryRunner.createForeignKey(
+      'user_groups',
+      new TableForeignKey({
+        name: 'FK_USE_GRO_U_ID',
+        columnNames: ['user_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'user',
+        onDelete: 'CASCADE'
+      })
+    );
+    await queryRunner.createIndex(
+      'user_groups',
+      new TableIndex({
+        name: 'IDX_USE_GRO_U_ID',
+        columnNames: ['user_id']
+      })
+    );
+    await queryRunner.createForeignKey(
+      'user_groups',
+      new TableForeignKey({
+        name: 'FK_USE_GRO_G_ID',
+        columnNames: ['group_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'group',
+        onDelete: 'CASCADE'
+      })
+    );
+    await queryRunner.createIndex(
+      'user_groups',
+      new TableIndex({
+        name: 'IDX_USE_GRO_G_ID',
+        columnNames: ['group_id']
+      })
+    );
+    await queryRunner.createTable(
+      new Table({
+        name: 'group_permissions',
+        columns: [
+          {
+            name: 'group_id',
+            type: 'integer',
+            isNullable: false,
+            isPrimary: true
+          },
+          {
+            name: 'permission_id',
+            type: 'integer',
+            isNullable: false,
+            isPrimary: true
+          }
+        ]
+      }),
+      true
+    );
+    await queryRunner.createForeignKey(
+      'group_permissions',
+      new TableForeignKey({
+        name: 'FK_GRO_PER_G_ID',
+        columnNames: ['group_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'group',
+        onDelete: 'CASCADE'
+      })
+    );
+    await queryRunner.createIndex(
+      'group_permissions',
+      new TableIndex({
+        name: 'IDX_GRO_PER_G_ID',
+        columnNames: ['group_id']
+      })
+    );
+    await queryRunner.createForeignKey(
+      'group_permissions',
+      new TableForeignKey({
+        name: 'FK_GRO_PER_P_ID',
+        columnNames: ['permission_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'permission',
+        onDelete: 'CASCADE'
+      })
+    );
+    await queryRunner.createIndex(
+      'group_permissions',
+      new TableIndex({
+        name: 'IDX_GRO_PER_P_ID',
+        columnNames: ['permission_id']
+      })
     );
   }
 

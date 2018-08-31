@@ -26,9 +26,6 @@ export class ContentTypesService {
     }
     options.item.id = options.id;
     try {
-      if (this.coreConfig.demo) {
-        throw new MethodNotAllowedException('Not allowed in DEMO mode');
-      }
       options.item = await this.repository.save(options.item);
       return { contentType: options.item };
     } catch (error) {

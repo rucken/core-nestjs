@@ -1,9 +1,6 @@
 {
     "alias": [
-        "rucken-nestjs.now.sh",
-        "rucken-core-nestjs.now.sh",
-        "rucken-core-nestjs-mongo.now.sh",
-        "rucken-todo-nestjs.now.sh"
+        "rucken-core-nestjs-postgres.now.sh"
     ],
     "env": {
         "NODE_ENV": "production",
@@ -21,6 +18,6 @@
         "GOOGLE_CLIENT_ID": "@google_client_id",
         "GOOGLE_CLIENT_SECRET": "@google_client_secret",
         "GOOGLE_OAUTH_REDIRECT_URI": "@google_oauth_redirect_uri",
-        "DATABASE_URL": "sqlite://database/sqlitedb.db"
+        "DATABASE_URL": "@postgres_database_url"
     }
 }
