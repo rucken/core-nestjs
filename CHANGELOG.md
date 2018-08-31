@@ -1,3 +1,25 @@
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/rucken/core-nestjs/compare/0.6.0...0.8.0) (2018-08-31)
+
+
+### Bug Fixes
+
+* Change token name GOOGLE_CONFIG_TOKEN => GOOGLE_PLUS_CONFIG_TOKEN ([1f3e7de](https://github.com/rucken/core-nestjs/commit/1f3e7de))
+* **auth:** Add correct host name for generate redirect_uri ([7302066](https://github.com/rucken/core-nestjs/commit/7302066))
+* **auth:** Add protocol for detect host if origin is not set ([4e40ce8](https://github.com/rucken/core-nestjs/commit/4e40ce8))
+* **ci:** Update source for correct deploy with postgres database ([af58791](https://github.com/rucken/core-nestjs/commit/af58791))
+* **core:** remove duplicate check ([fee5e6a](https://github.com/rucken/core-nestjs/commit/fee5e6a))
+* **db:** Update detect db source ext ([7704d16](https://github.com/rucken/core-nestjs/commit/7704d16))
+* **db:** Update detect sqlite database on production mode ([db53919](https://github.com/rucken/core-nestjs/commit/db53919))
+
+
+### Features
+
+* **auth:** Add info action and remove bad migrations ([e60b8e9](https://github.com/rucken/core-nestjs/commit/e60b8e9))
+* **db:** Add deploy to Postgres on heroku ([#8](https://github.com/rucken/core-nestjs/issues/8)) ([7ed0756](https://github.com/rucken/core-nestjs/commit/7ed0756))
+
+
+
 <a name="0.7.0"></a>
 # [0.7.0](https://github.com/rucken/core-nestjs/compare/0.6.0...0.7.0) (2018-08-12)
 
