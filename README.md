@@ -23,9 +23,19 @@ A simple application demonstrating the basic usage of permissions with NestJS (J
 - make sure you have NPM installed version 5+
 - copy `develop._env` to `develop.env` and set environments for use (on Windows copy with IDE)
 - run `npm install` to install project dependencies
-- run `npm build` to install project dependencies
+- run `npm run build` to install project dependencies
 - run `npm run start:prod` to fire up prod server (`npm run start:dev` - dev server)
 - Open browser to [`http://localhost:5000/swagger`](http://localhost:5000/swagger)
+
+## Usage with cli
+```
+npm install -g @rucken/cli
+rucken new:nestjs my-app
+cd my-app
+npm install
+npm run build
+npm run start:prod
+```
 
 ### Users
 - user with admin group: admin@admin.com, password: 12345678
