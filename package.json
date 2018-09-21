@@ -1,9 +1,9 @@
 {
   "name": "rucken-core-nestjs",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "engines": {
-    "node": "8",
-    "npm": ">=6.1.0"
+    "node": ">=10",
+    "npm": ">=6.4.0"
   },
   "license": "MIT",
   "author": {
