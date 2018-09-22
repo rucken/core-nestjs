@@ -1,17 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AUTH_CONFIG_TOKEN } from '../configs/auth.config';
 import { OauthTokensAccesstoken } from '../entities/oauth-tokens-accesstoken.entity';
-import { IAuthConfig } from '../interfaces/auth-config.interface';
+import { CORE_CONFIG_TOKEN, ICoreConfig } from '@rucken/core-nestjs';
 
 @Injectable()
 export class OauthTokensAccesstokensService {
   constructor(
-    @Inject(AUTH_CONFIG_TOKEN) private readonly authConfig: IAuthConfig,
+    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @InjectRepository(OauthTokensAccesstoken)
     private readonly repository: Repository<OauthTokensAccesstoken>
-  ) {}
+  ) { }
   async create(options: { item: OauthTokensAccesstoken }) {
     try {
       options.item = await this.repository.save(options.item);
@@ -79,9 +78,9 @@ export class OauthTokensAccesstokensService {
       }
       options.sort =
         options.sort &&
-        new OauthTokensAccesstoken().hasOwnProperty(
-          options.sort.replace('-', '')
-        )
+          new OauthTokensAccesstoken().hasOwnProperty(
+            options.sort.replace('-', '')
+          )
           ? options.sort
           : '-id';
       const field = options.sort.replace('-', '');

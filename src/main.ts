@@ -17,29 +17,12 @@ if (NODE_ENV !== 'develop') {
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import {
-  appFilters as authAppFilters,
-  defaultFacebookConfig,
-  defaultJwtConfig,
-  FACEBOOK_CONFIG_TOKEN,
-  IFacebookConfig,
-  IJwtConfig,
-  JWT_CONFIG_TOKEN,
-  IGooglePlusConfig,
-  defaultGooglePlusConfig,
-  GOOGLE_PLUS_CONFIG_TOKEN
-} from '@rucken/auth-nestjs';
-import {
-  appFilters,
-  appPipes,
-  CORE_CONFIG_TOKEN,
-  defaultCoreConfig,
-  ICoreConfig
-} from '@rucken/core-nestjs';
-import { AppModule } from './apps/demo/app.module';
+import { appFilters as authAppFilters, defaultFacebookConfig, defaultGooglePlusConfig, defaultJwtConfig, FACEBOOK_CONFIG_TOKEN, GOOGLE_PLUS_CONFIG_TOKEN, IFacebookConfig, IGooglePlusConfig, IJwtConfig, JWT_CONFIG_TOKEN } from '@rucken/auth-nestjs';
+import { appFilters, appPipes, CORE_CONFIG_TOKEN, defaultCoreConfig, ICoreConfig } from '@rucken/core-nestjs';
 import { load } from 'dotenv';
 import { accessSync, readFileSync } from 'fs';
 import * as path from 'path';
+import { AppModule } from './apps/demo/app.module';
 
 /* hmr
 declare const module: any;
