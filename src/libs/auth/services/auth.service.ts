@@ -1,5 +1,19 @@
-import { BadRequestException, ConflictException, HttpService, Inject, Injectable, Logger } from '@nestjs/common';
-import { CORE_CONFIG_TOKEN, CustomError, GroupsService, ICoreConfig, User, UsersService } from '@rucken/core-nestjs';
+import {
+  BadRequestException,
+  ConflictException,
+  HttpService,
+  Inject,
+  Injectable,
+  Logger
+} from '@nestjs/common';
+import {
+  CORE_CONFIG_TOKEN,
+  CustomError,
+  GroupsService,
+  ICoreConfig,
+  User,
+  UsersService
+} from '@rucken/core-nestjs';
 import { plainToClass } from 'class-transformer';
 import { stringify } from 'querystring';
 import { map } from 'rxjs/operators';
@@ -26,7 +40,7 @@ export class AuthService {
     if (this.coreConfig.port) {
       this.localUri = `http://${this.coreConfig.domain}:${
         this.coreConfig.port
-        }`;
+      }`;
     } else {
       this.localUri = `http://${this.coreConfig.domain}`;
     }
@@ -63,7 +77,7 @@ export class AuthService {
         throw new ConflictException(
           `User with email "${options.email}" is exists`
         );
-      } catch (error) { }
+      } catch (error) {}
     }
     if (options.username) {
       try {
@@ -73,7 +87,7 @@ export class AuthService {
         throw new ConflictException(
           `User with username "${options.username}" is exists`
         );
-      } catch (error) { }
+      } catch (error) {}
     }
     const group = this.groupsService.getGroupByName({ name: 'user' });
     const newUser = await plainToClass(User, options).setPassword(
@@ -90,7 +104,7 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.fbConfig.login_dialog_uri
-      }?${queryParams.join('&')}`.replace('{host}', host);
+    }?${queryParams.join('&')}`.replace('{host}', host);
     Logger.log(redirect_uri, AuthService.name + ':requestFacebookRedirectUri');
     return {
       redirect_uri
@@ -147,9 +161,9 @@ export class AuthService {
       );
       throw new BadRequestException(
         error &&
-          error.response &&
-          error.response.data &&
-          error.response.data.error
+        error.response &&
+        error.response.data &&
+        error.response.data.error
           ? error.response.data.error.message
           : error.message
       );
@@ -164,7 +178,7 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.googlePlusConfig.login_dialog_uri
-      }?${queryParams.join('&')}`.replace('{host}', host);
+    }?${queryParams.join('&')}`.replace('{host}', host);
     Logger.log(redirect_uri, AuthService.name + ':requestGoogleRedirectUri');
     return {
       redirect_uri

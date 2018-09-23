@@ -11,9 +11,7 @@ export class AccessGuard extends AuthGuard('jwt') {
   async canActivate(context: ExecutionContext) {
     try {
       await super.canActivate(context);
-    } catch (error) {
-
-    }
+    } catch (error) {}
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
     const permissions = this.reflector.get<string[]>(
       'permissions',
@@ -24,7 +22,7 @@ export class AccessGuard extends AuthGuard('jwt') {
     Logger.log(JSON.stringify(user), AccessGuard.name);
     const hasRole = roles
       ? roles.filter(roleName => user && user instanceof User && user[roleName])
-        .length > 0
+          .length > 0
       : null;
     const hasPermission = permissions
       ? user && user instanceof User && user.checkPermissions(permissions)

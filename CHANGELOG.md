@@ -1,3 +1,15 @@
+<a name="0.8.2"></a>
+## [0.8.2](https://github.com/rucken/core-nestjs/compare/0.8.1...0.8.2) (2018-09-23)
+
+
+### Bug Fixes
+
+* **auth:** Remove authConfig, change it to coreConfig ([7cbc128](https://github.com/rucken/core-nestjs/commit/7cbc128))
+* **auth:** Restore run default canActivate in AccessGuard ([1835e09](https://github.com/rucken/core-nestjs/commit/1835e09))
+* **core:** Remove execute default guard check for access ([88a90a4](https://github.com/rucken/core-nestjs/commit/88a90a4))
+
+
+
 <a name="0.8.1"></a>
 ## [0.8.1](https://github.com/rucken/core-nestjs/compare/0.8.0...0.8.1) (2018-09-21)
 
