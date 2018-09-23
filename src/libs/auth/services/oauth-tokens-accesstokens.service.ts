@@ -1,14 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AUTH_CONFIG_TOKEN } from '../configs/auth.config';
 import { OauthTokensAccesstoken } from '../entities/oauth-tokens-accesstoken.entity';
-import { IAuthConfig } from '../interfaces/auth-config.interface';
+import { CORE_CONFIG_TOKEN, ICoreConfig } from '@rucken/core-nestjs';
 
 @Injectable()
 export class OauthTokensAccesstokensService {
   constructor(
-    @Inject(AUTH_CONFIG_TOKEN) private readonly authConfig: IAuthConfig,
+    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @InjectRepository(OauthTokensAccesstoken)
     private readonly repository: Repository<OauthTokensAccesstoken>
   ) {}

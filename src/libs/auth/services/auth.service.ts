@@ -7,21 +7,21 @@ import {
   Logger
 } from '@nestjs/common';
 import {
+  CORE_CONFIG_TOKEN,
   CustomError,
   GroupsService,
+  ICoreConfig,
   User,
   UsersService
 } from '@rucken/core-nestjs';
 import { plainToClass } from 'class-transformer';
 import { stringify } from 'querystring';
 import { map } from 'rxjs/operators';
-import { AUTH_CONFIG_TOKEN } from '../configs/auth.config';
 import { FACEBOOK_CONFIG_TOKEN } from '../configs/facebook.config';
 import { GOOGLE_PLUS_CONFIG_TOKEN } from '../configs/google-plus.config';
 import { RedirectUriDto } from '../dto/redirect-uri.dto';
 import { SignInDto } from '../dto/sign-in.dto';
 import { SignUpDto } from '../dto/sign-up.dto';
-import { IAuthConfig } from '../interfaces/auth-config.interface';
 import { IFacebookConfig } from '../interfaces/facebook-config.interface';
 import { IGooglePlusConfig } from '../interfaces/google-plus-config.interface';
 @Injectable()
@@ -29,7 +29,7 @@ export class AuthService {
   private localUri: string;
 
   constructor(
-    @Inject(AUTH_CONFIG_TOKEN) private readonly authConfig: IAuthConfig,
+    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @Inject(FACEBOOK_CONFIG_TOKEN) private readonly fbConfig: IFacebookConfig,
     @Inject(GOOGLE_PLUS_CONFIG_TOKEN)
     private readonly googlePlusConfig: IGooglePlusConfig,
@@ -37,12 +37,12 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly groupsService: GroupsService
   ) {
-    if (this.authConfig.port) {
-      this.localUri = `http://${this.authConfig.domain}:${
-        this.authConfig.port
+    if (this.coreConfig.port) {
+      this.localUri = `http://${this.coreConfig.domain}:${
+        this.coreConfig.port
       }`;
     } else {
-      this.localUri = `http://${this.authConfig.domain}`;
+      this.localUri = `http://${this.coreConfig.domain}`;
     }
   }
   async info(options: { id: number }) {

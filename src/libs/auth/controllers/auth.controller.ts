@@ -10,10 +10,13 @@ import {
   Req
 } from '@nestjs/common';
 import { ApiResponse, ApiUseTags } from '@nestjs/swagger';
-import { OutAccountDto } from '@rucken/core-nestjs';
+import {
+  CORE_CONFIG_TOKEN,
+  ICoreConfig,
+  OutAccountDto
+} from '@rucken/core-nestjs';
 import { plainToClass } from 'class-transformer';
 import { JsonWebTokenError } from 'jsonwebtoken';
-import { AUTH_CONFIG_TOKEN } from '../configs/auth.config';
 import { FacebookSignInDto } from '../dto/facebook-signIn.dto';
 import { FacebookTokenDto } from '../dto/facebook-token.dto';
 import { GooglePlusSignInDto } from '../dto/google-plus-signIn.dto';
@@ -22,7 +25,6 @@ import { SignInDto } from '../dto/sign-in.dto';
 import { SignUpDto } from '../dto/sign-up.dto';
 import { TokenDto } from '../dto/token.dto';
 import { UserTokenDto } from '../dto/user-token.dto';
-import { IAuthConfig } from '../interfaces/auth-config.interface';
 import { IJwtPayload } from '../interfaces/jwt-payload.interface';
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
@@ -31,7 +33,7 @@ import { TokenService } from '../services/token.service';
 @Controller('/api/auth')
 export class AuthController {
   constructor(
-    @Inject(AUTH_CONFIG_TOKEN) private readonly authConfig: IAuthConfig,
+    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     private readonly authService: AuthService,
     private readonly tokenService: TokenService
   ) {}
@@ -106,7 +108,7 @@ export class AuthController {
       AuthController.name + ':requestFacebookRedirectUrl#origin'
     );
     return this.authService.requestFacebookRedirectUri(
-      req.get('origin') || this.authConfig.protocol + '://' + req.get('host')
+      req.get('origin') || this.coreConfig.protocol + '://' + req.get('host')
     );
   }
   @HttpCode(HttpStatus.OK)
@@ -125,7 +127,7 @@ export class AuthController {
     );
     return this.authService.facebookSignIn(
       facebookSignInDto.code,
-      req.get('origin') || this.authConfig.protocol + '://' + req.get('host')
+      req.get('origin') || this.coreConfig.protocol + '://' + req.get('host')
     );
   }
   @HttpCode(HttpStatus.OK)
@@ -153,7 +155,7 @@ export class AuthController {
       AuthController.name + ':requestGoogleRedirectUri#origin'
     );
     return this.authService.requestGoogleRedirectUri(
-      req.get('origin') || this.authConfig.protocol + '://' + req.get('host')
+      req.get('origin') || this.coreConfig.protocol + '://' + req.get('host')
     );
   }
   @HttpCode(HttpStatus.OK)
@@ -169,7 +171,7 @@ export class AuthController {
     Logger.log(req.get('origin'), AuthController.name + ':googleSignIn#origin');
     return this.authService.googleSignIn(
       googleSignInDto.code,
-      req.get('origin') || this.authConfig.protocol + '://' + req.get('host')
+      req.get('origin') || this.coreConfig.protocol + '://' + req.get('host')
     );
   }
   @HttpCode(HttpStatus.OK)

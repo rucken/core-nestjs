@@ -1,5 +1,4 @@
 export * from './auth.module';
-export * from './configs/auth.config';
 export * from './configs/facebook.config';
 export * from './configs/google-plus.config';
 export * from './configs/index';
@@ -18,7 +17,6 @@ export * from './entities/index';
 export * from './entities/oauth-tokens-accesstoken.entity';
 export * from './filters/custom-exception.filter';
 export * from './filters/index';
-export * from './interfaces/auth-config.interface';
 export * from './interfaces/facebook-config.interface';
 export * from './interfaces/google-plus-config.interface';
 export * from './interfaces/jwt-config.interface';

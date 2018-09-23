@@ -18,20 +18,20 @@ import { services } from './services';
 @Module({
   imports: [
     HttpModule,
-    TypeOrmModule.forFeature([...coreEntities, ...entities]),
-    CoreModule.forFeature()
+    CoreModule,
+    TypeOrmModule.forFeature([...coreEntities, ...entities])
   ],
   controllers: [...controllers],
   providers: [...configs, ...services],
-  exports: [...services]
+  exports: [...configs, ...services]
 })
 export class AuthModule implements NestModule {
   static forFeature(): DynamicModule {
     return {
       module: AuthModule,
-      imports: [HttpModule, CoreModule.forFeature()],
+      imports: [HttpModule, CoreModule],
       providers: [...services],
-      exports: [...services]
+      exports: [...configs, ...services]
     };
   }
   static forRoot(options: { providers: Provider[] }): DynamicModule {
@@ -39,8 +39,8 @@ export class AuthModule implements NestModule {
       module: AuthModule,
       imports: [
         HttpModule,
-        TypeOrmModule.forFeature([...coreEntities, ...entities]),
-        CoreModule.forFeature()
+        CoreModule,
+        TypeOrmModule.forFeature([...coreEntities, ...entities])
       ],
       controllers: [...controllers],
       providers: [
@@ -49,7 +49,7 @@ export class AuthModule implements NestModule {
         ...services,
         ...passportStrategies
       ],
-      exports: [...services]
+      exports: [...configs, ...services]
     };
   }
   public configure(consumer: MiddlewareConsumer) {
