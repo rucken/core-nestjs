@@ -1,6 +1,20 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Logger, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Inject,
+  Logger,
+  Post,
+  Req
+} from '@nestjs/common';
 import { ApiResponse, ApiUseTags } from '@nestjs/swagger';
-import { CORE_CONFIG_TOKEN, ICoreConfig, OutAccountDto } from '@rucken/core-nestjs';
+import {
+  CORE_CONFIG_TOKEN,
+  ICoreConfig,
+  OutAccountDto
+} from '@rucken/core-nestjs';
 import { plainToClass } from 'class-transformer';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import { FacebookSignInDto } from '../dto/facebook-signIn.dto';
@@ -22,7 +36,7 @@ export class AuthController {
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     private readonly authService: AuthService,
     private readonly tokenService: TokenService
-  ) { }
+  ) {}
   @HttpCode(HttpStatus.OK)
   @Post('signin')
   @ApiResponse({
