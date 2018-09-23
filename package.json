@@ -103,12 +103,12 @@
   ],
   "devDependencies": {
     "@nestjs/testing": "^5.3.7",
-    "@rucken/cli": "^3.1.5",
+    "@rucken/cli": "^3.2.0",
     "@types/dotenv": "^4.0.3",
     "@types/express": "^4.16.0",
     "@types/jest": "^23.3.2",
     "@types/jsonwebtoken": "^7.2.8",
-    "@types/node": "^10.10.1",
+    "@types/node": "^10.10.3",
     "@types/supertest": "^2.0.6",
     "conventional-changelog-cli": "^2.0.5",
     "conventional-commits-detector": "^0.1.1",
@@ -128,7 +128,7 @@
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "webpack": "^4.19.1",
-    "webpack-cli": "^3.1.0",
+    "webpack-cli": "^3.1.1",
     "webpack-node-externals": "^1.7.2"
   },
   "greenkeeper": {
