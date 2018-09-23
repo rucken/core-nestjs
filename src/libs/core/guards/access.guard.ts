@@ -9,6 +9,11 @@ export class AccessGuard extends AuthGuard('jwt') {
     super();
   }
   async canActivate(context: ExecutionContext) {
+    try {
+      await super.canActivate(context);
+    } catch (error) {
+
+    }
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
     const permissions = this.reflector.get<string[]>(
       'permissions',
