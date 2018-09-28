@@ -1,3 +1,13 @@
+<a name="0.8.3"></a>
+## [0.8.3](https://github.com/rucken/core-nestjs/compare/0.8.2...0.8.3) (2018-09-28)
+
+
+### Bug Fixes
+
+* Update dependencies ([a47caec](https://github.com/rucken/core-nestjs/commit/a47caec))
+
+
+
 <a name="0.8.2"></a>
 ## [0.8.2](https://github.com/rucken/core-nestjs/compare/0.8.1...0.8.2) (2018-09-23)
 
