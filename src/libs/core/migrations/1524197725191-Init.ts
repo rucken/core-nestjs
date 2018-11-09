@@ -45,12 +45,12 @@ export class Init1524197725191 implements MigrationInterface {
           {
             name: 'first_name',
             type: 'varchar(30)',
-            isNullable: false
+            isNullable: true
           },
           {
             name: 'last_name',
             type: 'varchar(30)',
-            isNullable: false
+            isNullable: true
           },
           {
             name: 'email',
@@ -351,5 +351,5 @@ export class Init1524197725191 implements MigrationInterface {
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {}
+  public async down(queryRunner: QueryRunner): Promise<any> { }
 }

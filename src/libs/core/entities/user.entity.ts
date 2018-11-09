@@ -41,12 +41,12 @@ export class User {
   @IsOptional()
   username: string = undefined;
 
-  @Column({ name: 'first_name', length: 30 })
+  @Column({ name: 'first_name', length: 30, nullable: true })
   @MaxLength(30)
   @IsOptional()
   firstName: string = undefined;
 
-  @Column({ name: 'last_name', length: 30 })
+  @Column({ name: 'last_name', length: 30, nullable: true })
   @MaxLength(30)
   @IsOptional()
   lastName: string = undefined;
