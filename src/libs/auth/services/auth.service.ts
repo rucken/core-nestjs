@@ -13,7 +13,7 @@ import {
   UsersService,
   ICoreConfig,
   CORE_CONFIG_TOKEN
-} from '@todo-nestjs/core';
+} from '@rucken/core-nestjs';
 import { plainToClass } from 'class-transformer';
 import { stringify } from 'querystring';
 import { map } from 'rxjs/operators';
@@ -40,7 +40,7 @@ export class AuthService {
     if (this.coreConfig.port) {
       this.localUri = `http://${this.coreConfig.domain}:${
         this.coreConfig.port
-        }`;
+      }`;
     } else {
       this.localUri = `http://${this.coreConfig.domain}`;
     }
@@ -72,9 +72,7 @@ export class AuthService {
     if (options.email) {
       let userOfEmail: { user };
       try {
-        userOfEmail = await this.usersService.findByEmail(
-          options
-        );
+        userOfEmail = await this.usersService.findByEmail(options);
       } catch (error) {
         userOfEmail = undefined;
       }
@@ -87,9 +85,7 @@ export class AuthService {
     if (options.username) {
       let userOfUsername: { user };
       try {
-        userOfUsername = await this.usersService.findByUserName(
-          options
-        );
+        userOfUsername = await this.usersService.findByUserName(options);
       } catch (error) {
         userOfUsername = undefined;
       }
@@ -114,7 +110,7 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.fbConfig.login_dialog_uri
-      }?${queryParams.join('&')}`.replace('{host}', host);
+    }?${queryParams.join('&')}`.replace('{host}', host);
     Logger.log(redirect_uri, AuthService.name + ':requestFacebookRedirectUri');
     return {
       redirect_uri
@@ -171,9 +167,9 @@ export class AuthService {
       );
       throw new BadRequestException(
         error &&
-          error.response &&
-          error.response.data &&
-          error.response.data.error
+        error.response &&
+        error.response.data &&
+        error.response.data.error
           ? error.response.data.error.message
           : error.message
       );
@@ -188,7 +184,7 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.googlePlusConfig.login_dialog_uri
-      }?${queryParams.join('&')}`.replace('{host}', host);
+    }?${queryParams.join('&')}`.replace('{host}', host);
     Logger.log(redirect_uri, AuthService.name + ':requestGoogleRedirectUri');
     return {
       redirect_uri

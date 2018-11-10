@@ -5,9 +5,7 @@ import { PassportStrategy } from '@nestjs/passport';
 
 @Injectable()
 export class LocalStrategySignIn extends PassportStrategy(Strategy, 'signin') {
-  constructor(
-    private readonly authService: AuthService
-  ) {
+  constructor(private readonly authService: AuthService) {
     super({
       usernameField: 'email',
       passwordField: 'password',
@@ -22,9 +20,7 @@ export class LocalStrategySignIn extends PassportStrategy(Strategy, 'signin') {
 // tslint:disable-next-line:max-classes-per-file
 @Injectable()
 export class LocalStrategySignUp extends PassportStrategy(Strategy, 'signup') {
-  constructor(
-    private readonly authService: AuthService
-  ) {
+  constructor(private readonly authService: AuthService) {
     super({
       usernameField: 'email',
       passwordField: 'password',
