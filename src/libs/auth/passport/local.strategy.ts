@@ -1,53 +1,45 @@
 import { Injectable } from '@nestjs/common';
-import { use } from 'passport';
 import { Strategy } from 'passport-local';
 import { AuthService } from '../services/auth.service';
+import { PassportStrategy } from '@nestjs/passport';
 
 @Injectable()
-export class LocalStrategy {
-  constructor(private readonly authService: AuthService) {
-    this.init();
+export class LocalStrategySignIn extends PassportStrategy(Strategy, 'signin') {
+  constructor(
+    private readonly authService: AuthService
+  ) {
+    super({
+      usernameField: 'email',
+      passwordField: 'password',
+      passReqToCallback: true
+    });
   }
-  private init(): void {
-    use(
-      'signin',
-      new Strategy(
-        {
-          usernameField: 'email',
-          passwordField: 'password',
-          passReqToCallback: true
-        },
-        async (req, email: string, password: string, done) => {
-          try {
-            const { user } = await this.authService.signIn({ email, password });
-            done(null, user);
-          } catch (error) {
-            done(error, false);
-          }
-        }
-      )
-    );
-    use(
-      'signup',
-      new Strategy(
-        {
-          usernameField: 'email',
-          passwordField: 'password',
-          passReqToCallback: true
-        },
-        async (req, email: string, password: string, done) => {
-          try {
-            const { user } = await this.authService.signUp({
-              email,
-              password,
-              username: req.body.username
-            });
-            done(null, user);
-          } catch (error) {
-            done(error, false);
-          }
-        }
-      )
-    );
+  public async validate(req, email: string, password: string) {
+    const { user } = await this.authService.signIn({ email, password });
+    return user;
+  }
+}
+// tslint:disable-next-line:max-classes-per-file
+@Injectable()
+export class LocalStrategySignUp extends PassportStrategy(Strategy, 'signup') {
+  constructor(
+    private readonly authService: AuthService
+  ) {
+    super({
+      usernameField: 'email',
+      passwordField: 'password',
+      passReqToCallback: true
+    });
+  }
+  public async validate(req, email: string, password: string) {
+    if (req.user) {
+      return req.user;
+    }
+    const { user } = await this.authService.signUp({
+      email,
+      password,
+      username: req.body.username
+    });
+    return user;
   }
 }
