@@ -7,12 +7,12 @@ import {
   Logger
 } from '@nestjs/common';
 import {
-  CORE_CONFIG_TOKEN,
   CustomError,
   GroupsService,
-  ICoreConfig,
   User,
-  UsersService
+  UsersService,
+  ICoreConfig,
+  CORE_CONFIG_TOKEN
 } from '@rucken/core-nestjs';
 import { plainToClass } from 'class-transformer';
 import { stringify } from 'querystring';
@@ -70,24 +70,30 @@ export class AuthService {
       throw new BadRequestException('Error in load groups');
     }
     if (options.email) {
+      let userOfEmail: { user };
       try {
-        const userOfEmail: { user } = await this.usersService.findByEmail(
-          options
-        );
+        userOfEmail = await this.usersService.findByEmail(options);
+      } catch (error) {
+        userOfEmail = undefined;
+      }
+      if (userOfEmail) {
         throw new ConflictException(
           `User with email "${options.email}" is exists`
         );
-      } catch (error) {}
+      }
     }
     if (options.username) {
+      let userOfUsername: { user };
       try {
-        const userOfUsername: { user } = await this.usersService.findByUserName(
-          options
-        );
+        userOfUsername = await this.usersService.findByUserName(options);
+      } catch (error) {
+        userOfUsername = undefined;
+      }
+      if (userOfUsername) {
         throw new ConflictException(
           `User with username "${options.username}" is exists`
         );
-      } catch (error) {}
+      }
     }
     const group = this.groupsService.getGroupByName({ name: 'user' });
     const newUser = await plainToClass(User, options).setPassword(
