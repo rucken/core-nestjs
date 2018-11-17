@@ -1,3 +1,15 @@
+## [0.8.4](https://github.com/rucken/core-nestjs/compare/0.8.3...0.8.4) (2018-11-17)
+
+
+### Bug Fixes
+
+* **auth:** Remove disabled error check exists email and username ([ce74e77](https://github.com/rucken/core-nestjs/commit/ce74e77))
+* **auth:** Remove twice called signup action https://github.com/rucken/todo-nestjs/issues/2 ([60c0e3d](https://github.com/rucken/core-nestjs/commit/60c0e3d))
+* **deps:** Update dependencies ([6891fa1](https://github.com/rucken/core-nestjs/commit/6891fa1))
+* **user:** Update constraints first_name and last_name set isNullable: true ([53bc4bb](https://github.com/rucken/core-nestjs/commit/53bc4bb))
+
+
+
 <a name="0.8.3"></a>
 ## [0.8.3](https://github.com/rucken/core-nestjs/compare/0.8.2...0.8.3) (2018-09-28)
 
