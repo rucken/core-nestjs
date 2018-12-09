@@ -38,7 +38,6 @@ export class User {
 
   @Column({ length: 150, unique: true })
   @MaxLength(150)
-  @IsOptional()
   username: string = undefined;
 
   @Column({ name: 'first_name', length: 30, nullable: true })

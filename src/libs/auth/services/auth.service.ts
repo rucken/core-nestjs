@@ -40,7 +40,7 @@ export class AuthService {
     if (this.coreConfig.port) {
       this.localUri = `http://${this.coreConfig.domain}:${
         this.coreConfig.port
-      }`;
+        }`;
     } else {
       this.localUri = `http://${this.coreConfig.domain}`;
     }
@@ -69,31 +69,13 @@ export class AuthService {
     } catch (error) {
       throw new BadRequestException('Error in load groups');
     }
-    if (options.email) {
-      let userOfEmail: { user };
-      try {
-        userOfEmail = await this.usersService.findByEmail(options);
-      } catch (error) {
-        userOfEmail = undefined;
-      }
-      if (userOfEmail) {
-        throw new ConflictException(
-          `User with email "${options.email}" is exists`
-        );
-      }
-    }
-    if (options.username) {
-      let userOfUsername: { user };
-      try {
-        userOfUsername = await this.usersService.findByUserName(options);
-      } catch (error) {
-        userOfUsername = undefined;
-      }
-      if (userOfUsername) {
-        throw new ConflictException(
-          `User with username "${options.username}" is exists`
-        );
-      }
+    try {
+      await this.usersService.assertUsernameAndEmail({
+        email: options.email,
+        username: options.username
+      });
+    } catch (error) {
+      throw error;
     }
     const group = this.groupsService.getGroupByName({ name: 'user' });
     const newUser = await plainToClass(User, options).setPassword(
@@ -110,7 +92,7 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.fbConfig.login_dialog_uri
-    }?${queryParams.join('&')}`.replace('{host}', host);
+      }?${queryParams.join('&')}`.replace('{host}', host);
     Logger.log(redirect_uri, AuthService.name + ':requestFacebookRedirectUri');
     return {
       redirect_uri
@@ -167,9 +149,9 @@ export class AuthService {
       );
       throw new BadRequestException(
         error &&
-        error.response &&
-        error.response.data &&
-        error.response.data.error
+          error.response &&
+          error.response.data &&
+          error.response.data.error
           ? error.response.data.error.message
           : error.message
       );
@@ -184,7 +166,7 @@ export class AuthService {
     ];
     const redirect_uri: string = `${
       this.googlePlusConfig.login_dialog_uri
-    }?${queryParams.join('&')}`.replace('{host}', host);
+      }?${queryParams.join('&')}`.replace('{host}', host);
     Logger.log(redirect_uri, AuthService.name + ':requestGoogleRedirectUri');
     return {
       redirect_uri

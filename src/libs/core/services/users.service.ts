@@ -1,9 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  MethodNotAllowedException,
-  NotFoundException
-} from '@nestjs/common';
+import { ConflictException, Inject, Injectable, MethodNotAllowedException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CORE_CONFIG_TOKEN } from '../configs/core.config';
@@ -15,12 +10,45 @@ export class UsersService {
   constructor(
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @InjectRepository(User) private readonly repository: Repository<User>
-  ) {}
+  ) { }
+  async assertUsernameAndEmail(options: { id?: number, email: string, username: string }) {
+    if (options.email) {
+      let userOfEmail: { user };
+      try {
+        userOfEmail = await this.findByEmail(options);
+      } catch (error) {
+        userOfEmail = undefined;
+      }
+      if (userOfEmail && userOfEmail.user.id !== options.id) {
+        throw new ConflictException(
+          `User with email "${options.email}" is exists`
+        );
+      }
+    }
+    if (options.username) {
+      let userOfUsername: { user };
+      try {
+        userOfUsername = await this.findByUserName(options);
+      } catch (error) {
+        userOfUsername = undefined;
+      }
+      if (userOfUsername && userOfUsername.user.id !== options.id) {
+        throw new ConflictException(
+          `User with username "${options.username}" is exists`
+        );
+      }
+    }
+  }
   async create(options: { item: User }) {
     if (options.item.isSuperuser && this.coreConfig.demo) {
       throw new MethodNotAllowedException('Not allowed in DEMO mode');
     }
     try {
+      await this.assertUsernameAndEmail({
+        id: options.item.id,
+        email: options.item.email,
+        username: options.item.username
+      });
       options.item = await this.repository.save(options.item);
       const { user } = await this.findById({ id: options.item.id });
       return { user };
@@ -32,9 +60,14 @@ export class UsersService {
     if (this.coreConfig.demo) {
       throw new MethodNotAllowedException('Not allowed in DEMO mode');
     }
-    options.item.lastLogin = new Date();
-    options.item.id = options.id;
     try {
+      await this.assertUsernameAndEmail({
+        id: options.item.id,
+        email: options.item.email,
+        username: options.item.username
+      });
+      options.item.lastLogin = new Date();
+      options.item.id = options.id;
       options.item = await this.repository.save(options.item);
       const { user } = await this.findById({ id: options.item.id });
       return { user };
