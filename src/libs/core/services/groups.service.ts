@@ -1,10 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  MethodNotAllowedException,
-  NotFoundException,
-  BadRequestException
-} from '@nestjs/common';
+import { Inject, Injectable, MethodNotAllowedException, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
@@ -63,31 +57,19 @@ export class GroupsService {
       throw error;
     }
   }
-  async findAll(options: {
-    curPage: number;
-    perPage: number;
-    q?: string;
-    sort?: string;
-  }) {
+  async findAll(options: { curPage: number; perPage: number; q?: string; sort?: string }) {
     try {
       let objects: [Group[], number];
       let qb = this.repository.createQueryBuilder('group');
       qb = qb.leftJoinAndSelect('group.permissions', 'permission');
       qb = qb.leftJoinAndSelect('permission.contentType', 'contentType');
       if (options.q) {
-        qb = qb.where(
-          'group.title like :q or group.name like :q or group.id = :id',
-          {
-            q: `%${options.q}%`,
-            id: +options.q
-          }
-        );
+        qb = qb.where('group.title like :q or group.name like :q or group.id = :id', {
+          q: `%${options.q}%`,
+          id: +options.q
+        });
       }
-      options.sort =
-        options.sort &&
-        new Group().hasOwnProperty(options.sort.replace('-', ''))
-          ? options.sort
-          : '-id';
+      options.sort = options.sort && new Group().hasOwnProperty(options.sort.replace('-', '')) ? options.sort : '-id';
       const field = options.sort.replace('-', '');
       if (options.sort) {
         if (options.sort[0] === '-') {
@@ -96,18 +78,13 @@ export class GroupsService {
           qb = qb.orderBy('group.' + field, 'ASC');
         }
       }
-      qb = qb
-        .skip((options.curPage - 1) * options.perPage)
-        .take(options.perPage);
+      qb = qb.skip((options.curPage - 1) * options.perPage).take(options.perPage);
       objects = await qb.getManyAndCount();
       return {
         groups: objects[0],
         meta: {
           perPage: options.perPage,
-          totalPages:
-            options.perPage > objects[1]
-              ? 1
-              : Math.ceil(objects[1] / options.perPage),
+          totalPages: options.perPage > objects[1] ? 1 : Math.ceil(objects[1] / options.perPage),
           totalResults: objects[1],
           curPage: options.curPage
         }
@@ -117,9 +94,7 @@ export class GroupsService {
     }
   }
   getGroupByName(options: { name: string }) {
-    const groups = (this.items ? this.items : []).filter(
-      group => group.name === options.name
-    );
+    const groups = (this.items ? this.items : []).filter(group => group.name === options.name);
     if (groups.length) {
       return groups[0];
     }

@@ -1,11 +1,4 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableIndex,
-  TableForeignKey,
-  TableColumn
-} from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableIndex, TableForeignKey, TableColumn } from 'typeorm';
 
 export class Init1524197725191 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
@@ -60,15 +53,13 @@ export class Init1524197725191 implements MigrationInterface {
           {
             name: 'last_login',
             type: queryRunner.connection.driver.mappedDataTypes.createDate.toString(),
-            default:
-              queryRunner.connection.driver.mappedDataTypes.updateDateDefault
+            default: queryRunner.connection.driver.mappedDataTypes.updateDateDefault
           },
           {
             name: 'date_joined',
             type: queryRunner.connection.driver.mappedDataTypes.createDate.toString(),
             isNullable: false,
-            default:
-              queryRunner.connection.driver.mappedDataTypes.createDateDefault
+            default: queryRunner.connection.driver.mappedDataTypes.createDateDefault
           },
           {
             name: 'date_of_birth',

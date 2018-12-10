@@ -1,20 +1,6 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Inject,
-  Logger,
-  Post,
-  Req
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Logger, Post, Req } from '@nestjs/common';
 import { ApiResponse, ApiUseTags } from '@nestjs/swagger';
-import {
-  CORE_CONFIG_TOKEN,
-  ICoreConfig,
-  OutAccountDto
-} from '@rucken/core-nestjs';
+import { CORE_CONFIG_TOKEN, ICoreConfig, OutAccountDto } from '@rucken/core-nestjs';
 import { plainToClass } from 'class-transformer';
 import { JsonWebTokenError } from 'jsonwebtoken';
 import { FacebookSignInDto } from '../dto/facebook-signIn.dto';
@@ -42,13 +28,9 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     type: UserTokenDto,
-    description:
-      'API View that checks the veracity of a token, returning the token if it is valid.'
+    description: 'API View that checks the veracity of a token, returning the token if it is valid.'
   })
-  async requestJsonWebTokenAfterSignIn(
-    @Req() req,
-    @Body() signInDto: SignInDto
-  ): Promise<UserTokenDto> {
+  async requestJsonWebTokenAfterSignIn(@Req() req, @Body() signInDto: SignInDto): Promise<UserTokenDto> {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });
   }
@@ -60,10 +42,7 @@ export class AuthController {
     description: `API View that receives a POST with a user's username and password.
         Returns a JSON Web Token that can be used for authenticated requests.`
   })
-  async requestJsonWebTokenAfterSignUp(
-    @Req() req,
-    @Body() signUpDto: SignUpDto
-  ): Promise<UserTokenDto> {
+  async requestJsonWebTokenAfterSignUp(@Req() req, @Body() signUpDto: SignUpDto): Promise<UserTokenDto> {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });
   }
@@ -72,21 +51,13 @@ export class AuthController {
   @ApiResponse({
     status: HttpStatus.OK,
     type: UserTokenDto,
-    description:
-      'API View that checks the veracity of a token, returning the token if it is valid.'
+    description: 'API View that checks the veracity of a token, returning the token if it is valid.'
   })
-  async requestJsonWebTokenAfterInfo(
-    @Req() req,
-    @Body() tokenDto: TokenDto
-  ): Promise<OutAccountDto> {
+  async requestJsonWebTokenAfterInfo(@Req() req, @Body() tokenDto: TokenDto): Promise<OutAccountDto> {
     try {
-      const validateTokenResult = await this.tokenService.validate(
-        tokenDto.token
-      );
+      const validateTokenResult = await this.tokenService.validate(tokenDto.token);
       if (validateTokenResult) {
-        const jwtPayload: IJwtPayload = await this.tokenService.decode(
-          tokenDto.token
-        );
+        const jwtPayload: IJwtPayload = await this.tokenService.decode(tokenDto.token);
         const { user } = await this.authService.info({ id: jwtPayload.id });
         return plainToClass(OutAccountDto, { user });
       } else {
@@ -103,10 +74,7 @@ export class AuthController {
   })
   @Get('facebook/uri')
   async requestFacebookRedirectUrl(@Req() req): Promise<RedirectUriDto> {
-    Logger.log(
-      req.get('origin'),
-      AuthController.name + ':requestFacebookRedirectUrl#origin'
-    );
+    Logger.log(req.get('origin'), AuthController.name + ':requestFacebookRedirectUrl#origin');
     return this.authService.requestFacebookRedirectUri(
       req.get('origin') || this.coreConfig.protocol + '://' + req.get('host')
     );
@@ -117,14 +85,8 @@ export class AuthController {
     description: 'facebook/signin'
   })
   @Post('facebook/signin')
-  async facebookSignIn(
-    @Req() req,
-    @Body() facebookSignInDto: FacebookSignInDto
-  ): Promise<UserTokenDto> {
-    Logger.log(
-      req.get('origin'),
-      AuthController.name + ':facebookSignIn#origin'
-    );
+  async facebookSignIn(@Req() req, @Body() facebookSignInDto: FacebookSignInDto): Promise<UserTokenDto> {
+    Logger.log(req.get('origin'), AuthController.name + ':facebookSignIn#origin');
     return this.authService.facebookSignIn(
       facebookSignInDto.code,
       req.get('origin') || this.coreConfig.protocol + '://' + req.get('host')
@@ -150,10 +112,7 @@ export class AuthController {
   })
   @Get('google-plus/uri')
   async requestGoogleRedirectUri(@Req() req): Promise<RedirectUriDto> {
-    Logger.log(
-      req.get('origin'),
-      AuthController.name + ':requestGoogleRedirectUri#origin'
-    );
+    Logger.log(req.get('origin'), AuthController.name + ':requestGoogleRedirectUri#origin');
     return this.authService.requestGoogleRedirectUri(
       req.get('origin') || this.coreConfig.protocol + '://' + req.get('host')
     );
@@ -164,10 +123,7 @@ export class AuthController {
     description: 'google-plus/signin'
   })
   @Post('google-plus/signin')
-  async googleSignIn(
-    @Req() req,
-    @Body() googleSignInDto: GooglePlusSignInDto
-  ): Promise<any> {
+  async googleSignIn(@Req() req, @Body() googleSignInDto: GooglePlusSignInDto): Promise<any> {
     Logger.log(req.get('origin'), AuthController.name + ':googleSignIn#origin');
     return this.authService.googleSignIn(
       googleSignInDto.code,
@@ -180,9 +136,7 @@ export class AuthController {
     description: 'google-plus/token'
   })
   @Post('google-plus/token')
-  async requestJsonWebTokenAfterGoogleSignIn(
-    @Req() req
-  ): Promise<UserTokenDto> {
+  async requestJsonWebTokenAfterGoogleSignIn(@Req() req): Promise<UserTokenDto> {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });
   }

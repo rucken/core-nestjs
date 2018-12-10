@@ -58,12 +58,7 @@ export class OauthTokensAccesstokensService {
       throw error;
     }
   }
-  async findAll(options: {
-    curPage: number;
-    perPage: number;
-    q?: string;
-    sort?: string;
-  }) {
+  async findAll(options: { curPage: number; perPage: number; q?: string; sort?: string }) {
     try {
       let objects: [OauthTokensAccesstoken[], number];
       let qb = this.repository.createQueryBuilder('oauthTokensAccesstoken');
@@ -77,10 +72,7 @@ export class OauthTokensAccesstokensService {
         );
       }
       options.sort =
-        options.sort &&
-        new OauthTokensAccesstoken().hasOwnProperty(
-          options.sort.replace('-', '')
-        )
+        options.sort && new OauthTokensAccesstoken().hasOwnProperty(options.sort.replace('-', ''))
           ? options.sort
           : '-id';
       const field = options.sort.replace('-', '');
@@ -91,18 +83,13 @@ export class OauthTokensAccesstokensService {
           qb = qb.orderBy('oauthTokensAccesstoken.' + field, 'ASC');
         }
       }
-      qb = qb
-        .skip((options.curPage - 1) * options.perPage)
-        .take(options.perPage);
+      qb = qb.skip((options.curPage - 1) * options.perPage).take(options.perPage);
       objects = await qb.getManyAndCount();
       return {
         contentTypes: objects[0],
         meta: {
           perPage: options.perPage,
-          totalPages:
-            options.perPage > objects[1]
-              ? 1
-              : Math.ceil(objects[1] / options.perPage),
+          totalPages: options.perPage > objects[1] ? 1 : Math.ceil(objects[1] / options.perPage),
           totalResults: objects[1],
           curPage: options.curPage
         }

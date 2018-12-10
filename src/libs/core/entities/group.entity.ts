@@ -1,13 +1,5 @@
 import { IsNotEmpty, MaxLength, validateSync } from 'class-validator';
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn
-} from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Permission } from '../entities/permission.entity';
 import { User } from '../entities/user.entity';
 import { CustomValidationError } from '../exceptions/custom-validation.error';

@@ -28,41 +28,28 @@ export class GooglePlusStrategy {
           clientID: this.googlePlusConfig.client_id,
           clientSecret: this.googlePlusConfig.client_secret
         },
-        async (
-          accessToken: string,
-          refreshToken: string,
-          profile: any,
-          done
-        ) => {
+        async (accessToken: string, refreshToken: string, profile: any, done) => {
           Logger.log(JSON.stringify(profile), GooglePlusStrategy.name);
           if (!profile.id) {
             done(null, null);
           }
           try {
             try {
-              const {
-                oauthTokensAccesstoken
-              } = await this.oauthTokensAccesstokensService.findByProviderClientId(
-                { id: profile.id }
-              );
+              const { oauthTokensAccesstoken } = await this.oauthTokensAccesstokensService.findByProviderClientId({
+                id: profile.id
+              });
               const { user } = await this.authService.info({
                 id: oauthTokensAccesstoken.user.id
               });
               done(null, user);
             } catch (err) {
               const email =
-                profile.emails &&
-                profile.emails.length &&
-                profile.emails[0].value
+                profile.emails && profile.emails.length && profile.emails[0].value
                   ? profile.emails[0].value
                   : `${profile.id}@google.com`;
               const username = `google_${profile.id}`;
-              const firstName = profile.name
-                ? profile.name.givenName
-                : `google_${profile.id}`;
-              const lastName = profile.name
-                ? profile.name.familyName
-                : `google_${profile.id}`;
+              const firstName = profile.name ? profile.name.givenName : `google_${profile.id}`;
+              const lastName = profile.name ? profile.name.familyName : `google_${profile.id}`;
               const password = `google_${profile.id}`;
               const { user } = await this.authService.signUp(
                 plainToClass(SignUpDto, {

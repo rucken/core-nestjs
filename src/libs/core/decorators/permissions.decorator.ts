@@ -1,4 +1,3 @@
 import { ReflectMetadata } from '@nestjs/common';
 
-export const Permissions = (...permissions: string[]) =>
-  ReflectMetadata('permissions', permissions);
+export const Permissions = (...permissions: string[]) => ReflectMetadata('permissions', permissions);

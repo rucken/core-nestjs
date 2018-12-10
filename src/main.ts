@@ -29,13 +29,7 @@ import {
   IJwtConfig,
   JWT_CONFIG_TOKEN
 } from '@rucken/auth-nestjs';
-import {
-  appFilters,
-  appPipes,
-  CORE_CONFIG_TOKEN,
-  defaultCoreConfig,
-  ICoreConfig
-} from '@rucken/core-nestjs';
+import { appFilters, appPipes, CORE_CONFIG_TOKEN, defaultCoreConfig, ICoreConfig } from '@rucken/core-nestjs';
 import { load } from 'dotenv';
 import { accessSync, readFileSync } from 'fs';
 import * as path from 'path';
@@ -47,10 +41,7 @@ declare const module: any;
 
 async function bootstrap() {
   const packageBody = JSON.parse(readFileSync('./package.json').toString());
-  const STATIC_FOLDERS = [
-    path.resolve(__dirname, '..', 'www'),
-    path.resolve(__dirname, '..', 'frontend')
-  ];
+  const STATIC_FOLDERS = [path.resolve(__dirname, '..', 'www'), path.resolve(__dirname, '..', 'frontend')];
   Logger.log(NODE_ENV);
   const envFile = path.resolve(__dirname, '..', `${NODE_ENV}.env`);
   try {
@@ -85,9 +76,7 @@ async function bootstrap() {
     demo: process.env.DEMO === 'true',
     port: process.env.PORT ? +process.env.PORT : 3000,
     protocol: process.env.PROTOCOL === 'https' ? 'https' : 'http',
-    externalPort: process.env.EXTERNAL_PORT
-      ? +process.env.EXTERNAL_PORT
-      : undefined,
+    externalPort: process.env.EXTERNAL_PORT ? +process.env.EXTERNAL_PORT : undefined,
     domain: process.env.DOMAIN
   };
   const jwtConfig: IJwtConfig = {
