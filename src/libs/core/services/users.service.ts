@@ -10,8 +10,8 @@ export class UsersService {
   constructor(
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @InjectRepository(User) private readonly repository: Repository<User>
-  ) { }
-  async assertUsernameAndEmail(options: { id?: number, email: string, username: string }) {
+  ) {}
+  async assertUsernameAndEmail(options: { id?: number; email: string; username: string }) {
     if (options.email) {
       let userOfEmail: { user };
       try {
@@ -20,9 +20,7 @@ export class UsersService {
         userOfEmail = undefined;
       }
       if (userOfEmail && userOfEmail.user.id !== options.id) {
-        throw new ConflictException(
-          `User with email "${options.email}" is exists`
-        );
+        throw new ConflictException(`User with email "${options.email}" is exists`);
       }
     }
     if (options.username) {
@@ -33,9 +31,7 @@ export class UsersService {
         userOfUsername = undefined;
       }
       if (userOfUsername && userOfUsername.user.id !== options.id) {
-        throw new ConflictException(
-          `User with username "${options.username}" is exists`
-        );
+        throw new ConflictException(`User with username "${options.username}" is exists`);
       }
     }
   }
@@ -99,38 +95,24 @@ export class UsersService {
       throw error;
     }
   }
-  async findAll(options: {
-    curPage: number;
-    perPage: number;
-    q?: string;
-    group?: number;
-    sort?: string;
-  }) {
+  async findAll(options: { curPage: number; perPage: number; q?: string; group?: number; sort?: string }) {
     try {
       let objects: [User[], number];
       let qb = this.repository.createQueryBuilder('user');
       if (options.group) {
-        qb = qb
-          .leftJoinAndSelect('user.groups', 'group')
-          .where('group.id = :group', { group: options.group });
+        qb = qb.leftJoinAndSelect('user.groups', 'group').where('group.id = :group', { group: options.group });
       } else {
         qb = qb.leftJoinAndSelect('user.groups', 'group');
         qb = qb.leftJoinAndSelect('group.permissions', 'permission');
         qb = qb.leftJoinAndSelect('permission.contentType', 'contentType');
       }
       if (options.q) {
-        qb = qb.where(
-          'user.first_name like :q or user.last_name like :q or user.username like :q or user.id = :id',
-          {
-            q: `%${options.q}%`,
-            id: +options.q
-          }
-        );
+        qb = qb.where('user.first_name like :q or user.last_name like :q or user.username like :q or user.id = :id', {
+          q: `%${options.q}%`,
+          id: +options.q
+        });
       }
-      options.sort =
-        options.sort && new User().hasOwnProperty(options.sort.replace('-', ''))
-          ? options.sort
-          : '-id';
+      options.sort = options.sort && new User().hasOwnProperty(options.sort.replace('-', '')) ? options.sort : '-id';
       const field = options.sort.replace('-', '');
       if (options.sort) {
         if (options.sort[0] === '-') {
@@ -139,18 +121,13 @@ export class UsersService {
           qb = qb.orderBy('user.' + field, 'ASC');
         }
       }
-      qb = qb
-        .skip((options.curPage - 1) * options.perPage)
-        .take(options.perPage);
+      qb = qb.skip((options.curPage - 1) * options.perPage).take(options.perPage);
       objects = await qb.getManyAndCount();
       return {
         users: objects[0],
         meta: {
           perPage: options.perPage,
-          totalPages:
-            options.perPage > objects[1]
-              ? 1
-              : Math.ceil(objects[1] / options.perPage),
+          totalPages: options.perPage > objects[1] ? 1 : Math.ceil(objects[1] / options.perPage),
           totalResults: objects[1],
           curPage: options.curPage
         }
@@ -171,9 +148,7 @@ export class UsersService {
         user: item
       };
     } catch (error) {
-      throw new NotFoundException(
-        `User with email "${options.email}" not founded`
-      );
+      throw new NotFoundException(`User with email "${options.email}" not founded`);
     }
   }
   async findByUserName(options: { username: string }) {
@@ -188,9 +163,7 @@ export class UsersService {
         user: item
       };
     } catch (error) {
-      throw new NotFoundException(
-        `User with username "${options.username}" not founded`
-      );
+      throw new NotFoundException(`User with username "${options.username}" not founded`);
     }
   }
 }

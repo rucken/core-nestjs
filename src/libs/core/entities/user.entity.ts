@@ -1,10 +1,4 @@
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  MaxLength,
-  validateSync
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, MaxLength, validateSync } from 'class-validator';
 import * as hashers from 'node-django-hashers';
 import {
   BeforeInsert,
@@ -123,10 +117,7 @@ export class User {
       this.groups.filter(
         group =>
           group &&
-          group.permissions.filter(
-            permission =>
-              permissions.indexOf(permission.name.toLowerCase()) !== -1
-          ).length > 0
+          group.permissions.filter(permission => permissions.indexOf(permission.name.toLowerCase()) !== -1).length > 0
       ).length > 0
     );
   }

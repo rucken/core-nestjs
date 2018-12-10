@@ -1,3 +1,14 @@
+## [0.8.5](https://github.com/rucken/core-nestjs/compare/0.8.4...0.8.5) (2018-12-10)
+
+
+### Bug Fixes
+
+* Update dependencies ([60654eb](https://github.com/rucken/core-nestjs/commit/60654eb))
+* **deps:** Update dependencies ([c9d6d3c](https://github.com/rucken/core-nestjs/commit/c9d6d3c))
+* **user:** Add check user name and email on update profile, create and update user ([ab770a7](https://github.com/rucken/core-nestjs/commit/ab770a7))
+
+
+
 ## [0.8.4](https://github.com/rucken/core-nestjs/compare/0.8.3...0.8.4) (2018-11-17)
 
 

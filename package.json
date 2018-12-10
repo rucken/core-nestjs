@@ -1,6 +1,6 @@
 {
   "name": "rucken-core-nestjs",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "engines": {
     "node": ">=10",
     "npm": ">=6.4.0"
@@ -43,7 +43,6 @@
   "scripts": {
     "tsc": "tsc",
     "clean": "./node_modules/.bin/del-cli dist www/docs database/sqlitedb.db",
-    "format": "prettier --write \"src/**/*.ts\"",
     "start:dev": "cross-env DB_SOURCE_EXT=ts nodemon",
     "start:prod": "cross-env NODE_ENV=production ./node_modules/.bin/pm2 start dist/main.js --name demo",
     "start:hmr": "cross-env NODE_ENV=production node dist/main.hmr.js",
@@ -61,11 +60,13 @@
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out www/docs src",
     "md-to-html": "showdown makehtml -i README.md -o frontend/index.html",
     "frontend": "run-s md-to-html",
-    "build": "run-s clean prepare:all format docs tsc migrate frontend",
+    "build": "run-s clean prepare:all format:fix docs tsc migrate frontend",
     "heroku-postbuild": "npm run build",
     "prepare:core": "rucken make-ts-list ./src/libs/core",
     "prepare:auth": "rucken make-ts-list ./src/libs/auth",
-    "prepare:all": "run-s prepare:core prepare:auth"
+    "prepare:all": "run-s prepare:core prepare:auth",
+    "precommit": "run-s format:fix",
+    "format:fix": "prettier  --config ./.prettierrc --write \"src/**/*.ts\""
   },
   "dependencies": {
     "@nestjs/common": "^5.5.0",

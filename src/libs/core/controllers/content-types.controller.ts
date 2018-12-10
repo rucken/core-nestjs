@@ -12,13 +12,7 @@ import {
   Query,
   UseGuards
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiImplicitParam,
-  ApiImplicitQuery,
-  ApiResponse,
-  ApiUseTags
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
 import { Permissions } from '../decorators/permissions.decorator';
 import { Roles } from '../decorators/roles.decorator';
@@ -69,10 +63,7 @@ export class ContentTypesController {
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
   @ApiImplicitParam({ name: 'id', type: Number })
   @Put(':id')
-  async update(
-    @Param('id', new ParseIntPipe()) id,
-    @Body() dto: InContentTypeDto
-  ) {
+  async update(@Param('id', new ParseIntPipe()) id, @Body() dto: InContentTypeDto) {
     try {
       return plainToClass(
         OutContentTypeDto,
