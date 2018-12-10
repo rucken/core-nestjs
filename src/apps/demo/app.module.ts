@@ -10,11 +10,7 @@ export class AppModule {
   static forRoot(options: { providers: Provider[] }): DynamicModule {
     return {
       module: AppModule,
-      imports: [
-        TypeOrmModule.forRoot(),
-        CoreModule.forRoot(options),
-        AuthModule.forRoot(options)
-      ]
+      imports: [TypeOrmModule.forRoot(), CoreModule.forRoot(options), AuthModule.forRoot(options)]
     };
   }
 }

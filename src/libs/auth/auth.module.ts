@@ -1,11 +1,4 @@
-import {
-  DynamicModule,
-  HttpModule,
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  Provider
-} from '@nestjs/common';
+import { DynamicModule, HttpModule, MiddlewareConsumer, Module, NestModule, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoreModule, entities as coreEntities } from '@rucken/core-nestjs';
 import { authenticate } from 'passport';
@@ -16,11 +9,7 @@ import { passportStrategies } from './passport';
 import { services } from './services';
 
 @Module({
-  imports: [
-    HttpModule,
-    CoreModule,
-    TypeOrmModule.forFeature([...coreEntities, ...entities])
-  ],
+  imports: [HttpModule, CoreModule, TypeOrmModule.forFeature([...coreEntities, ...entities])],
   controllers: [...controllers],
   providers: [...configs, ...services],
   exports: [...configs, ...services]
@@ -37,41 +26,20 @@ export class AuthModule implements NestModule {
   static forRoot(options: { providers: Provider[] }): DynamicModule {
     return {
       module: AuthModule,
-      imports: [
-        HttpModule,
-        CoreModule,
-        TypeOrmModule.forFeature([...coreEntities, ...entities])
-      ],
+      imports: [HttpModule, CoreModule, TypeOrmModule.forFeature([...coreEntities, ...entities])],
       controllers: [...controllers],
-      providers: [
-        ...configs,
-        ...options.providers,
-        ...services,
-        ...passportStrategies
-      ],
+      providers: [...configs, ...options.providers, ...services, ...passportStrategies],
       exports: [...configs, ...services]
     };
   }
   public configure(consumer: MiddlewareConsumer) {
+    consumer.apply(authenticate('signup', { session: false, passReqToCallback: true })).forRoutes('api/auth/signup');
+    consumer.apply(authenticate('signin', { session: false, passReqToCallback: true })).forRoutes('api/auth/signin');
     consumer
-      .apply(
-        authenticate('signup', { session: false, passReqToCallback: true })
-      )
-      .forRoutes('api/auth/signup');
-    consumer
-      .apply(
-        authenticate('signin', { session: false, passReqToCallback: true })
-      )
-      .forRoutes('api/auth/signin');
-    consumer
-      .apply(
-        authenticate('facebook', { session: false, passReqToCallback: true })
-      )
+      .apply(authenticate('facebook', { session: false, passReqToCallback: true }))
       .forRoutes('api/auth/facebook/token');
     consumer
-      .apply(
-        authenticate('google', { session: false, passReqToCallback: true })
-      )
+      .apply(authenticate('google', { session: false, passReqToCallback: true }))
       .forRoutes('api/auth/google-plus/token');
   }
 }

@@ -7,9 +7,7 @@ import { IJwtPayload } from '../interfaces/jwt-payload.interface';
 
 @Injectable()
 export class TokenService {
-  constructor(
-    @Inject(JWT_CONFIG_TOKEN) private readonly jwtConfig: IJwtConfig
-  ) {}
+  constructor(@Inject(JWT_CONFIG_TOKEN) private readonly jwtConfig: IJwtConfig) {}
   create(user: User) {
     return sign(
       {
@@ -35,16 +33,12 @@ export class TokenService {
     return decode(this.removeHeaderPrefix(token)) as IJwtPayload;
   }
   removeHeaderPrefix(token: string) {
-    return this.jwtConfig.authHeaderPrefix &&
-      token &&
-      token.split(this.jwtConfig.authHeaderPrefix + ' ').length > 1
+    return this.jwtConfig.authHeaderPrefix && token && token.split(this.jwtConfig.authHeaderPrefix + ' ').length > 1
       ? token.split(this.jwtConfig.authHeaderPrefix + ' ')[1]
       : token;
   }
   extractTokenFromRequest(request) {
-    const authorizationHeader = request.headers.authorization
-      ? String(request.headers.authorization)
-      : null;
+    const authorizationHeader = request.headers.authorization ? String(request.headers.authorization) : null;
     const token = this.removeHeaderPrefix(authorizationHeader);
     return token;
   }

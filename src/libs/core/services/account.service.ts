@@ -10,7 +10,7 @@ export class AccountService {
   constructor(
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     private readonly usersService: UsersService
-  ) { }
+  ) {}
   async update(options: { id: number; user: User }) {
     if (this.coreConfig.demo) {
       throw new MethodNotAllowedException('Not allowed in DEMO mode');

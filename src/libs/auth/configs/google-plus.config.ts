@@ -7,10 +7,7 @@ export const defaultGooglePlusConfig: IGooglePlusConfig = {
   oauth_redirect_uri: '',
   access_token_uri: 'https://accounts.google.com/o/oauth2/token',
   response_type: 'code',
-  scopes: [
-    'https://www.googleapis.com/auth/plus.login',
-    'https://www.googleapis.com/auth/plus.profile.emails.read'
-  ],
+  scopes: ['https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.profile.emails.read'],
   grant_type: 'authorization_code'
 };
 export const GOOGLE_PLUS_CONFIG_TOKEN: string = 'GooglePlusConfig';

@@ -27,32 +27,23 @@ export class FacebookStrategy {
           clientID: this.fbConfig.client_id,
           clientSecret: this.fbConfig.client_secret
         },
-        async (
-          accessToken: string,
-          refreshToken: string,
-          profile: any,
-          done
-        ) => {
+        async (accessToken: string, refreshToken: string, profile: any, done) => {
           Logger.log(JSON.stringify(profile), FacebookStrategy.name);
           if (!profile.id) {
             done(null, null);
           }
           try {
             try {
-              const {
-                oauthTokensAccesstoken
-              } = await this.oauthTokensAccesstokensService.findByProviderClientId(
-                { id: profile.id }
-              );
+              const { oauthTokensAccesstoken } = await this.oauthTokensAccesstokensService.findByProviderClientId({
+                id: profile.id
+              });
               const { user } = await this.authService.info({
                 id: oauthTokensAccesstoken.user.id
               });
               done(null, user);
             } catch (err) {
               const email =
-                profile.emails &&
-                profile.emails.length &&
-                profile.emails[0].value
+                profile.emails && profile.emails.length && profile.emails[0].value
                   ? profile.emails[0].value
                   : `${profile.id}@facebook.com`;
               const username = `facebook_${profile.id}`;

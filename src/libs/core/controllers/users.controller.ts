@@ -12,13 +12,7 @@ import {
   Query,
   UseGuards
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiImplicitParam,
-  ApiImplicitQuery,
-  ApiResponse,
-  ApiUseTags
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
 import { Permissions } from '../decorators/permissions.decorator';
 import { Roles } from '../decorators/roles.decorator';

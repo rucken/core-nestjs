@@ -1,14 +1,6 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  TableIndex,
-  Table,
-  TableColumn,
-  TableForeignKey
-} from 'typeorm';
+import { MigrationInterface, QueryRunner, TableIndex, Table, TableColumn, TableForeignKey } from 'typeorm';
 
-export class AddOauthTokensAccesstokenTable1533634559617
-  implements MigrationInterface {
+export class AddOauthTokensAccesstokenTable1533634559617 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(
       new Table({
@@ -32,8 +24,7 @@ export class AddOauthTokensAccesstokenTable1533634559617
             name: 'granted_at',
             type: queryRunner.connection.driver.mappedDataTypes.createDate.toString(),
             isNullable: false,
-            default:
-              queryRunner.connection.driver.mappedDataTypes.createDateDefault
+            default: queryRunner.connection.driver.mappedDataTypes.createDateDefault
           },
           {
             name: 'access_token',

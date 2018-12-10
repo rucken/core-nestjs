@@ -4,10 +4,4 @@ import { GroupsService } from '../services/groups.service';
 import { PermissionsService } from '../services/permissions.service';
 import { UsersService } from '../services/users.service';
 
-export const services = [
-  AccountService,
-  GroupsService,
-  UsersService,
-  ContentTypesService,
-  PermissionsService
-];
+export const services = [AccountService, GroupsService, UsersService, ContentTypesService, PermissionsService];

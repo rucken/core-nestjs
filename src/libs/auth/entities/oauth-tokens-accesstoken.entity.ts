@@ -1,10 +1,5 @@
 import { CustomValidationError, User } from '@rucken/core-nestjs';
-import {
-  IsNotEmpty,
-  IsOptional,
-  MaxLength,
-  validateSync
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, MaxLength, validateSync } from 'class-validator';
 import {
   BeforeInsert,
   BeforeUpdate,
