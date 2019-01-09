@@ -22,7 +22,13 @@ export class AccountService {
         username: options.user.username
       });
       let { user } = await this.usersService.findById(options);
-      user = plainToClassFromExist(user, options.user);
+      user = plainToClassFromExist(user, {
+        email: options.user.email,
+        password: options.user.password,
+        username: options.user.username,
+        firstName: options.user.firstName,
+        lastName: options.user.lastName
+      });
       await user.setPassword(options.user.password);
       return await this.usersService.update({ id: options.id, item: user });
     } catch (error) {
