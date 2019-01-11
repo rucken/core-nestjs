@@ -53,7 +53,7 @@ if (connectionString.protocol === 'sqlite') {
         port: connectionString.hosts && +connectionString.hosts[0].port,
         username: connectionString.user,
         password: connectionString.password,
-        database: connectionString.path[0] && connectionString.path[0],
+        database: connectionString.path && connectionString.path[0],
         entities: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/entities/**/*.entity.${DB_SOURCE_EXT}`),
         migrations: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/migrations/**/*.${DB_SOURCE_EXT}`),
         subscribers: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/subscribers/**/*.${DB_SOURCE_EXT}`),
