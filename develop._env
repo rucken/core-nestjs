@@ -10,13 +10,13 @@ JWT_EXPIRATION_DELTA=7 days
 JWT_AUTH_HEADER_PREFIX=JWT
 
 # https://developers.facebook.com/apps/<FACEBOOK_CLIENT_ID>/settings/basic/
-FACEBOOK_CLIENT_ID=
-FACEBOOK_CLIENT_SECRET=
+FACEBOOK_CLIENT_ID=none
+FACEBOOK_CLIENT_SECRET=none
 FACEBOOK_OAUTH_REDIRECT_URI={host}/auth/facebook/
 
 # https://console.developers.google.com/apis/credentials/oauthclient/
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
+GOOGLE_CLIENT_ID=none
+GOOGLE_CLIENT_SECRET=none
 GOOGLE_OAUTH_REDIRECT_URI={host}/auth/google-plus/
 
 DATABASE_URL=sqlite://database/sqlitedb.db
