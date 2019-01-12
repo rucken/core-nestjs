@@ -1,3 +1,13 @@
+## [0.8.6](https://github.com/rucken/core-nestjs/compare/0.8.5...0.8.6) (2019-01-12)
+
+
+### Bug Fixes
+
+* Remove map all fields on profile update ([997e1cf](https://github.com/rucken/core-nestjs/commit/997e1cf))
+* Update dependencies ([b9c7c5e](https://github.com/rucken/core-nestjs/commit/b9c7c5e))
+
+
+
 ## [0.8.5](https://github.com/rucken/core-nestjs/compare/0.8.4...0.8.5) (2018-12-10)
 
 
