@@ -9,6 +9,7 @@ import { ICoreConfig } from '../interfaces/core-config.interface';
 @Injectable()
 export class GroupsService {
   items: Group[];
+
   constructor(
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @InjectRepository(Group) private readonly repository: Repository<Group>
@@ -21,6 +22,7 @@ export class GroupsService {
       throw error;
     }
   }
+
   async update(options: { id: number; item: Group }) {
     if (this.coreConfig.demo) {
       throw new MethodNotAllowedException('Not allowed in DEMO mode');
@@ -33,6 +35,7 @@ export class GroupsService {
       throw error;
     }
   }
+
   async delete(options: { id: number }) {
     if (this.coreConfig.demo) {
       throw new MethodNotAllowedException('Not allowed in DEMO mode');
@@ -47,6 +50,7 @@ export class GroupsService {
       throw error;
     }
   }
+
   async findById(options: { id: number }) {
     try {
       const item = await this.repository.findOneOrFail(options.id, {
@@ -57,6 +61,7 @@ export class GroupsService {
       throw error;
     }
   }
+
   async findAll(options: { curPage: number; perPage: number; q?: string; sort?: string }) {
     try {
       let objects: [Group[], number];
@@ -93,6 +98,7 @@ export class GroupsService {
       throw error;
     }
   }
+
   getGroupByName(options: { name: string }) {
     const groups = (this.items ? this.items : []).filter(group => group.name === options.name);
     if (groups.length) {
@@ -100,6 +106,7 @@ export class GroupsService {
     }
     throw new NotFoundException(`Group with name "${options.name}" not exists`);
   }
+
   async preloadAll() {
     if (!this.items) {
       try {

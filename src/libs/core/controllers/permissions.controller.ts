@@ -30,6 +30,7 @@ import { PermissionsService } from '../services/permissions.service';
 @UseGuards(AccessGuard)
 export class PermissionsController {
   constructor(private readonly service: PermissionsService) {}
+
   @Roles('isSuperuser')
   @Permissions('add_permission')
   @HttpCode(HttpStatus.CREATED)
@@ -52,6 +53,7 @@ export class PermissionsController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('change_permission')
   @HttpCode(HttpStatus.OK)
@@ -76,6 +78,7 @@ export class PermissionsController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('delete_permission')
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -98,6 +101,7 @@ export class PermissionsController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('read_permission')
   @HttpCode(HttpStatus.OK)
@@ -121,6 +125,7 @@ export class PermissionsController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('read_permission')
   @HttpCode(HttpStatus.OK)

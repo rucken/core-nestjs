@@ -30,6 +30,7 @@ import { GroupsService } from '../services/groups.service';
 @UseGuards(AccessGuard)
 export class GroupsController {
   constructor(private readonly service: GroupsService) {}
+
   @Roles('isSuperuser')
   @Permissions('add_group')
   @HttpCode(HttpStatus.CREATED)
@@ -52,6 +53,7 @@ export class GroupsController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('change_group')
   @HttpCode(HttpStatus.OK)
@@ -76,6 +78,7 @@ export class GroupsController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('delete_group')
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -98,6 +101,7 @@ export class GroupsController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('read_group')
   @HttpCode(HttpStatus.OK)
@@ -121,6 +125,7 @@ export class GroupsController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('read_group')
   @HttpCode(HttpStatus.OK)

@@ -31,6 +31,7 @@ import { UsersService } from '../services/users.service';
 @UseGuards(AccessGuard)
 export class UsersController {
   constructor(private readonly service: UsersService) {}
+
   @Roles('isSuperuser')
   @Permissions('add_user')
   @HttpCode(HttpStatus.CREATED)
@@ -53,6 +54,7 @@ export class UsersController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('change_user')
   @HttpCode(HttpStatus.OK)
@@ -77,6 +79,7 @@ export class UsersController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('delete_user')
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -99,6 +102,7 @@ export class UsersController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('read_user')
   @HttpCode(HttpStatus.OK)
@@ -122,6 +126,7 @@ export class UsersController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('read_user')
   @HttpCode(HttpStatus.OK)

@@ -7,6 +7,7 @@ export class OutUsersDto {
   @Type(() => UserDto)
   @ApiModelProperty({ type: UserDto, isArray: true })
   users: UserDto[];
+
   @Type(() => MetaDto)
   @ApiModelProperty({ type: MetaDto })
   meta: MetaDto;

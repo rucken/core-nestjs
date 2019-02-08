@@ -23,6 +23,7 @@ export class AuthModule implements NestModule {
       exports: [...configs, ...services]
     };
   }
+
   static forRoot(options: { providers: Provider[] }): DynamicModule {
     return {
       module: AuthModule,
@@ -32,6 +33,7 @@ export class AuthModule implements NestModule {
       exports: [...configs, ...services]
     };
   }
+
   public configure(consumer: MiddlewareConsumer) {
     consumer.apply(authenticate('signup', { session: false, passReqToCallback: true })).forRoutes('api/auth/signup');
     consumer.apply(authenticate('signin', { session: false, passReqToCallback: true })).forRoutes('api/auth/signin');

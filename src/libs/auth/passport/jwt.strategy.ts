@@ -21,6 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       }
     });
   }
+
   public async validate(req, payload: IJwtPayload) {
     try {
       await this.groupsService.preloadAll();

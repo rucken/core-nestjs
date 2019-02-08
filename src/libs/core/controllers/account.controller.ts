@@ -14,6 +14,7 @@ import { AccountService } from '../services/account.service';
 @UseGuards(AccessGuard)
 export class AccountController {
   constructor(private accountService: AccountService) {}
+
   @ApiBearerAuth()
   @Roles('isActive')
   @Permissions('change_profile')

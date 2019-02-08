@@ -30,6 +30,7 @@ import { ContentTypesService } from '../services/content-types.service';
 @UseGuards(AccessGuard)
 export class ContentTypesController {
   constructor(private readonly service: ContentTypesService) {}
+
   @Roles('isSuperuser')
   @Permissions('add_content-type')
   @HttpCode(HttpStatus.CREATED)
@@ -52,6 +53,7 @@ export class ContentTypesController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('change_content-type')
   @HttpCode(HttpStatus.OK)
@@ -76,6 +78,7 @@ export class ContentTypesController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('delete_content-type')
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -98,6 +101,7 @@ export class ContentTypesController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('read_content-type')
   @HttpCode(HttpStatus.OK)
@@ -121,6 +125,7 @@ export class ContentTypesController {
       throw error;
     }
   }
+
   @Roles('isSuperuser')
   @Permissions('read_content-type')
   @HttpCode(HttpStatus.OK)

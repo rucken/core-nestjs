@@ -12,6 +12,7 @@ export class ContentTypesService {
     @InjectRepository(ContentType)
     private readonly repository: Repository<ContentType>
   ) {}
+
   async create(options: { item: ContentType }) {
     try {
       options.item = await this.repository.save(options.item);
@@ -20,6 +21,7 @@ export class ContentTypesService {
       throw error;
     }
   }
+
   async update(options: { id: number; item: ContentType }) {
     if (this.coreConfig.demo) {
       throw new MethodNotAllowedException('Not allowed in DEMO mode');
@@ -32,6 +34,7 @@ export class ContentTypesService {
       throw error;
     }
   }
+
   async delete(options: { id: number }) {
     if (this.coreConfig.demo) {
       throw new MethodNotAllowedException('Not allowed in DEMO mode');
@@ -48,6 +51,7 @@ export class ContentTypesService {
       throw error;
     }
   }
+
   async findById(options: { id: number }) {
     try {
       const item = await this.repository.findOneOrFail(options.id, {
@@ -58,6 +62,7 @@ export class ContentTypesService {
       throw error;
     }
   }
+
   async findAll(options: { curPage: number; perPage: number; q?: string; sort?: string }) {
     try {
       let objects: [ContentType[], number];

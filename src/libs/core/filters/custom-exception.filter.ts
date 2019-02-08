@@ -8,6 +8,7 @@ import { ICoreConfig } from '../interfaces/core-config.interface';
 @Catch(SyntaxError, CustomValidationError, CustomError, HttpException)
 export class CustomExceptionFilter implements ExceptionFilter {
   constructor(@Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig) {}
+
   private response(
     exception: CustomValidationError | SyntaxError | Error | HttpException,
     host: ArgumentsHost,
@@ -24,6 +25,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
       response.status(status ? status : HttpStatus.BAD_REQUEST).json(data);
     }
   }
+
   catch(exception: CustomValidationError | SyntaxError | Error | HttpException, host: ArgumentsHost) {
     const errors = {};
     if (exception instanceof CustomValidationError) {

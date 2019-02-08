@@ -23,6 +23,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly tokenService: TokenService
   ) {}
+
   @HttpCode(HttpStatus.OK)
   @Post('signin')
   @ApiResponse({
@@ -34,6 +35,7 @@ export class AuthController {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });
   }
+
   @HttpCode(HttpStatus.CREATED)
   @Post('signup')
   @ApiResponse({
@@ -46,6 +48,7 @@ export class AuthController {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });
   }
+
   @HttpCode(HttpStatus.OK)
   @Post('info')
   @ApiResponse({
@@ -67,6 +70,7 @@ export class AuthController {
       throw error;
     }
   }
+
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
@@ -79,6 +83,7 @@ export class AuthController {
       req.get('origin') || this.coreConfig.protocol + '://' + req.get('host')
     );
   }
+
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
@@ -92,6 +97,7 @@ export class AuthController {
       req.get('origin') || this.coreConfig.protocol + '://' + req.get('host')
     );
   }
+
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
@@ -105,6 +111,7 @@ export class AuthController {
     const token = await this.tokenService.create(req.user);
     return plainToClass(UserTokenDto, { user: req.user, token });
   }
+
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
@@ -130,6 +137,7 @@ export class AuthController {
       req.get('origin') || this.coreConfig.protocol + '://' + req.get('host')
     );
   }
+
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
