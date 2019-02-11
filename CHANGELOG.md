@@ -1,3 +1,12 @@
+## [0.8.7](https://github.com/rucken/core-nestjs/compare/0.8.6...0.8.7) (2019-02-11)
+
+
+### Bug Fixes
+
+* Update dependencies ([6c771ed](https://github.com/rucken/core-nestjs/commit/6c771ed))
+
+
+
 ## [0.8.6](https://github.com/rucken/core-nestjs/compare/0.8.5...0.8.6) (2019-01-12)
 
 
