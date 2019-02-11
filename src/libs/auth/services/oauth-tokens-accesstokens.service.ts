@@ -11,6 +11,7 @@ export class OauthTokensAccesstokensService {
     @InjectRepository(OauthTokensAccesstoken)
     private readonly repository: Repository<OauthTokensAccesstoken>
   ) {}
+
   async create(options: { item: OauthTokensAccesstoken }) {
     try {
       options.item = await this.repository.save(options.item);
@@ -19,6 +20,7 @@ export class OauthTokensAccesstokensService {
       throw error;
     }
   }
+
   async update(options: { id: number; item: OauthTokensAccesstoken }) {
     options.item.id = options.id;
     try {
@@ -28,6 +30,7 @@ export class OauthTokensAccesstokensService {
       throw error;
     }
   }
+
   async delete(options: { id: number }) {
     try {
       let item = await this.repository.findOneOrFail(options.id);
@@ -38,6 +41,7 @@ export class OauthTokensAccesstokensService {
       throw error;
     }
   }
+
   async findByProviderClientId(options: { id: number }) {
     try {
       const item = await this.repository.findOneOrFail({
@@ -50,6 +54,7 @@ export class OauthTokensAccesstokensService {
       throw error;
     }
   }
+
   async findById(options: { id: number }) {
     try {
       const item = await this.repository.findOneOrFail(options.id);
@@ -58,6 +63,7 @@ export class OauthTokensAccesstokensService {
       throw error;
     }
   }
+
   async findAll(options: { curPage: number; perPage: number; q?: string; sort?: string }) {
     try {
       let objects: [OauthTokensAccesstoken[], number];

@@ -1,5 +1,4 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Inject, Logger } from '@nestjs/common';
-import { ValidationError } from 'class-validator';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Logger } from '@nestjs/common';
 import { JsonWebTokenError } from 'jsonwebtoken';
 
 @Catch(JsonWebTokenError)
@@ -11,6 +10,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
     Logger.error(JSON.stringify(exception), undefined, CustomExceptionFilter.name);
     response.status(status ? status : HttpStatus.BAD_REQUEST).json(data);
   }
+
   catch(exception: JsonWebTokenError, host: ArgumentsHost) {
     if (exception instanceof JsonWebTokenError) {
       this.response(exception, host, {

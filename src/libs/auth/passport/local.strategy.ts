@@ -12,6 +12,7 @@ export class LocalStrategySignIn extends PassportStrategy(Strategy, 'signin') {
       passReqToCallback: true
     });
   }
+
   public async validate(req, email: string, password: string) {
     const { user } = await this.authService.signIn({ email, password });
     return user;
@@ -27,6 +28,7 @@ export class LocalStrategySignUp extends PassportStrategy(Strategy, 'signup') {
       passReqToCallback: true
     });
   }
+
   public async validate(req, email: string, password: string) {
     if (req.user) {
       return req.user;

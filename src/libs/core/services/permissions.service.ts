@@ -12,6 +12,7 @@ export class PermissionsService {
     @InjectRepository(Permission)
     private readonly repository: Repository<Permission>
   ) {}
+
   async create(options: { item: Permission }) {
     try {
       options.item = await this.repository.save(options.item);
@@ -20,6 +21,7 @@ export class PermissionsService {
       throw error;
     }
   }
+
   async update(options: { id: number; item: Permission }) {
     if (this.coreConfig.demo) {
       throw new MethodNotAllowedException('Not allowed in DEMO mode');
@@ -32,6 +34,7 @@ export class PermissionsService {
       throw error;
     }
   }
+
   async delete(options: { id: number }) {
     if (this.coreConfig.demo) {
       throw new MethodNotAllowedException('Not allowed in DEMO mode');
@@ -43,6 +46,7 @@ export class PermissionsService {
       throw error;
     }
   }
+
   async findById(options: { id: number }) {
     try {
       const item = await this.repository.findOneOrFail(options.id, {
@@ -53,6 +57,7 @@ export class PermissionsService {
       throw error;
     }
   }
+
   async findAll(options: {
     curPage: number;
     perPage: number;

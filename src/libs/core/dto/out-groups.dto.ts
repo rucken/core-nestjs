@@ -7,6 +7,7 @@ export class OutGroupsDto {
   @Type(() => GroupWithPermissionsDto)
   @ApiModelProperty({ type: GroupWithPermissionsDto, isArray: true })
   groups: GroupWithPermissionsDto[];
+
   @Type(() => MetaDto)
   @ApiModelProperty({ type: MetaDto })
   meta: MetaDto;

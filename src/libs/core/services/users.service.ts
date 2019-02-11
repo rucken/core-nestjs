@@ -11,6 +11,7 @@ export class UsersService {
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @InjectRepository(User) private readonly repository: Repository<User>
   ) {}
+
   async assertUsernameAndEmail(options: { id?: number; email: string; username: string }) {
     if (options.email) {
       let userOfEmail: { user };
@@ -35,6 +36,7 @@ export class UsersService {
       }
     }
   }
+
   async create(options: { item: User }) {
     if (options.item.isSuperuser && this.coreConfig.demo) {
       throw new MethodNotAllowedException('Not allowed in DEMO mode');
@@ -52,6 +54,7 @@ export class UsersService {
       throw error;
     }
   }
+
   async update(options: { id: number; item: User }) {
     if (this.coreConfig.demo) {
       throw new MethodNotAllowedException('Not allowed in DEMO mode');
@@ -71,6 +74,7 @@ export class UsersService {
       throw error;
     }
   }
+
   async delete(options: { id: number }) {
     if (this.coreConfig.demo) {
       throw new MethodNotAllowedException('Not allowed in DEMO mode');
@@ -85,6 +89,7 @@ export class UsersService {
       throw error;
     }
   }
+
   async findById(options: { id: number }) {
     try {
       const item = await this.repository.findOneOrFail(options.id, {
@@ -95,6 +100,7 @@ export class UsersService {
       throw error;
     }
   }
+
   async findAll(options: { curPage: number; perPage: number; q?: string; group?: number; sort?: string }) {
     try {
       let objects: [User[], number];
@@ -136,6 +142,7 @@ export class UsersService {
       throw error;
     }
   }
+
   async findByEmail(options: { email: string }) {
     try {
       const item = await this.repository.findOneOrFail({
@@ -151,6 +158,7 @@ export class UsersService {
       throw new NotFoundException(`User with email "${options.email}" not founded`);
     }
   }
+
   async findByUserName(options: { username: string }) {
     try {
       const item = await this.repository.findOneOrFail({

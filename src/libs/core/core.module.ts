@@ -19,6 +19,7 @@ export class CoreModule {
       exports: [...configs, ...services]
     };
   }
+
   static forRoot(options: { providers: Provider[] }): DynamicModule {
     return {
       module: CoreModule,

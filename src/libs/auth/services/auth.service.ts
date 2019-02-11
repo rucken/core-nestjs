@@ -29,6 +29,7 @@ export class AuthService {
       this.localUri = `http://${this.coreConfig.domain}`;
     }
   }
+
   async info(options: { id: number }) {
     try {
       return await this.usersService.findById(options);
@@ -36,6 +37,7 @@ export class AuthService {
       throw error;
     }
   }
+
   async signIn(options: SignInDto) {
     try {
       const { user } = await this.usersService.findByEmail(options);
@@ -47,6 +49,7 @@ export class AuthService {
       throw error;
     }
   }
+
   async signUp(options: SignUpDto) {
     try {
       await this.groupsService.preloadAll();
@@ -66,6 +69,7 @@ export class AuthService {
     newUser.groups = [group];
     return this.usersService.create({ item: newUser });
   }
+
   async requestFacebookRedirectUri(host?: string): Promise<RedirectUriDto> {
     const queryParams: string[] = [
       `client_id=${this.fbConfig.client_id}`,
@@ -78,6 +82,7 @@ export class AuthService {
       redirect_uri
     };
   }
+
   async facebookSignIn(code: string, host?: string): Promise<any> {
     const queryParams: string[] = [
       `client_id=${this.fbConfig.client_id}`,
@@ -123,6 +128,7 @@ export class AuthService {
       );
     }
   }
+
   async requestGoogleRedirectUri(host?: string): Promise<RedirectUriDto | any> {
     const queryParams: string[] = [
       `client_id=${this.googlePlusConfig.client_id}`,
@@ -139,6 +145,7 @@ export class AuthService {
       redirect_uri
     };
   }
+
   async googleSignIn(code: string, host?: string): Promise<any> {
     const formData: any = {
       code,

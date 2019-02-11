@@ -56,6 +56,7 @@ export class AddOauthTokensAccesstokenTable1533634559617 implements MigrationInt
       }),
       true
     );
+
     await queryRunner.changeColumn(
       'oauth_tokens_accesstoken',
       'id',
@@ -67,6 +68,7 @@ export class AddOauthTokensAccesstokenTable1533634559617 implements MigrationInt
         generationStrategy: 'increment'
       })
     );
+
     await queryRunner.createIndex(
       'oauth_tokens_accesstoken',
       new TableIndex({
@@ -74,6 +76,7 @@ export class AddOauthTokensAccesstokenTable1533634559617 implements MigrationInt
         columnNames: ['user_id']
       })
     );
+
     await queryRunner.createForeignKey(
       'oauth_tokens_accesstoken',
       new TableForeignKey({

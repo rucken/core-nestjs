@@ -8,6 +8,7 @@ export class AccessGuard extends AuthGuard('jwt') {
   constructor(private readonly reflector: Reflector) {
     super();
   }
+
   async canActivate(context: ExecutionContext) {
     try {
       await super.canActivate(context);
