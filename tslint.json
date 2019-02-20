@@ -1,69 +1,103 @@
 {
-  "defaultSeverity": "error",
-  "extends": [
-    "tslint:recommended",
-    "tslint-config-prettier"
+  "rulesDirectory": [
+    "node_modules/codelyzer",
+    "node_modules/@nrwl/schematics/src/tslint"
   ],
-  "jsRules": {
-    "no-unused-expression": true
-  },
   "rules": {
-    "prefer-conditional-expression": false,
-    "trailing-comma": [
+    "arrow-return-shorthand": true,
+    "callable-types": true,
+    "class-name": true,
+    "deprecation": {
+      "severity": "warn"
+    },
+    "forin": true,
+    "import-blacklist": [
+      true,
+      "rxjs/Rx"
+    ],
+    "interface-over-type-literal": true,
+    "member-access": false,
+    "member-ordering": [
       true,
       {
-        "multiline": {
-          "objects": "never",
-          "arrays": "never",
-          "functions": "never",
-          "typeLiterals": "ignore"
-        }
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
       }
     ],
-    "eofline": false,
-    "quotemark": [
+    "no-arg": true,
+    "no-bitwise": true,
+    "no-console": [
       true,
-      "single"
+      "debug",
+      "info",
+      "time",
+      "timeEnd",
+      "trace"
     ],
-    "indent": false,
-    "member-access": [
-      false
-    ],
-    "ordered-imports": [
-      false
-    ],
-    "max-line-length": [
-      false,
-      150
-    ],
-    "member-ordering": [
-      false
-    ],
-    "curly": false,
-    "interface-name": [
-      false
-    ],
-    "array-type": [
-      false
-    ],
-    "no-empty-interface": false,
+    "no-construct": true,
+    "no-debugger": true,
+    "no-duplicate-super": true,
     "no-empty": false,
-    "arrow-parens": false,
-    "object-literal-sort-keys": false,
-    "no-unused-expression": false,
-    "max-classes-per-file": [
+    "no-empty-interface": true,
+    "no-eval": true,
+    "no-inferrable-types": [
       true,
-      1
+      "ignore-params"
     ],
-    "variable-name": [
-      false
+    "no-misused-new": true,
+    "no-non-null-assertion": true,
+    "no-shadowed-variable": true,
+    "no-string-literal": false,
+    "no-string-throw": true,
+    "no-switch-case-fall-through": true,
+    "no-unnecessary-initializer": true,
+    "no-unused-expression": true,
+    "no-use-before-declare": true,
+    "no-var-keyword": true,
+    "object-literal-sort-keys": false,
+    "prefer-const": true,
+    "radix": true,
+    "triple-equals": [
+      true,
+      "allow-null-check"
     ],
-    "one-line": [
-      false
+    "unified-signatures": true,
+    "variable-name": false,
+    "directive-selector": [
+      true,
+      "attribute",
+      "app",
+      "camelCase"
     ],
-    "one-variable-per-declaration": [
-      false
+    "component-selector": [
+      true,
+      "element",
+      "app",
+      "kebab-case"
+    ],
+    "no-output-on-prefix": true,
+    "use-input-property-decorator": true,
+    "use-output-property-decorator": true,
+    "use-host-property-decorator": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "use-life-cycle-interface": true,
+    "use-pipe-transform-interface": true,
+    "component-class-suffix": true,
+    "directive-class-suffix": true,
+
+    "nx-enforce-module-boundaries": [
+      true,
+      {
+        "allow": [],
+        "depConstraints": [
+          { "sourceTag": "*", "onlyDependOnLibsWithTags": ["*"] }
+        ]
+      }
     ]
-  },
-  "rulesDirectory": []
+  }
 }

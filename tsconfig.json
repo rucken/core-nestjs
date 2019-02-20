@@ -1,31 +1,35 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "module": "commonjs",
+    "sourceMap": true,
+    "inlineSources": true,
     "declaration": false,
-    "noImplicitAny": false,
-    "removeComments": true,
-    "noLib": false,
-    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "importHelpers": true,
+    "lib": [
+      "es5",
+      "es6"
+    ],
     "target": "es6",
-    "sourceMap": true,
-    "allowJs": true,
-    "outDir": "./dist",
-    "baseUrl": "./src",
-    "rootDir": "./src",
+    "module": "commonjs",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "baseUrl": ".",
     "paths": {
-      "@rucken/core-nestjs": [
-        "libs/core"
-      ],
-      "@rucken/core-nestjs/*": [
-        "libs/core/*"
-      ],
       "@rucken/auth-nestjs": [
-        "libs/auth"
+        "libs/auth/src"
       ],
       "@rucken/auth-nestjs/*": [
-        "libs/auth/*"
+        "libs/auth/src/*"
+      ],
+      "@rucken/core-nestjs": [
+        "libs/core/src"
+      ],
+      "@rucken/core-nestjs/*": [
+        "libs/core/src/*"
       ]
     }
   },

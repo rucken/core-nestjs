@@ -1,0 +1,190 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "core": {
+      "root": "libs/core",
+      "sourceRoot": "libs/core/src",
+      "projectType": "library",
+      "prefix": "",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/builders:run-commands",
+          "options": {
+            "outputPath": "dist/core",
+            "commands": [
+              {
+                "command": "./node_modules/.bin/del-cli ./dist/core"
+              },
+              {
+                "command": "./node_modules/.bin/tsc --project ./libs/core/tsconfig.lib.json -d --outDir ./dist/core"
+              },
+              {
+                "command": "./node_modules/.bin/cp-cli ./libs/core/package.json ./dist/core/package.json"
+              },
+              {
+                "command": "./node_modules/.bin/cp-cli ./libs/core/README.md ./dist/core/README.md"
+              },
+              {
+                "command": "./node_modules/.bin/cp-cli ./libs/core/LICENSE ./dist/core/LICENSE"
+              },
+              {
+                "command": "npm link ./dist/core"
+              }
+            ],
+            "parallel": false
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/core/tsconfig.lib.json",
+              "libs/core/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/core/jest.config.js",
+            "tsConfig": "libs/core/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "auth": {
+      "root": "libs/auth",
+      "sourceRoot": "libs/auth/src",
+      "projectType": "library",
+      "prefix": "",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/builders:run-commands",
+          "options": {
+            "outputPath": "dist/auth",
+            "commands": [
+              {
+                "command": "./node_modules/.bin/del-cli ./dist/auth"
+              },
+              {
+                "command": "./node_modules/.bin/tsc --project ./libs/auth/tsconfig.lib.json -d --outDir ./dist/auth"
+              },
+              {
+                "command": "./node_modules/.bin/cp-cli ./libs/auth/package.json ./dist/auth/package.json"
+              },
+              {
+                "command": "./node_modules/.bin/cp-cli ./libs/auth/README.md ./dist/auth/README.md"
+              },
+              {
+                "command": "./node_modules/.bin/cp-cli ./libs/auth/LICENSE ./dist/auth/LICENSE"
+              },
+              {
+                "command": "npm link ./dist/auth"
+              }
+            ],
+            "parallel": false
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/auth/tsconfig.lib.json",
+              "libs/auth/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/auth/jest.config.js",
+            "tsConfig": "libs/auth/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "demo": {
+      "root": "apps/demo",
+      "sourceRoot": "apps/demo/src",
+      "projectType": "application",
+      "prefix": "",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/builders:run-commands",
+          "options": {
+            "outputPath": "dist/demo",
+            "commands": [
+              {
+                "command": "./node_modules/.bin/del-cli ./dist/demo"
+              },
+              {
+                "command": "./node_modules/.bin/tsc --project ./apps/demo/tsconfig.app.json --outDir ./dist/demo"
+              }
+            ]
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/builders:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "./node_modules/.bin/rucken prepare -m dev"
+              },
+              {
+                "command": "./node_modules/.bin/nodemon --ext 'ts' --watch 'apps' --watch 'libs' --ignore 'apps/**/*.spec.ts' --ignore 'libs/**/*.spec.ts' --exec ./node_modules/.bin/ts-node -r tsconfig-paths/register ./apps/demo/src/main.ts"
+              }
+            ],
+            "readyWhen": "DONE"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/demo/tsconfig.app.json",
+              "apps/demo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/demo/jest.config.js",
+            "tsConfig": "apps/demo/tsconfig.spec.json"
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/schematics",
+    "packageManager": "npm"
+  },
+  "schematics": {
+    "@nrwl/schematics:application": {
+      "style": "scss"
+    },
+    "@nrwl/schematics:library": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "demo"
+}

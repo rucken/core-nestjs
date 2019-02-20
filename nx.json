@@ -1,0 +1,33 @@
+{
+    "npmScope": "rucken",
+    "implicitDependencies": {
+        "angular.json": "*",
+        "package.json": "*",
+        "tsconfig.json": "*",
+        "tslint.json": "*",
+        "nx.json": "*"
+    },
+    "projects": {
+        "core": {
+            "tags": [
+                "nestjs",
+                "server",
+                "core"
+            ]
+        },
+        "auth": {
+            "tags": [
+                "nestjs",
+                "server",
+                "auth"
+            ]
+        },
+        "demo": {
+            "tags": [
+                "nestjs",
+                "server",
+                "demo"
+            ]
+        }
+    }
+}

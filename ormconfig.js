@@ -1,12 +1,10 @@
 const ConnectionString = require('connection-string');
 const load = require('dotenv').load;
-const path = require('path');
 const fs = require('fs');
 const NODE_ENV = process.env.NODE_ENV || 'develop';
-const DB_SOURCE_EXT = process.env.DB_SOURCE_EXT || (NODE_ENV === 'develop' ? 'ts' : 'js');
-// todo: wait resolve https://github.com/typeorm/typeorm/issues/2358
-const sourceRootKey = (DB_SOURCE_EXT === 'ts' || NODE_ENV === 'develop') ? 'sourceRoot' : 'outputPath';
-const nestCliConfig = JSON.parse(fs.readFileSync('.nestcli.json'));
+const sourceRootKey = NODE_ENV === 'develop' ? 'sourceRoot' : 'outputPath';
+const entitiesExt = NODE_ENV === 'develop' ? '{.ts,.js}' : '.js';
+const angularConfig = JSON.parse(fs.readFileSync('angular.json'));
 try {
     fs.accessSync(`${NODE_ENV}.env`);
     load({ path: `${NODE_ENV}.env` });
@@ -23,11 +21,10 @@ try {
 }
 
 const connectionString = new ConnectionString(process.env.DATABASE_URL || '');
-const projects = Object.keys(nestCliConfig.projects).map(key => nestCliConfig.projects[key]);
-const libs = Object.keys(nestCliConfig.projects).filter(key => nestCliConfig.projects[key].projectType === 'library').map(key => nestCliConfig.projects[key]);
-const apps = Object.keys(nestCliConfig.projects).filter(key => nestCliConfig.projects[key].projectType === 'application').map(key => nestCliConfig.projects[key]);
-const defaultProject = nestCliConfig.defaultProject;
-const defaultApp = nestCliConfig.projects[defaultProject];
+const libs = Object.keys(angularConfig.projects).filter(key => angularConfig.projects[key].projectType === 'library').map(key => angularConfig.projects[key]);
+const apps = Object.keys(angularConfig.projects).filter(key => angularConfig.projects[key].projectType === 'application').map(key => angularConfig.projects[key]);
+const defaultProject = angularConfig.defaultProject;
+const defaultApp = angularConfig.projects[defaultProject];
 
 if (connectionString.protocol === 'sqlite') {
     const dbFile =
@@ -37,9 +34,9 @@ if (connectionString.protocol === 'sqlite') {
     module.exports = {
         type: 'sqlite',
         database: dbFile,
-        entities: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/entities/**/*.entity.${DB_SOURCE_EXT}`),
-        migrations: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/migrations/**/*.${DB_SOURCE_EXT}`),
-        subscribers: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/subscribers/**/*.${DB_SOURCE_EXT}`),
+        entities: [...libs, ...apps].map(lib => `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**/entities/**/*.entity${entitiesExt}`),
+        migrations: [...libs, ...apps].map(lib => `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**/migrations/**/*${entitiesExt}`),
+        subscribers: [...libs, ...apps].map(lib => `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**/subscribers/**/*${entitiesExt}`),
         logging: 'all',
         synchronize: false,
         cli: {
@@ -54,9 +51,9 @@ if (connectionString.protocol === 'sqlite') {
         username: connectionString.user,
         password: connectionString.password,
         database: connectionString.path && connectionString.path[0],
-        entities: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/entities/**/*.entity.${DB_SOURCE_EXT}`),
-        migrations: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/migrations/**/*.${DB_SOURCE_EXT}`),
-        subscribers: [...libs, ...apps].map(lib => `${lib[sourceRootKey]}/**/subscribers/**/*.${DB_SOURCE_EXT}`),
+        entities: [...libs, ...apps].map(lib => `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**/entities/**/*.entity${entitiesExt}`),
+        migrations: [...libs, ...apps].map(lib => `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**/migrations/**/*${entitiesExt}`),
+        subscribers: [...libs, ...apps].map(lib => `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**/subscribers/**/*${entitiesExt}`),
         logging: 'all',
         synchronize: false,
         cli: {

@@ -1,8 +1,6 @@
 {
     "alias": [
-        "rucken-nestjs.now.sh",
-        "rucken-core-nestjs.now.sh",
-        "rucken-core-nestjs-mongo.now.sh"
+        "rucken-core-nestjs.now.sh"
     ],
     "env": {
         "NODE_ENV": "production",
