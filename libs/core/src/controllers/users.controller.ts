@@ -9,8 +9,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
-  Query,
-  UseGuards
+  Query
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
@@ -21,14 +20,12 @@ import { InUserDto } from '../dto/in-user.dto';
 import { OutUserDto } from '../dto/out-user.dto';
 import { OutUsersDto } from '../dto/out-users.dto';
 import { User } from '../entities/user.entity';
-import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { UsersService } from '../services/users.service';
 
 @ApiUseTags('users')
 @ApiBearerAuth()
 @Controller('/api/users')
-@UseGuards(AccessGuard)
 export class UsersController {
   constructor(private readonly service: UsersService) {}
 

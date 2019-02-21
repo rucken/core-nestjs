@@ -9,8 +9,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
-  Query,
-  UseGuards
+  Query
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
@@ -20,14 +19,12 @@ import { InPermissionDto } from '../dto/in-permission.dto';
 import { OutPermissionDto } from '../dto/out-permission.dto';
 import { OutPermissionsDto } from '../dto/out-permissions.dto';
 import { Permission } from '../entities/permission.entity';
-import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { PermissionsService } from '../services/permissions.service';
 
 @ApiUseTags('permissions')
 @ApiBearerAuth()
 @Controller('/api/permissions')
-@UseGuards(AccessGuard)
 export class PermissionsController {
   constructor(private readonly service: PermissionsService) {}
 

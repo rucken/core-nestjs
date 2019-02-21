@@ -2,6 +2,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import {
+  AUTH_APP_GUARDS,
   AUTH_APP_FILTERS,
   DEFAULT_FACEBOOK_CONFIG,
   DEFAULT_GOOGLE_PLUS_CONFIG,
@@ -45,7 +46,7 @@ declare const module: any;
 
 async function bootstrap() {
   const packageBody = JSON.parse(readFileSync(path.resolve(__dirname, rootPath, 'package.json')).toString());
-  const STATIC_FOLDERS = [path.resolve(__dirname, rootPath, 'www'), path.resolve(__dirname, rootPath, 'frontend')];
+  const STATIC_FOLDERS = [path.resolve(__dirname, rootPath, 'client')];
   Logger.log(NODE_ENV);
   const envFile = path.resolve(__dirname, rootPath, `${NODE_ENV}.env`);
   try {
@@ -107,6 +108,7 @@ async function bootstrap() {
         { provide: JWT_CONFIG_TOKEN, useValue: jwtConfig },
         { provide: FACEBOOK_CONFIG_TOKEN, useValue: facebookConfig },
         { provide: GOOGLE_PLUS_CONFIG_TOKEN, useValue: googlePlusConfig },
+        ...AUTH_APP_GUARDS,
         ...CORE_APP_FILTERS,
         ...AUTH_APP_FILTERS,
         ...CORE_APP_PIPES

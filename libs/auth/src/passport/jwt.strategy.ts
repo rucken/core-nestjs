@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { GroupsService, User } from '@rucken/core-nestjs';
 import { plainToClass } from 'class-transformer';
@@ -21,7 +21,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
         done(null, secretKey);
       }
     });
-    console.log(777);
   }
 
   public async validate(req, payload: IJwtPayload) {

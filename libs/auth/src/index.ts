@@ -17,6 +17,8 @@ export * from './entities/index';
 export * from './entities/oauth-tokens-accesstoken.entity';
 export * from './filters/custom-exception.filter';
 export * from './filters/index';
+export * from './guards/access.guard';
+export * from './guards/index';
 export * from './interfaces/facebook-config.interface';
 export * from './interfaces/google-plus-config.interface';
 export * from './interfaces/jwt-config.interface';

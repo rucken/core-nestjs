@@ -30,5 +30,5 @@ npm-debug.log
 /dist
 /database/sqlitedb.db
 /database/sqlitedb.db
-/www
-frontend/index.html
+/client/docs
+/client/index.html

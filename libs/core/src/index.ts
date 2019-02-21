@@ -40,7 +40,6 @@ export * from './exceptions/custom-validation.error';
 export * from './exceptions/custom.error';
 export * from './filters/custom-exception.filter';
 export * from './filters/index';
-export * from './guards/access.guard';
 export * from './interfaces/core-config.interface';
 export * from './migrations/1524197725191-Init';
 export * from './migrations/1524199022084-FillData';

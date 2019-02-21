@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { use } from 'passport';
 import * as GoogleTokenStrategy from 'passport-google-plus-token';

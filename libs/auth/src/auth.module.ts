@@ -9,22 +9,13 @@ import { AUTH_SERVICES } from './services';
 
 @Module({})
 export class AuthModule implements NestModule {
-  static forFeature(): DynamicModule {
+  static forRoot(options?: { providers: Provider[] }): DynamicModule {
+    const providers = options && options.providers ? options.providers : [];
     return {
       module: AuthModule,
       imports: [HttpModule, CoreModule.forFeature(), TypeOrmModule.forFeature([...AUTH_ENTITIES])],
       controllers: [...AUTH_CONTROLLERS],
-      providers: [...AUTH_CONFIGS, ...AUTH_SERVICES],
-      exports: [...AUTH_CONFIGS, ...AUTH_SERVICES]
-    };
-  }
-
-  static forRoot(options: { providers: Provider[] }): DynamicModule {
-    return {
-      module: AuthModule,
-      imports: [HttpModule, CoreModule.forFeature(), TypeOrmModule.forFeature([...AUTH_ENTITIES])],
-      controllers: [...AUTH_CONTROLLERS],
-      providers: [...AUTH_CONFIGS, ...options.providers, ...AUTH_SERVICES],
+      providers: [...AUTH_CONFIGS, ...providers, ...AUTH_SERVICES],
       exports: [...AUTH_CONFIGS, ...AUTH_SERVICES]
     };
   }

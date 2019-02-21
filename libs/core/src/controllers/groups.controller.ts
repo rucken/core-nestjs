@@ -9,8 +9,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
-  Query,
-  UseGuards
+  Query
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
@@ -20,14 +19,12 @@ import { InGroupDto } from '../dto/in-group.dto';
 import { OutGroupDto } from '../dto/out-group.dto';
 import { OutGroupsDto } from '../dto/out-groups.dto';
 import { Group } from '../entities/group.entity';
-import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { GroupsService } from '../services/groups.service';
 
 @ApiUseTags('groups')
 @ApiBearerAuth()
 @Controller('/api/groups')
-@UseGuards(AccessGuard)
 export class GroupsController {
   constructor(private readonly service: GroupsService) {}
 

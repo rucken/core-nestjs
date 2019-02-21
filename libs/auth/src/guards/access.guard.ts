@@ -1,26 +1,23 @@
 import { ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from '../entities/user.entity';
+import { User } from '@rucken/core-nestjs';
 
 @Injectable()
 export class AccessGuard extends AuthGuard('jwt') {
   constructor(private readonly reflector: Reflector) {
     super();
-    console.log(100);
   }
 
   async canActivate(context: ExecutionContext) {
     try {
       await super.canActivate(context);
     } catch (error) {
-      console.log(error);
-      Logger.error('Error in canActivate', error, AccessGuard.name);
+      Logger.error('Error in canActivate', error.message, AccessGuard.name);
     }
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
     const permissions = this.reflector.get<string[]>('permissions', context.getHandler());
     const request = context.switchToHttp().getRequest();
-    // console.log(request);
     const user: User = request.user;
     // Logger.log(JSON.stringify(user), AccessGuard.name);
     const hasRole = roles ? roles.filter(roleName => user && user instanceof User && user[roleName]).length > 0 : null;

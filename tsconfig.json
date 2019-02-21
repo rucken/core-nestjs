@@ -20,21 +20,21 @@
     "baseUrl": ".",
     "paths": {
       "@rucken/auth-nestjs": [
-        "libs/auth/src"
+        "dist/auth"
       ],
       "@rucken/auth-nestjs/*": [
-        "libs/auth/src/*"
+        "dist/auth/*"
       ],
       "@rucken/core-nestjs": [
-        "libs/core/src"
+        "dist/core"
       ],
       "@rucken/core-nestjs/*": [
-        "libs/core/src/*"
+        "dist/core/*"
       ]
     }
   },
   "exclude": [
-    "frontend",
+    "client",
     "dist",
     "node_modules",
     "**/*.spec.ts",

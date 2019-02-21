@@ -1,10 +1,10 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
-import { OauthTokensAccesstoken } from '../entities/oauth-tokens-accesstoken.entity';
+import { Inject, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { use } from 'passport';
 import * as FacebookTokenStrategy from 'passport-facebook-token';
 import { FACEBOOK_CONFIG_TOKEN } from '../configs/facebook.config';
 import { SignUpDto } from '../dto/sign-up.dto';
+import { OauthTokensAccesstoken } from '../entities/oauth-tokens-accesstoken.entity';
 import { IFacebookConfig } from '../interfaces/facebook-config.interface';
 import { AuthService } from '../services/auth.service';
 import { OauthTokensAccesstokensService } from '../services/oauth-tokens-accesstokens.service';

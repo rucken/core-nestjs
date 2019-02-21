@@ -9,8 +9,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
-  Query,
-  UseGuards
+  Query
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
@@ -20,14 +19,12 @@ import { InContentTypeDto } from '../dto/in-content-type.dto';
 import { OutContentTypeDto } from '../dto/out-content-type.dto';
 import { OutContentTypesDto } from '../dto/out-content-types.dto';
 import { ContentType } from '../entities/content-type.entity';
-import { AccessGuard } from '../guards/access.guard';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { ContentTypesService } from '../services/content-types.service';
 
 @ApiUseTags('content-types')
 @ApiBearerAuth()
 @Controller('/api/content_types')
-@UseGuards(AccessGuard)
 export class ContentTypesController {
   constructor(private readonly service: ContentTypesService) {}
 
