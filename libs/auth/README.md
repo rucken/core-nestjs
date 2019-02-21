@@ -1,6 +1,7 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/rucken/core-nestjs.svg)](https://greenkeeper.io/)
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
+[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/rucken/core-nestjs?branch=master&svg=true)](https://ci.appveyor.com/project/rucken/core-nestjs/branch/master)
 [![dependencies-release][dependencies-image]][dependencies-url]
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/rucken/core-nestjs)

@@ -1,146 +1,76 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import {
-  AUTH_APP_GUARDS,
-  AUTH_APP_FILTERS,
-  DEFAULT_FACEBOOK_CONFIG,
-  DEFAULT_GOOGLE_PLUS_CONFIG,
-  DEFAULT_JWT_CONFIG,
-  FACEBOOK_CONFIG_TOKEN,
-  GOOGLE_PLUS_CONFIG_TOKEN,
-  IFacebookConfig,
-  IGooglePlusConfig,
-  IJwtConfig,
-  JWT_CONFIG_TOKEN
-} from '@rucken/auth-nestjs';
-import {
-  CORE_APP_FILTERS,
-  CORE_APP_PIPES,
-  CORE_CONFIG_TOKEN,
-  DEFAULT_CORE_CONFIG,
-  ICoreConfig
-} from '@rucken/core-nestjs';
-// tslint:disable-next-line:no-var-requires
-import * as chmod from 'chmod';
-import { ConnectionString } from 'connection-string';
-import { load } from 'dotenv';
-import { accessSync, readFileSync } from 'fs';
-import * as path from 'path';
+import { chmodSync } from 'fs';
 import { register } from 'tsconfig-paths';
 import { AppModule } from './app/app.module';
-const NODE_ENV = process.env.NODE_ENV || 'develop';
-let rootPath = '../../../';
-if (NODE_ENV !== 'develop') {
-  rootPath = '../../';
-  const tsConfig = JSON.parse(readFileSync(path.resolve(__dirname, rootPath, 'tsconfig.json')).toString());
-  register({
-    baseUrl: __dirname,
-    paths: tsConfig.compilerOptions.paths
-  });
-}
+import { config } from './app/config/config';
 
 /* hmr
 declare const module: any;
 */
 
+/**
+ * Link tsconfig paths
+ */
+if (config.env.name !== 'develop') {
+  register({
+    baseUrl: config.project.path,
+    paths: config.project.tsconfig.compilerOptions.paths
+  });
+}
 async function bootstrap() {
-  const packageBody = JSON.parse(readFileSync(path.resolve(__dirname, rootPath, 'package.json')).toString());
-  const STATIC_FOLDERS = [path.resolve(__dirname, rootPath, 'client')];
-  Logger.log(NODE_ENV);
-  const envFile = path.resolve(__dirname, rootPath, `${NODE_ENV}.env`);
-  try {
-    accessSync(envFile);
-    load({ path: envFile });
-    Logger.log(`env file: ${envFile}`, 'Main');
-  } catch (error) {
-    Logger.log(`error on get env file: ${envFile}`, 'Main');
+  /**
+   * Set writeble db file if is set
+   */
+  if (config.db.file) {
     try {
-      accessSync(`.env`);
-      load();
-      Logger.log(`env file: .env`, 'Main');
+      chmodSync(config.db.file, 777);
     } catch (error) {
-      Logger.log(`error on get env file: .env`, 'Main');
+      Logger.log(`error on set chmod 777 to database file ${config.db.file}`, 'Main');
     }
   }
-  const connectionString = new ConnectionString(process.env.DATABASE_URL || '');
-  if (connectionString.protocol === 'sqlite') {
-    const dbFile =
-      './' +
-      (connectionString.hosts ? connectionString.hosts[0].name : '') +
-      (connectionString.path ? '/' + connectionString.path[0] : '');
-    try {
-      chmod(dbFile, 777);
-    } catch (error) {
-      Logger.log(`error on set chmod 777 to database file ${dbFile}`, 'Main');
-    }
-  }
-  const coreConfig: ICoreConfig = {
-    ...DEFAULT_CORE_CONFIG,
-    demo: process.env.DEMO === 'true',
-    port: process.env.PORT ? +process.env.PORT : 3000,
-    protocol: process.env.PROTOCOL === 'https' ? 'https' : 'http',
-    externalPort: process.env.EXTERNAL_PORT ? +process.env.EXTERNAL_PORT : undefined,
-    domain: process.env.DOMAIN
-  };
-  const jwtConfig: IJwtConfig = {
-    ...DEFAULT_JWT_CONFIG,
-    authHeaderPrefix: process.env.JWT_AUTH_HEADER_PREFIX,
-    expirationDelta: process.env.JWT_EXPIRATION_DELTA,
-    secretKey: process.env.JWT_SECRET_KEY
-  };
-  const facebookConfig: IFacebookConfig = {
-    ...DEFAULT_FACEBOOK_CONFIG,
-    client_id: process.env.FACEBOOK_CLIENT_ID,
-    client_secret: process.env.FACEBOOK_CLIENT_SECRET,
-    oauth_redirect_uri: process.env.FACEBOOK_OAUTH_REDIRECT_URI
-  };
-  const googlePlusConfig: IGooglePlusConfig = {
-    ...DEFAULT_GOOGLE_PLUS_CONFIG,
-    client_id: process.env.GOOGLE_CLIENT_ID,
-    client_secret: process.env.GOOGLE_CLIENT_SECRET,
-    oauth_redirect_uri: process.env.GOOGLE_OAUTH_REDIRECT_URI
-  };
+
+  /**
+   * Create nest application
+   */
   const app = await NestFactory.create(
     AppModule.forRoot({
-      providers: [
-        { provide: CORE_CONFIG_TOKEN, useValue: coreConfig },
-        { provide: JWT_CONFIG_TOKEN, useValue: jwtConfig },
-        { provide: FACEBOOK_CONFIG_TOKEN, useValue: facebookConfig },
-        { provide: GOOGLE_PLUS_CONFIG_TOKEN, useValue: googlePlusConfig },
-        ...AUTH_APP_GUARDS,
-        ...CORE_APP_FILTERS,
-        ...AUTH_APP_FILTERS,
-        ...CORE_APP_PIPES
-      ]
+      providers: [...config.core.providers(), ...config.auth.providers()],
+      passportProviders: config.auth.passportProviders()
     }),
     { cors: true }
   );
-  STATIC_FOLDERS.forEach(folder => {
+
+  /**
+   * Add static folders
+   */
+  config.project.staticFolders.forEach(folder => {
     app.useStaticAssets(folder);
   });
 
+  /**
+   * Init swagger
+   */
   let documentBuilder = new DocumentBuilder()
-    .setTitle(packageBody.name)
-    .setDescription(packageBody.description)
-    .setContactEmail(packageBody.author.email)
-    .setExternalDoc('Project on Github', packageBody.homepage)
-    .setLicense(packageBody.license, '')
-    .setVersion(packageBody.version)
+    .setTitle(config.project.package.name)
+    .setDescription(config.project.package.description)
+    .setContactEmail(config.project.package.author.email)
+    .setExternalDoc('Project on Github', config.project.package.homepage)
+    .setLicense(config.project.package.license, '')
+    .setVersion(config.project.package.version)
     .addBearerAuth('Authorization', 'header');
+  documentBuilder = documentBuilder.setSchemes(
+    config.env.protocol === 'https' ? 'https' : 'http',
+    config.env.protocol === 'https' ? 'http' : 'https'
+  );
+  SwaggerModule.setup('/swagger', app, SwaggerModule.createDocument(app, documentBuilder.build()));
 
-  if (coreConfig.protocol === 'https') {
-    documentBuilder = documentBuilder.setSchemes('https', 'http');
-  } else {
-    documentBuilder = documentBuilder.setSchemes('http', 'https');
-  }
-  const options = documentBuilder.build();
+  /**
+   * Start nest application
+   */
+  await app.listen(config.env.port);
 
-  const document = SwaggerModule.createDocument(app, options);
-
-  SwaggerModule.setup('/swagger', app, document);
-
-  await app.listen(coreConfig.port);
   /* hmr
   if (module.hot) {
     module.hot.accept();

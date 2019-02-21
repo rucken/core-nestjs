@@ -1,11 +1,11 @@
-import { DynamicModule, Module, Provider, HttpModule } from '@nestjs/common';
+import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule, AUTH_PASSPORT_STRATAGIES } from '@rucken/auth-nestjs';
+import { AuthModule } from '@rucken/auth-nestjs';
 import { CoreModule } from '@rucken/core-nestjs';
 @Module({})
 export class AppModule {
-  static forRoot(options: { providers: Provider[] }): DynamicModule {
+  static forRoot(options: { providers: Provider[]; passportProviders: Provider[] }): DynamicModule {
     return {
       module: AppModule,
       imports: [
@@ -14,7 +14,7 @@ export class AppModule {
         AuthModule.forRoot(options),
         CoreModule.forRoot(options)
       ],
-      providers: [...AUTH_PASSPORT_STRATAGIES]
+      providers: [...(options.passportProviders ? options.passportProviders : [])]
     };
   }
 }
