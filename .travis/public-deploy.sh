@@ -23,6 +23,8 @@ setup_git() {
 }
 
 commit_files() {
+  rm -rf ./dist/auth/node_modules
+  rm -rf ./dist/core/node_modules
   cp -av ./dist/* ./deploy/dist
   cp -av ./package.json ./deploy/package.json 
   cp -av ./.gitignore ./deploy/.gitignore
