@@ -1,9 +1,16 @@
 language: node_js
-cache:
-  directories:
-    - node_modules
-    - client/node_modules
 node_js:
-  - "8"
+- '11'
+cache: npm
+addons:
+  ssh_known_hosts:
+  - $REMOTE_HOST
+  - $REMOTE_HOST_IP
+after_success:
+- chmod +x ".travis/public-patch.js"
+- chmod +x ".travis/public-deploy.sh"
+- "node .travis/public-patch.js"
+- ".travis/public-deploy.sh"
 before_install:
-  - npm install -g npm@6.1.0
+- openssl aes-256-cbc -K $encrypted_cc276da88a52_key -iv $encrypted_cc276da88a52_iv
+  -in .travis/deploy.key.enc -out .travis/deploy.key -d

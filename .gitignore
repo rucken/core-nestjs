@@ -1,3 +1,7 @@
+# Credentials
+.travis/*.key
+.travis/*.key.pub
+
 # config
 *.env
 
