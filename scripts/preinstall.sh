@@ -1,3 +1,3 @@
 #!/bin/bash
-npm link ./dist/core
-npm link ./dist/auth
+npm i --save ./dist/core
+npm i --save ./dist/auth
