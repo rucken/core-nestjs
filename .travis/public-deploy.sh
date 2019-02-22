@@ -10,6 +10,7 @@ setup_ssh() {
 setup_git() {
   git config user.email "travis@travis-ci.org"
   git config user.name "Travis CI"
+  rm -rf ./deploy
   mkdir deploy
   cd deploy
   git init
@@ -22,7 +23,9 @@ setup_git() {
 }
 
 commit_files() {
-  mkdir deploy/dist
+  rm -rf ./deploy/scripts
+  rm -rf ./deploy/dist
+  rm -rf ./deploy/client
   rm -rf ./dist/node_modules
   rm -rf ./dist/core/node_modules
   rm -rf ./dist/auth/node_modules
@@ -30,15 +33,15 @@ commit_files() {
   mkdir ./deploy/dist
   mkdir ./deploy/client
   ls
-  cp -av -r ./scripts/* ./deploy/scripts
-  cp -av -r ./dist/* ./deploy/dist
-  cp -av -r ./client/* ./deploy/client
-  cp -av ./package.json ./deploy/package.json 
-  cp -av ./.gitignore ./deploy/.gitignore
-  cp -av ./ormconfig.js ./deploy/ormconfig.js
-  cp -av ./angular.json ./deploy/angular.json
-  cp -av ./tsconfig.json ./deploy/tsconfig.json
-  cp -av ./README.md ./deploy/README.md  
+  cp -rf ./scripts/* ./deploy/scripts
+  cp -rf ./dist/* ./deploy/dist
+  cp -rf ./client/* ./deploy/client
+  cp -f ./package.json ./deploy/package.json 
+  cp -f ./.gitignore ./deploy/.gitignore
+  cp -f ./ormconfig.js ./deploy/ormconfig.js
+  cp -f ./angular.json ./deploy/angular.json
+  cp -f ./tsconfig.json ./deploy/tsconfig.json
+  cp -f ./README.md ./deploy/README.md  
   cd deploy
   git add .
   git commit --message "Version: $PACKAGE_VERSION Commit: $TRAVIS_COMMIT"
