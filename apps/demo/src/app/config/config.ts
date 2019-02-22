@@ -19,12 +19,12 @@ import { IDemoConfig } from './config.interface';
 
 const NODE_ENV = process.env.NODE_ENV || 'develop';
 const envFile = resolveRootFile(`${NODE_ENV}.env`);
-const connectionString = new ConnectionString(process.env.DATABASE_URL || '');
+const connectionString = new ConnectionString(process.env.DATABASE_URL || 'sqlite://database/sqlitedb.db');
 const dbFile =
   connectionString.protocol === 'sqlite'
     ? './' +
-      (connectionString.hosts ? connectionString.hosts[0].name : '') +
-      (connectionString.path ? '/' + connectionString.path[0] : '')
+    (connectionString.hosts ? connectionString.hosts[0].name : '') +
+    (connectionString.path ? '/' + connectionString.path[0] : '')
     : '';
 try {
   accessSync(envFile);
@@ -67,7 +67,7 @@ export const config: IDemoConfig = {
           port: process.env.PORT ? +process.env.PORT : 3000,
           protocol: process.env.PROTOCOL === 'https' ? 'https' : 'http',
           externalPort: process.env.EXTERNAL_PORT ? +process.env.EXTERNAL_PORT : undefined,
-          domain: process.env.DOMAIN
+          domain: process.env.DOMAIN || ''
         }
       },
       ...CORE_APP_FILTERS,
@@ -80,27 +80,27 @@ export const config: IDemoConfig = {
         provide: JWT_CONFIG_TOKEN,
         useValue: {
           ...DEFAULT_JWT_CONFIG,
-          authHeaderPrefix: process.env.JWT_AUTH_HEADER_PREFIX,
-          expirationDelta: process.env.JWT_EXPIRATION_DELTA,
-          secretKey: process.env.JWT_SECRET_KEY
+          authHeaderPrefix: process.env.JWT_AUTH_HEADER_PREFIX || 'JWT',
+          expirationDelta: process.env.JWT_EXPIRATION_DELTA || '7 days',
+          secretKey: process.env.JWT_SECRET_KEY || 'secret_key'
         }
       },
       {
         provide: FACEBOOK_CONFIG_TOKEN,
         useValue: {
           ...DEFAULT_FACEBOOK_CONFIG,
-          client_id: process.env.FACEBOOK_CLIENT_ID,
-          client_secret: process.env.FACEBOOK_CLIENT_SECRET,
-          oauth_redirect_uri: process.env.FACEBOOK_OAUTH_REDIRECT_URI
+          client_id: process.env.FACEBOOK_CLIENT_ID || 'none',
+          client_secret: process.env.FACEBOOK_CLIENT_SECRET || 'none',
+          oauth_redirect_uri: process.env.FACEBOOK_OAUTH_REDIRECT_URI || 'none'
         }
       },
       {
         provide: GOOGLE_PLUS_CONFIG_TOKEN,
         useValue: {
           ...DEFAULT_GOOGLE_PLUS_CONFIG,
-          client_id: process.env.GOOGLE_CLIENT_ID,
-          client_secret: process.env.GOOGLE_CLIENT_SECRET,
-          oauth_redirect_uri: process.env.GOOGLE_OAUTH_REDIRECT_URI
+          client_id: process.env.GOOGLE_CLIENT_ID || 'none',
+          client_secret: process.env.GOOGLE_CLIENT_SECRET || 'none',
+          oauth_redirect_uri: process.env.GOOGLE_OAUTH_REDIRECT_URI || 'none'
         }
       },
       ...AUTH_APP_GUARDS,
