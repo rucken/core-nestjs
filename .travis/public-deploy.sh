@@ -29,6 +29,7 @@ commit_files() {
   mkdir ./deploy/scripts
   mkdir ./deploy/dist
   mkdir ./deploy/client
+  ls
   cp -av -r ./scripts/* ./deploy/scripts
   cp -av -r ./dist/* ./deploy/dist
   cp -av -r ./client/* ./deploy/client
