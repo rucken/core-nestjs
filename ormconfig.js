@@ -73,9 +73,6 @@ if (connectionString.protocol === 'sqlite') {
         './' +
         (connectionString.hosts ? connectionString.hosts[0].name : '') +
         (connectionString.path ? '/' + connectionString.path[0] : '');
-    console.log(
-        [...vendorsLibs, ...libs, ...apps].map(lib => `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**/migrations/**/*${entitiesExt}`)
-    );
     module.exports = {
         type: 'sqlite',
         database: dbFile,

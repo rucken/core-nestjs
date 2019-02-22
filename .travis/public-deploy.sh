@@ -11,7 +11,6 @@ setup_git() {
   git config user.email "travis@travis-ci.org"
   git config user.name "Travis CI"
   mkdir deploy
-  mkdir deploy/dist
   cd deploy
   git init
   git remote add deploy "${REMOTE_HOST_GIT_URL}" > /dev/null 2>&1
@@ -23,13 +22,21 @@ setup_git() {
 }
 
 commit_files() {
-  rm -rf ./dist/auth/node_modules
+  mkdir deploy/dist
+  mkdir deploy/scripts
+  mkdir deploy/client
+  rm -rf ./dist/node_modules
   rm -rf ./dist/core/node_modules
+  rm -rf ./dist/auth/node_modules
+  cp -av ./scripts/* ./deploy/scripts
   cp -av ./dist/* ./deploy/dist
+  cp -av ./client/* ./deploy/client
   cp -av ./package.json ./deploy/package.json 
   cp -av ./.gitignore ./deploy/.gitignore
   cp -av ./ormconfig.js ./deploy/ormconfig.js
-  cp -av ./README.md ./deploy/README.md
+  cp -av ./angular.json ./deploy/angular.json
+  cp -av ./tsconfig.json ./deploy/tsconfig.json
+  cp -av ./README.md ./deploy/README.md  
   cd deploy
   git add .
   git commit --message "Version: $PACKAGE_VERSION Commit: $TRAVIS_COMMIT"

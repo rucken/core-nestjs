@@ -5,6 +5,8 @@
 # config
 *.env
 
+deploy
+
 # IDE
 .idea/
 .vscode/
@@ -29,7 +31,6 @@ npm-debug.log
 
 # dist
 /dist
-/database/sqlitedb.db
 /database/sqlitedb.db
 /client/docs
 /client/index.html

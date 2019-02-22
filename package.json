@@ -53,7 +53,7 @@
     "migrate:generate": "npm run typeorm migration:generate",
     "migrate": "npm run typeorm migration:run",
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out client/docs libs",
-    "build": "cross-env NODE_ENV=production ./node_modules/.bin/run-s clean format affected:lint affected:prod affected:build docs migrate",
+    "build": "cross-env NODE_ENV=production npm run migrate",
     "affected:apps": "./node_modules/.bin/nx affected:apps --all",
     "affected:libs": "./node_modules/.bin/nx affected:libs --all",
     "affected:build": "./node_modules/.bin/nx affected:build --all",
@@ -107,7 +107,8 @@
     "sqlite3": "^4.0.6",
     "typedoc": "^0.14.2",
     "typeorm": "^0.2.13",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.2",
+    "ts-node": "^7.0.1"
   },
   "cacheDirectories": [
     "node_modules"
@@ -147,7 +148,6 @@
     "supertest": "^3.4.2",
     "ts-jest": "^23.10.5",
     "ts-loader": "^5.3.3",
-    "ts-node": "^7.0.1",
     "tsconfig-paths": "^3.7.0",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.17.0",
