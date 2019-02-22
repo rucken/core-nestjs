@@ -53,7 +53,7 @@
     "migrate:generate": "npm run typeorm migration:generate",
     "migrate": "npm run typeorm migration:run",
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out client/docs libs",
-    "build": "cross-env NODE_ENV=production npm run migrate",
+    "build": "cross-env NODE_ENV=production ./node_modules/.bin/run-s clean format affected:lint affected:prod affected:build docs migrate",
     "affected:apps": "./node_modules/.bin/nx affected:apps --all",
     "affected:libs": "./node_modules/.bin/nx affected:libs --all",
     "affected:build": "./node_modules/.bin/nx affected:build --all",
