@@ -23,14 +23,15 @@ setup_git() {
 
 commit_files() {
   mkdir deploy/dist
-  mkdir deploy/scripts
-  mkdir deploy/client
   rm -rf ./dist/node_modules
   rm -rf ./dist/core/node_modules
   rm -rf ./dist/auth/node_modules
-  cp -av ./scripts/* ./deploy/scripts
-  cp -av ./dist/* ./deploy/dist
-  cp -av ./client/* ./deploy/client
+  mkdir ./deploy/scripts
+  mkdir ./deploy/dist
+  mkdir ./deploy/client
+  cp -av -r ./scripts/* ./deploy/scripts
+  cp -av -r ./dist/* ./deploy/dist
+  cp -av -r ./client/* ./deploy/client
   cp -av ./package.json ./deploy/package.json 
   cp -av ./.gitignore ./deploy/.gitignore
   cp -av ./ormconfig.js ./deploy/ormconfig.js
