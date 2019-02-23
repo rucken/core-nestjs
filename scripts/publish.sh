@@ -1,4 +1,4 @@
 #!/bin/bash
-npm publish ./dist/rucken/core
-npm publish ./dist/rucken/auth
+npm publish ./dist/core
+npm publish ./dist/auth
 read -p "Press any key to continue... " -n1 -s

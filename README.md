@@ -3,7 +3,7 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/rucken/core-nestjs.svg)](https://greenkeeper.io/)
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/rucken/core-nestjs?branch=master&svg=true)](https://ci.appveyor.com/project/rucken/core-nestjs/branch/master)
+[![Appveyor CI](https://ci.appveyor.com/api/projects/status/sda540c6vpj47cx7/branch/master?svg=true)](https://ci.appveyor.com/project/EndyKaufman/core-nestjs/branch/master)
 [![dependencies-release][dependencies-image]][dependencies-url]
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/rucken/core-nestjs)
@@ -17,12 +17,13 @@ A simple application demonstrating the basic usage of permissions with [NestJS](
 - [TypeScript](https://github.com/Microsoft/TypeScript) - superset of JS which compiles to JS, providing compile-time type checking
 - [Passport](https://github.com/jaredhanson/passport) - a popular library used to implement JavaScript authentication (Facebook, Google+)
 - [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) - a JavaScript json web tokens implementation by auth0
+- [@nrwl/schematics](https://github.com/nrwl/nx/blob/master/packages/schematics/src/collection.json) - Angular CLI power-ups for modern development, example usage: `ng g @nrwl/schematics:node-app app-name --framework nestjs` 
+- [@nestjs/schematics](https://github.com/nestjs/schematics/blob/master/src/collection.json) - Nest architecture element generation based on Angular schematics, example usage: `ng g @nestjs/schematics:library lib-name`
 
 ## Usage
 
 - clone or fork [repository](https://github.com/rucken/core-nestjs.git) `git clone --recursive https://github.com/rucken/core-nestjs.git`
-- make sure you have [node.js](https://nodejs.org/) installed version 8+
-- make sure you have NPM installed version 5+
+- make sure you have [node.js](https://nodejs.org/) installed version 11+
 - copy `develop._env` to `develop.env` and set environments for use (on Windows copy with IDE)
 - run `npm install` to install project dependencies
 - run `npm run build` to install project dependencies

@@ -1,9 +1,9 @@
 {
   "name": "@rucken/auth-nestjs",
-  "version": "0.8.7",
+  "version": "1.0.0",
   "engines": {
-    "node": ">=10",
-    "npm": ">=6.4.0"
+    "node": ">=11",
+    "npm": ">=6.5.0"
   },
   "license": "MIT",
   "author": {
@@ -38,7 +38,11 @@
     "nest",
     "backend",
     "auth",
-    "rucken"
+    "rucken",
+    "nrwl",
+    "nx",
+    "angular",
+    "schematics"
   ],
   "maintainers": [
     {

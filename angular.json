@@ -16,19 +16,19 @@
             "outputPath": "dist/core",
             "commands": [
               {
-                "command": "./node_modules/.bin/del-cli ./dist/core"
+                "command": "del-cli ./dist/core"
               },
               {
-                "command": "./node_modules/.bin/tsc --project ./libs/core/tsconfig.lib.json -d --outDir ./dist/core"
+                "command": "tsc --project ./libs/core/tsconfig.lib.json -d --outDir ./dist/core"
               },
               {
-                "command": "./node_modules/.bin/cp-cli ./libs/core/package.json ./dist/core/package.json"
+                "command": "cp-cli ./libs/core/package.json ./dist/core/package.json"
               },
               {
-                "command": "./node_modules/.bin/cp-cli ./libs/core/README.md ./dist/core/README.md"
+                "command": "cp-cli ./libs/core/README.md ./dist/core/README.md"
               },
               {
-                "command": "./node_modules/.bin/cp-cli ./libs/core/LICENSE ./dist/core/LICENSE"
+                "command": "cp-cli ./libs/core/LICENSE ./dist/core/LICENSE"
               },
               {
                 "command": "npm link ./dist/core"
@@ -71,19 +71,19 @@
             "outputPath": "dist/auth",
             "commands": [
               {
-                "command": "./node_modules/.bin/del-cli ./dist/auth"
+                "command": "del-cli ./dist/auth"
               },
               {
-                "command": "./node_modules/.bin/tsc --project ./libs/auth/tsconfig.lib.json -d --outDir ./dist/auth"
+                "command": "tsc --project ./libs/auth/tsconfig.lib.json -d --outDir ./dist/auth"
               },
               {
-                "command": "./node_modules/.bin/cp-cli ./libs/auth/package.json ./dist/auth/package.json"
+                "command": "cp-cli ./libs/auth/package.json ./dist/auth/package.json"
               },
               {
-                "command": "./node_modules/.bin/cp-cli ./libs/auth/README.md ./dist/auth/README.md"
+                "command": "cp-cli ./libs/auth/README.md ./dist/auth/README.md"
               },
               {
-                "command": "./node_modules/.bin/cp-cli ./libs/auth/LICENSE ./dist/auth/LICENSE"
+                "command": "cp-cli ./libs/auth/LICENSE ./dist/auth/LICENSE"
               },
               {
                 "command": "npm link ./dist/auth"
@@ -126,13 +126,13 @@
             "outputPath": "dist/demo",
             "commands": [
               {
-                "command": "./node_modules/.bin/del-cli ./dist/demo"
+                "command": "del-cli ./dist/demo"
               },
               {
-                "command": "./node_modules/.bin/tsc --project ./apps/demo/tsconfig.app.json --outDir ./dist/demo"
+                "command": "tsc --project ./apps/demo/tsconfig.app.json --outDir ./dist/demo"
               },
               {
-                "command": "./node_modules/.bin/showdown makehtml -i README.md -o client/index.html"
+                "command": "showdown makehtml -i README.md -o client/index.html"
               }
             ]
           }
@@ -142,10 +142,10 @@
           "options": {
             "commands": [
               {
-                "command": "./node_modules/.bin/rucken prepare -m dev"
+                "command": "rucken prepare -m dev"
               },
               {
-                "command": "./node_modules/.bin/nodemon --ext 'ts' --watch 'apps' --watch 'libs' --ignore 'apps/**/*.spec.ts' --ignore 'libs/**/*.spec.ts' --exec ./node_modules/.bin/ts-node -r tsconfig-paths/register ./apps/demo/src/main.ts"
+                "command": "nodemon --ext 'ts' --watch 'apps' --watch 'libs' --ignore 'apps/**/*.spec.ts' --ignore 'libs/**/*.spec.ts' --exec ts-node -r tsconfig-paths/register ./apps/demo/src/main.ts"
               }
             ],
             "readyWhen": "DONE"

@@ -1,3 +1,17 @@
+# [1.0.0](https://github.com/rucken/core-nestjs/compare/0.8.7...1.0.0) (2019-02-23)
+
+
+### Bug Fixes
+
+* Move AccessGuard on auth module for correct work NestJS DI and custom passport strategies ([77aba8f](https://github.com/rucken/core-nestjs/commit/77aba8f))
+
+
+### Features
+
+* Update folders and files structures for work with nx mono repo template ([e860da1](https://github.com/rucken/core-nestjs/commit/e860da1))
+
+
+
 ## [0.8.7](https://github.com/rucken/core-nestjs/compare/0.8.6...0.8.7) (2019-02-11)
 
 
