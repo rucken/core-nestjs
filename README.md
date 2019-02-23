@@ -17,6 +17,8 @@ A simple application demonstrating the basic usage of permissions with [NestJS](
 - [TypeScript](https://github.com/Microsoft/TypeScript) - superset of JS which compiles to JS, providing compile-time type checking
 - [Passport](https://github.com/jaredhanson/passport) - a popular library used to implement JavaScript authentication (Facebook, Google+)
 - [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) - a JavaScript json web tokens implementation by auth0
+- [@nrwl/schematics](https://github.com/nrwl/nx/blob/master/packages/schematics/src/collection.json) - Angular CLI power-ups for modern development, example usage: `ng g @nrwl/schematics:node-app app-name --framework nestjs` 
+- [@nestjs/schematics](https://github.com/nestjs/schematics/blob/master/src/collection.json) - Nest architecture element generation based on Angular schematics, example usage: `ng g @nestjs/schematics:library lib-name`
 
 ## Usage
 
