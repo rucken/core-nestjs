@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc/core",
+    "outDir": "../../../dist/out-tsc/core",
     "module": "commonjs",
     "declaration": true,
     "noImplicitAny": false,

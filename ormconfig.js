@@ -1,5 +1,5 @@
 const fg = require('fast-glob');
-const vendors = ['./dist/core', './dist/auth'];
+const vendors = ['./dist/rucken/core-nestjs', './dist/rucken/auth-nestjs'];
 const ConnectionString = require('connection-string');
 const load = require('dotenv').load;
 const fs = require('fs');

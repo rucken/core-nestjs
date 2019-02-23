@@ -1,3 +1,3 @@
 #!/bin/bash
-npm i --save ./dist/core
-npm i --save ./dist/auth
+npm i --save ./dist/rucken/core-nestjs
+npm i --save ./dist/rucken/auth-nestjs

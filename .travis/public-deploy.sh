@@ -28,8 +28,8 @@ copy_files() {
   rm -rf ./deploy/dist
   rm -rf ./deploy/client
   rm -rf ./dist/node_modules
-  rm -rf ./dist/core/node_modules
-  rm -rf ./dist/auth/node_modules
+  rm -rf ./dist/rucken/core-nestjs/node_modules
+  rm -rf ./dist/rucken/auth-nestjs/node_modules
   mkdir ./deploy/scripts
   mkdir ./deploy/dist
   mkdir ./deploy/client
