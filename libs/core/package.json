@@ -2,8 +2,8 @@
   "name": "@rucken/core-nestjs",
   "version": "0.8.7",
   "engines": {
-    "node": ">=10",
-    "npm": ">=6.4.0"
+    "node": ">=11",
+    "npm": ">=6.5.0"
   },
   "license": "MIT",
   "author": {
@@ -36,7 +36,11 @@
     "nest",
     "backend",
     "core",
-    "rucken"
+    "rucken",
+    "nrwl",
+    "nx",
+    "angular",
+    "schematics"
   ],
   "maintainers": [
     {

@@ -32,7 +32,11 @@
     "bootstrap",
     "nestjs",
     "heroku",
-    "typedoc"
+    "typedoc",
+    "nrwl",
+    "nx",
+    "angular",
+    "schematics"
   ],
   "maintainers": [
     {

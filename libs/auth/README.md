@@ -1,7 +1,7 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/rucken/core-nestjs.svg)](https://greenkeeper.io/)
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/rucken/core-nestjs?branch=master&svg=true)](https://ci.appveyor.com/project/rucken/core-nestjs/branch/master)
+[![Appveyor CI](https://ci.appveyor.com/api/projects/status/sda540c6vpj47cx7/branch/master?svg=true)](https://ci.appveyor.com/project/EndyKaufman/core-nestjs/branch/master)
 [![dependencies-release][dependencies-image]][dependencies-url]
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/rucken/core-nestjs)
@@ -21,8 +21,7 @@ Basic entities, services and controllers for oauth authorization in [NestJS](htt
 ## Usage
 
 - clone or fork [repository](https://github.com/rucken/core-nestjs.git) `git clone --recursive https://github.com/rucken/core-nestjs.git`
-- make sure you have [node.js](https://nodejs.org/) installed version 8+
-- make sure you have NPM installed version 5+
+- make sure you have [node.js](https://nodejs.org/) installed version 11+
 - copy `develop._env` to `develop.env` and set environments for use (on Windows copy with IDE)
 - run `npm install` to install project dependencies
 - run `npm run build` to install project dependencies
