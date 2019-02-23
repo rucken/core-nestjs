@@ -6,7 +6,7 @@
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/rucken/core-nestjs)
 
-Basic entities, services and controllers for [NestJS](https://github.com/nestjs/nest REST backend
+Basic entities, services and controllers for [NestJS](https://github.com/nestjs/nest) REST backend
 
 ## Features
 
