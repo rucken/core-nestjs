@@ -7,11 +7,13 @@ setup_ssh() {
     ssh-keyscan ${REMOTE_HOST} >> $HOME/.ssh/known_hosts
     ssh-keyscan ${REMOTE_HOST_IP} >> $HOME/.ssh/known_hosts
 }
+create_folder(){
+  rm -rf ./deploy
+  mkdir deploy
+}
 setup_git() {
   git config user.email "travis@travis-ci.org"
   git config user.name "Travis CI"
-  rm -rf ./deploy
-  mkdir deploy
   cd deploy
   git init
   git remote add deploy "${REMOTE_HOST_GIT_URL}" > /dev/null 2>&1
@@ -21,8 +23,7 @@ setup_git() {
   git pull deploy master
   cd ..
 }
-
-commit_files() {
+copy_files() {
   rm -rf ./deploy/scripts
   rm -rf ./deploy/dist
   rm -rf ./deploy/client
@@ -32,7 +33,6 @@ commit_files() {
   mkdir ./deploy/scripts
   mkdir ./deploy/dist
   mkdir ./deploy/client
-  ls
   cp -rf ./scripts/* ./deploy/scripts
   cp -rf ./dist/* ./deploy/dist
   cp -rf ./client/* ./deploy/client
@@ -41,7 +41,12 @@ commit_files() {
   cp -f ./ormconfig.js ./deploy/ormconfig.js
   cp -f ./angular.json ./deploy/angular.json
   cp -f ./tsconfig.json ./deploy/tsconfig.json
-  cp -f ./README.md ./deploy/README.md  
+  cp -f ./README.md ./deploy/README.md 
+  cp -f ./.travis/public-preinstall.sh ./deploy/preinstall.sh
+  cp -f ./.travis/public-patch.js ./deploy/patch.js
+  node ./deploy/patch.js
+}
+commit_files() { 
   cd deploy
   git add .
   git commit --message "Version: $PACKAGE_VERSION Commit: $TRAVIS_COMMIT"
@@ -66,7 +71,14 @@ then
   export PACKAGE_VERSION=$PACKAGE_VERSION
 
   setup_ssh
+  create_folder
   setup_git
+  copy_files
   commit_files
   upload_files
+fi
+if [[ $LOCAL == 'true' ]]
+then
+  create_folder
+  copy_files
 fi

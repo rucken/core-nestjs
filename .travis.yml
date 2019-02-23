@@ -6,9 +6,7 @@ addons:
   - "$REMOTE_HOST"
   - "$REMOTE_HOST_IP"
 after_success:
-- chmod +x ".travis/public-patch.js"
 - chmod +x ".travis/public-deploy.sh"
-- node .travis/public-patch.js
 - ".travis/public-deploy.sh"
 before_install:
 - openssl aes-256-cbc -K $encrypted_bcbda17145e7_key -iv $encrypted_bcbda17145e7_iv

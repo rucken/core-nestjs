@@ -24,7 +24,7 @@ try {
     }
 }
 
-const connectionString = new ConnectionString(process.env.DATABASE_URL || '');
+const connectionString = new ConnectionString(process.env.DATABASE_URL || 'sqlite://database/sqlitedb.db');
 const vendorsLibs = Object.keys(vendors).map(index => {
     const vendorConfig = {};
     vendorConfig[sourceRootKey] = vendors[index];

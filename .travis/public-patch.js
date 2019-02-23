@@ -1,6 +1,6 @@
 const fs = require('fs');
-const f_gitignore = './.gitignore';
-const f_package_json = './package.json';
+const f_gitignore = './deploy/.gitignore';
+const f_package_json = './deploy/package.json';
 
 var data = '', obj = {}, txt = '';
 
@@ -15,7 +15,7 @@ obj = JSON.parse(data);
 delete obj['devDependencies'];
 obj.scripts.build = 'exit 0';
 obj.scripts.test = 'npm run migrate';
-obj.scripts.preinstall = './scripts/preinstall.sh';
+obj.scripts.preinstall = './preinstall.sh';
 fs.writeFileSync(f_package_json, JSON.stringify(obj), 'utf8');
 
 console.log('Updated package.json');

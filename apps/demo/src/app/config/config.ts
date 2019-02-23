@@ -23,8 +23,8 @@ const connectionString = new ConnectionString(process.env.DATABASE_URL || 'sqlit
 const dbFile =
   connectionString.protocol === 'sqlite'
     ? './' +
-    (connectionString.hosts ? connectionString.hosts[0].name : '') +
-    (connectionString.path ? '/' + connectionString.path[0] : '')
+      (connectionString.hosts ? connectionString.hosts[0].name : '') +
+      (connectionString.path ? '/' + connectionString.path[0] : '')
     : '';
 try {
   accessSync(envFile);
