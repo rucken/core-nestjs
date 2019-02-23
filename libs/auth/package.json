@@ -1,6 +1,6 @@
 {
   "name": "@rucken/auth-nestjs",
-  "version": "0.8.7",
+  "version": "1.0.0",
   "engines": {
     "node": ">=11",
     "npm": ">=6.5.0"
