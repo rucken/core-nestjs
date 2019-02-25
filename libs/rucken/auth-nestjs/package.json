@@ -72,6 +72,7 @@
     "passport-local": "1.0.0",
     "rxjs": "6.4.0",
     "typeorm": "0.2.13",
-    "highlight.js": "9.13.1"
+    "highlight.js": "9.13.1",
+    "@rucken/core-nestjs": "1.0.2"
   }
 }
