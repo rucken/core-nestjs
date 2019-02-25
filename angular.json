@@ -4,8 +4,8 @@
   "newProjectRoot": "",
   "projects": {
     "core": {
-      "root": "libs/core",
-      "sourceRoot": "libs/core/src",
+      "root": "libs/rucken/core-nestjs",
+      "sourceRoot": "libs/rucken/core-nestjs/src",
       "projectType": "library",
       "prefix": "",
       "schematics": {},
@@ -13,25 +13,25 @@
         "build": {
           "builder": "@nrwl/builders:run-commands",
           "options": {
-            "outputPath": "dist/core",
+            "outputPath": "dist/rucken/core-nestjs",
             "commands": [
               {
-                "command": "del-cli ./dist/core"
+                "command": "del-cli ./dist/rucken/core-nestjs"
               },
               {
-                "command": "tsc --project ./libs/core/tsconfig.lib.json -d --outDir ./dist/core"
+                "command": "tsc --project ./libs/rucken/core-nestjs/tsconfig.lib.json -d --outDir ./dist/rucken/core-nestjs"
               },
               {
-                "command": "cp-cli ./libs/core/package.json ./dist/core/package.json"
+                "command": "cp-cli ./libs/rucken/core-nestjs/package.json ./dist/rucken/core-nestjs/package.json"
               },
               {
-                "command": "cp-cli ./libs/core/README.md ./dist/core/README.md"
+                "command": "cp-cli ./libs/rucken/core-nestjs/README.md ./dist/rucken/core-nestjs/README.md"
               },
               {
-                "command": "cp-cli ./libs/core/LICENSE ./dist/core/LICENSE"
+                "command": "cp-cli ./libs/rucken/core-nestjs/LICENSE ./dist/rucken/core-nestjs/LICENSE"
               },
               {
-                "command": "npm link ./dist/core"
+                "command": "npm link ./dist/rucken/core-nestjs"
               }
             ],
             "parallel": false
@@ -41,8 +41,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/core/tsconfig.lib.json",
-              "libs/core/tsconfig.spec.json"
+              "libs/rucken/core-nestjs/tsconfig.lib.json",
+              "libs/rucken/core-nestjs/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -52,15 +52,15 @@
         "test": {
           "builder": "@nrwl/builders:jest",
           "options": {
-            "jestConfig": "libs/core/jest.config.js",
-            "tsConfig": "libs/core/tsconfig.spec.json"
+            "jestConfig": "libs/rucken/core-nestjs/jest.config.js",
+            "tsConfig": "libs/rucken/core-nestjs/tsconfig.spec.json"
           }
         }
       }
     },
     "auth": {
-      "root": "libs/auth",
-      "sourceRoot": "libs/auth/src",
+      "root": "libs/rucken/auth-nestjs",
+      "sourceRoot": "libs/rucken/auth-nestjs/src",
       "projectType": "library",
       "prefix": "",
       "schematics": {},
@@ -68,25 +68,25 @@
         "build": {
           "builder": "@nrwl/builders:run-commands",
           "options": {
-            "outputPath": "dist/auth",
+            "outputPath": "dist/rucken/auth-nestjs",
             "commands": [
               {
-                "command": "del-cli ./dist/auth"
+                "command": "del-cli ./dist/rucken/auth-nestjs"
               },
               {
-                "command": "tsc --project ./libs/auth/tsconfig.lib.json -d --outDir ./dist/auth"
+                "command": "tsc --project ./libs/rucken/auth-nestjs/tsconfig.lib.json -d --outDir ./dist/rucken/auth-nestjs"
               },
               {
-                "command": "cp-cli ./libs/auth/package.json ./dist/auth/package.json"
+                "command": "cp-cli ./libs/rucken/auth-nestjs/package.json ./dist/rucken/auth-nestjs/package.json"
               },
               {
-                "command": "cp-cli ./libs/auth/README.md ./dist/auth/README.md"
+                "command": "cp-cli ./libs/rucken/auth-nestjs/README.md ./dist/rucken/auth-nestjs/README.md"
               },
               {
-                "command": "cp-cli ./libs/auth/LICENSE ./dist/auth/LICENSE"
+                "command": "cp-cli ./libs/rucken/auth-nestjs/LICENSE ./dist/rucken/auth-nestjs/LICENSE"
               },
               {
-                "command": "npm link ./dist/auth"
+                "command": "npm link ./dist/rucken/auth-nestjs"
               }
             ],
             "parallel": false
@@ -96,8 +96,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/auth/tsconfig.lib.json",
-              "libs/auth/tsconfig.spec.json"
+              "libs/rucken/auth-nestjs/tsconfig.lib.json",
+              "libs/rucken/auth-nestjs/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -107,8 +107,8 @@
         "test": {
           "builder": "@nrwl/builders:jest",
           "options": {
-            "jestConfig": "libs/auth/jest.config.js",
-            "tsConfig": "libs/auth/tsconfig.spec.json"
+            "jestConfig": "libs/rucken/auth-nestjs/jest.config.js",
+            "tsConfig": "libs/rucken/auth-nestjs/tsconfig.spec.json"
           }
         }
       }

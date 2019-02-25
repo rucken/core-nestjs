@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc/auth",
+    "outDir": "../../../dist/out-tsc/auth",
     "module": "commonjs",
     "declaration": true,
     "noImplicitAny": false,

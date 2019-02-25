@@ -1,3 +1,12 @@
+## [1.0.1](https://github.com/rucken/core-nestjs/compare/1.0.0...1.0.1) (2019-02-25)
+
+
+### Bug Fixes
+
+* Lock dependencies ([71ede1b](https://github.com/rucken/core-nestjs/commit/71ede1b))
+
+
+
 # [1.0.0](https://github.com/rucken/core-nestjs/compare/0.8.7...1.0.0) (2019-02-23)
 
 

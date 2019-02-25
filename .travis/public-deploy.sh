@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# REMOTE_HOST=https://domain.name
+# REMOTE_HOST_IP=127.0.0.1
+# REMOTE_HOST_GIT_URL=dokku@127.0.0.1:dokku-app-name
+
+# For testing public-deploy.sh on local machine, set LOCAL=true
+
 setup_ssh() {
     eval "$(ssh-agent -s)"
     chmod 600 .travis/deploy.key
@@ -28,8 +34,8 @@ copy_files() {
   rm -rf ./deploy/dist
   rm -rf ./deploy/client
   rm -rf ./dist/node_modules
-  rm -rf ./dist/core/node_modules
-  rm -rf ./dist/auth/node_modules
+  rm -rf ./dist/rucken/core-nestjs/node_modules
+  rm -rf ./dist/rucken/auth-nestjs/node_modules
   mkdir ./deploy/scripts
   mkdir ./deploy/dist
   mkdir ./deploy/client
