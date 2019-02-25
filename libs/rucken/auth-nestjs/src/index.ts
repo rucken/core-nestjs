@@ -13,6 +13,7 @@ export * from './dto/sign-in.dto';
 export * from './dto/sign-up.dto';
 export * from './dto/token.dto';
 export * from './dto/user-token.dto';
+export * from './entities/auth-user.entity';
 export * from './entities/index';
 export * from './entities/oauth-tokens-accesstoken.entity';
 export * from './filters/custom-exception.filter';
