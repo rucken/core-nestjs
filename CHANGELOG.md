@@ -1,3 +1,12 @@
+## [1.0.2](https://github.com/rucken/core-nestjs/compare/1.0.1...1.0.2) (2019-02-25)
+
+
+### Bug Fixes
+
+* Update dependencies for @rucken/auth-nestjs ([9067eb5](https://github.com/rucken/core-nestjs/commit/9067eb5))
+
+
+
 ## [1.0.1](https://github.com/rucken/core-nestjs/compare/1.0.0...1.0.1) (2019-02-25)
 
 
