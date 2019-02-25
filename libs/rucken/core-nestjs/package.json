@@ -51,13 +51,14 @@
   "main": "index.js",
   "types": "index.d.ts",
   "dependencies": {
-    "@nestjs/common": "^5.7.3",
-    "@nestjs/core": "^5.7.3",
-    "@nestjs/passport": "^5.1.0",
-    "@nestjs/swagger": "^2.5.1",
-    "@nestjs/typeorm": "^5.3.0",
-    "class-transformer": "^0.2.0",
-    "class-validator": "^0.9.1",
-    "node-django-hashers": "^1.1.6"
+    "@nestjs/common": "5.7.3",
+    "@nestjs/core": "5.7.3",
+    "@nestjs/passport": "5.1.0",
+    "@nestjs/swagger": "2.5.1",
+    "@nestjs/typeorm": "5.3.0",
+    "class-transformer": "0.2.0",
+    "class-validator": "0.9.1",
+    "node-django-hashers": "1.1.6",
+    "highlight.js": "9.13.1"
   }
 }
