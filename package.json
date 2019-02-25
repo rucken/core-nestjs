@@ -20,6 +20,8 @@
     "url": "git+https://github.com/rucken/core-nestjs.git"
   },
   "keywords": [
+    "nestjs",
+    "backend",
     "jwt",
     "oauth",
     "passport",
@@ -30,13 +32,21 @@
     "permission",
     "contenttype",
     "bootstrap",
-    "nestjs",
     "heroku",
     "typedoc",
+    "node",
+    "nodejs",
+    "angular",
+    "crud",
+    "rest",
+    "nest",
+    "core",
+    "rucken",
     "nrwl",
     "nx",
     "angular",
-    "schematics"
+    "schematics",
+    "ngx"
   ],
   "maintainers": [
     {

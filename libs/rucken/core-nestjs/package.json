@@ -21,6 +21,7 @@
   },
   "keywords": [
     "nestjs",
+    "backend",
     "jwt",
     "user",
     "group",
@@ -30,17 +31,16 @@
     "node",
     "nodejs",
     "angular",
-    "django",
     "crud",
     "rest",
     "nest",
-    "backend",
     "core",
     "rucken",
     "nrwl",
     "nx",
     "angular",
-    "schematics"
+    "schematics",
+    "ngx"
   ],
   "maintainers": [
     {
