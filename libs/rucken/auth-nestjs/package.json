@@ -1,6 +1,6 @@
 {
   "name": "@rucken/auth-nestjs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "engines": {
     "node": ">=11",
     "npm": ">=6.5.0"
@@ -73,6 +73,6 @@
     "rxjs": "6.4.0",
     "typeorm": "0.2.13",
     "highlight.js": "9.13.1",
-    "@rucken/core-nestjs": "1.0.1"
+    "@rucken/core-nestjs": "1.0.2"
   }
 }

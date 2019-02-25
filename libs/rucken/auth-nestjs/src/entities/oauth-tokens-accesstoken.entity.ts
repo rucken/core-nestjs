@@ -1,4 +1,4 @@
-import { CustomValidationError, User } from '@rucken/core-nestjs';
+import { CustomValidationError } from '@rucken/core-nestjs';
 import { IsNotEmpty, IsOptional, MaxLength, validateSync } from 'class-validator';
 import {
   BeforeInsert,
@@ -10,6 +10,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
+import { AuthUser } from './auth-user.entity';
 
 @Entity({ name: 'oauth_tokens_accesstoken' })
 export class OauthTokensAccesstoken {
@@ -52,10 +53,10 @@ export class OauthTokensAccesstoken {
   @IsOptional()
   scope: string = undefined;
 
-  @ManyToOne(type => User, { eager: true })
+  @ManyToOne(type => AuthUser, { eager: true })
   @IsNotEmpty()
   @JoinColumn({ name: 'user_id' })
-  user: User = undefined;
+  user: AuthUser = undefined;
 
   @BeforeInsert()
   doBeforeInsertion() {
