@@ -30,6 +30,7 @@ setup_git() {
   cd ..
 }
 copy_files() {
+  ./scripts/postinstall.sh
   rm -rf ./deploy/scripts
   rm -rf ./deploy/dist
   rm -rf ./deploy/client

@@ -19,17 +19,17 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@rucken/auth-nestjs": [
-        "dist/rucken/auth-nestjs"
-      ],
-      "@rucken/auth-nestjs/*": [
-        "dist/rucken/auth-nestjs/*"
-      ],
       "@rucken/core-nestjs": [
-        "dist/rucken/core-nestjs"
+        "libs/rucken/core-nestjs/src"
       ],
       "@rucken/core-nestjs/*": [
-        "dist/rucken/core-nestjs/*"
+        "libs/rucken/core-nestjs/src/*"
+      ],
+      "@rucken/auth-nestjs": [
+        "libs/rucken/auth-nestjs/src"
+      ],
+      "@rucken/auth-nestjs/*": [
+        "libs/rucken/auth-nestjs/src/*"
       ]
     }
   },
