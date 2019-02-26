@@ -61,8 +61,8 @@
   "scripts": {
     "typeorm": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "clean": "./node_modules/.bin/del-cli dist client/docs database/sqlitedb.db",
-    "start:dev": "ng serve demo",
-    "start:prod": "cross-env NODE_ENV=production node dist/demo/main.js",
+    "start:dev": "ng run demo:serve",
+    "start:prod": "ng run demo:serve-prod",
     "start": "node dist/demo/main.js",
     "test": "npm run build",
     "test:cov": "jest --coverage",

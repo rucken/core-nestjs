@@ -134,7 +134,8 @@
               {
                 "command": "showdown makehtml -i README.md -o client/index.html"
               }
-            ]
+            ],
+            "parallel": false
           }
         },
         "serve": {
@@ -148,7 +149,21 @@
                 "command": "nodemon --ext 'ts' --watch 'apps' --watch 'libs' --ignore 'apps/**/*.spec.ts' --ignore 'libs/**/*.spec.ts' --exec ts-node -r tsconfig-paths/register ./apps/demo/src/main.ts"
               }
             ],
-            "readyWhen": "DONE"
+            "parallel": false
+          }
+        },
+        "serve-prod": {
+          "builder": "@nrwl/builders:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "rucken prepare -m prod"
+              },
+              {
+                "command": "cross-env NODE_ENV=production node dist/demo/main.js"
+              }
+            ],
+            "parallel": false
           }
         },
         "lint": {
