@@ -1,6 +1,15 @@
 import { CustomValidationError, User } from '@rucken/core-nestjs';
 import { IsNotEmpty, IsOptional, MaxLength, validateSync } from 'class-validator';
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 
 @Entity({ name: 'oauth_tokens_accesstoken' })
 export class OauthTokensAccesstoken {

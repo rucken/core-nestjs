@@ -1,3 +1,12 @@
+## [1.0.4](https://github.com/rucken/core-nestjs/compare/1.0.3...1.0.4) (2019-02-26)
+
+
+### Bug Fixes
+
+* Remove AuthUser, update scripts for correct work with external lib migrations ([b64a1bc](https://github.com/rucken/core-nestjs/commit/b64a1bc))
+
+
+
 ## [1.0.3](https://github.com/rucken/core-nestjs/compare/1.0.2...1.0.3) (2019-02-25)
 
 

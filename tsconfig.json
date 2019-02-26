@@ -20,16 +20,16 @@
     "baseUrl": ".",
     "paths": {
       "@rucken/core-nestjs": [
-        "libs/rucken/core-nestjs/src"
+        "dist/rucken/core-nestjs"
       ],
       "@rucken/core-nestjs/*": [
-        "libs/rucken/core-nestjs/src/*"
+        "dist/rucken/core-nestjs/*"
       ],
       "@rucken/auth-nestjs": [
-        "libs/rucken/auth-nestjs/src"
+        "dist/rucken/auth-nestjs"
       ],
       "@rucken/auth-nestjs/*": [
-        "libs/rucken/auth-nestjs/src/*"
+        "dist/rucken/auth-nestjs/*"
       ]
     }
   },
