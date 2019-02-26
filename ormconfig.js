@@ -1,5 +1,4 @@
 const fg = require('fast-glob');
-const vendors = ['./dist/rucken/core-nestjs', './dist/rucken/auth-nestjs'];
 const ConnectionString = require('connection-string');
 const load = require('dotenv').load;
 const fs = require('fs');
@@ -7,8 +6,10 @@ const path = require('path');
 const envName = process.env.NODE_ENV || 'develop';
 const isDevelop = envName === 'develop';
 const sourceRootKey = isDevelop ? 'sourceRoot' : 'outputPath';
-const entitiesExt = isDevelop ? '{.js,.ts}' : '.js';
-const angularConfig = JSON.parse(fs.readFileSync('angular.json'));
+const entitiesExt = '{.js,.ts}';;
+const angularJson = JSON.parse(fs.readFileSync('angular.json'));
+const packageJson = JSON.parse(fs.readFileSync('package.json'));
+const vendors = packageJson.externalLibs || [];
 try {
     fs.accessSync(`${envName}.env`);
     load({ path: `${envName}.env` });
@@ -25,17 +26,18 @@ try {
 }
 
 const connectionString = new ConnectionString(process.env.DATABASE_URL || 'sqlite://database/sqlitedb.db');
-const vendorsLibs = Object.keys(vendors).map(index => {
+const vendorsLibs = []; const a = Object.keys(vendors).map(index => {
     const vendorConfig = {};
     vendorConfig[sourceRootKey] = vendors[index];
     return vendorConfig;
 });
-const libs = Object.keys(angularConfig.projects).filter(key => angularConfig.projects[key].projectType === 'library').map(key => angularConfig.projects[key]);
-const apps = Object.keys(angularConfig.projects).filter(key => angularConfig.projects[key].projectType === 'application').map(key => angularConfig.projects[key]);
-const defaultProject = angularConfig.defaultProject;
-const defaultApp = angularConfig.projects[defaultProject];
+const libs = Object.keys(angularJson.projects).filter(key => angularJson.projects[key].projectType === 'library').map(key => angularJson.projects[key]);
+const apps = Object.keys(angularJson.projects).filter(key => angularJson.projects[key].projectType === 'application').map(key => angularJson.projects[key]);
+const defaultProject = angularJson.defaultProject;
+const defaultApp = angularJson.projects[defaultProject];
+const migrationsDir = `${defaultApp[sourceRootKey]}/migrations`;
 
-const entities = normalizationFileList(
+const entities = (
     fg.sync(
         [
             ...vendorsLibs,
@@ -57,7 +59,7 @@ const migrations = normalizationFileList(
         )
     )
 );
-const subscribers = normalizationFileList(
+const subscribers = (
     fg.sync(
         [
             ...vendorsLibs,
@@ -82,7 +84,7 @@ if (connectionString.protocol === 'sqlite') {
         logging: 'all',
         synchronize: false,
         cli: {
-            migrationsDir: `${defaultApp[sourceRootKey]}/migrations`
+            migrationsDir: migrationsDir
         }
     }
 } else {
@@ -99,7 +101,7 @@ if (connectionString.protocol === 'sqlite') {
         logging: 'all',
         synchronize: false,
         cli: {
-            migrationsDir: `${defaultApp[sourceRootKey]}/migrations`
+            migrationsDir: migrationsDir
         }
     }
 }
