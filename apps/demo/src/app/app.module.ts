@@ -9,10 +9,10 @@ export class AppModule {
     return {
       module: AppModule,
       imports: [
-        TypeOrmModule.forRoot(),
         PassportModule.register({ defaultStrategy: 'jwt' }),
+        CoreModule.forRoot(options),
         AuthModule.forRoot(options),
-        CoreModule.forRoot(options)
+        TypeOrmModule.forRoot()
       ],
       providers: [...(options.passportProviders ? options.passportProviders : [])]
     };
