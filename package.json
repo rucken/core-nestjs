@@ -134,9 +134,6 @@
     "typeorm": "0.2.13",
     "typescript": "3.2.2"
   },
-  "cacheDirectories": [
-    "node_modules"
-  ],
   "devDependencies": {
     "@angular/cli": "7.3.3",
     "@angular/compiler": "7.2.6",
