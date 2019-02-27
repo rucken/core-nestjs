@@ -49,9 +49,9 @@ copy_files() {
   cp -f ./angular.json ./deploy/angular.json
   cp -f ./tsconfig.json ./deploy/tsconfig.json
   cp -f ./README.md ./deploy/README.md 
-  cp -f ./.travis/public-preinstall.sh ./deploy/preinstall.sh
-  cp -f ./.travis/public-patch.js ./deploy/patch.js
-  node ./deploy/patch.js
+  cp -f ./.travis/public-postinstall.sh ./deploy/scripts/postinstall.sh
+  cp -f ./.travis/public-preinstall.sh ./deploy/scripts/preinstall.sh
+  node ./.travis/public-patch.js
 }
 commit_files() { 
   cd deploy
