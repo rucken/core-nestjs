@@ -63,7 +63,7 @@ A simple application demonstrating the basic usage of permissions with [NestJS](
 
 [@rucken/core-nestjs](https://github.com/rucken/core-nestjs) - A simple application demonstrating the basic usage of permissions with [NestJS](https://nestjs.com/) (JWT, Passport, Facebook, Google+, User, Group, Permission).
 
-[@rucken/todo-nestjs](https://github.com/rucken/todo) - A simple todo application with [NestJS](https://nestjs.com/) (Projects, Tasks, Statuses).
+[@rucken/todo-nestjs](https://github.com/rucken/todo-nestjs) - A simple todo application with [NestJS](https://nestjs.com/) (Projects, Tasks, Statuses).
 
 ### Mobile
 
