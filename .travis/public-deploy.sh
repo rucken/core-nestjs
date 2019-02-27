@@ -50,6 +50,7 @@ copy_files() {
   cp -f ./tsconfig.json ./deploy/tsconfig.json
   cp -f ./README.md ./deploy/README.md 
   cp -f ./.travis/public-postinstall.sh ./deploy/scripts/postinstall.sh
+  cp -f ./.travis/public-preinstall.sh ./deploy/scripts/preinstall.sh
   node ./.travis/public-patch.js
 }
 commit_files() { 
