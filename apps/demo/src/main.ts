@@ -2,6 +2,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { chmodSync } from 'fs';
+import 'reflect-metadata';
 import { register } from 'tsconfig-paths';
 import { AppModule } from './app/app.module';
 import { config } from './app/config/config';
