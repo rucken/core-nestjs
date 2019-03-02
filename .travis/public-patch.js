@@ -14,8 +14,8 @@ console.log('Updated .gitignore');
 data = fs.readFileSync(f_package_json, 'utf8');
 obj = JSON.parse(data);
 delete obj['devDependencies'];
-obj.scripts.build = 'exit 0';
-obj.scripts.test = 'npm run migrate';
+obj.scripts.test = 'exit 0';
+obj.scripts.build = 'npm run migrate';
 obj.scripts.preinstall = 'sh ./scripts/preinstall.sh';
 fs.writeFileSync(f_package_json, JSON.stringify(obj), 'utf8');
 
