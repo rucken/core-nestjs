@@ -22,17 +22,6 @@ if (config.env.name !== 'develop') {
 }
 async function bootstrap() {
   /**
-   * Set writeble db file if is set
-   */
-  if (config.db.file) {
-    try {
-      chmodSync(config.db.file, 777);
-    } catch (error) {
-      Logger.log(`error on set chmod 777 to database file ${config.db.file}`, 'Main');
-    }
-  }
-
-  /**
    * Create nest application
    */
   const app = await NestFactory.create(
