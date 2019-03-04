@@ -1,3 +1,13 @@
+## [1.0.5](https://github.com/rucken/core-nestjs/compare/1.0.4...1.0.5) (2019-03-04)
+
+
+### Bug Fixes
+
+* Change modules for correct import providers ([bc5cf18](https://github.com/rucken/core-nestjs/commit/bc5cf18))
+* Update dependencies ([fcf75c3](https://github.com/rucken/core-nestjs/commit/fcf75c3))
+
+
+
 ## [1.0.4](https://github.com/rucken/core-nestjs/compare/1.0.3...1.0.4) (2019-02-26)
 
 

@@ -14,7 +14,7 @@ export class AppModule {
         AuthModule.forRoot(options),
         TypeOrmModule.forRoot()
       ],
-      providers: [...(options.passportProviders ? options.passportProviders : [])]
+      providers: [...options.providers, ...(options.passportProviders ? options.passportProviders : [])]
     };
   }
 }
