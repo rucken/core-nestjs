@@ -8,7 +8,6 @@ import { ICoreConfig } from '../interfaces/core-config.interface';
 @Injectable()
 export class PermissionsService {
   constructor(
-    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @InjectRepository(Permission)
     private readonly repository: Repository<Permission>
   ) {}
@@ -23,9 +22,6 @@ export class PermissionsService {
   }
 
   async update(options: { id: number; item: Permission }) {
-    if (this.coreConfig.demo) {
-      throw new MethodNotAllowedException('Not allowed in DEMO mode');
-    }
     options.item.id = options.id;
     try {
       options.item = await this.repository.save(options.item);
@@ -36,9 +32,6 @@ export class PermissionsService {
   }
 
   async delete(options: { id: number }) {
-    if (this.coreConfig.demo) {
-      throw new MethodNotAllowedException('Not allowed in DEMO mode');
-    }
     try {
       await this.repository.delete(options.id);
       return { permission: null };

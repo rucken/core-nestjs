@@ -5,6 +5,8 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Inject,
+  MethodNotAllowedException,
   Param,
   ParseIntPipe,
   Post,
@@ -13,12 +15,14 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
+import { CORE_CONFIG_TOKEN } from '../configs/core.config';
 import { Permissions } from '../decorators/permissions.decorator';
 import { Roles } from '../decorators/roles.decorator';
 import { InGroupDto } from '../dto/in-group.dto';
 import { OutGroupDto } from '../dto/out-group.dto';
 import { OutGroupsDto } from '../dto/out-groups.dto';
 import { Group } from '../entities/group.entity';
+import { ICoreConfig } from '../interfaces/core-config.interface';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { GroupsService } from '../services/groups.service';
 
@@ -26,7 +30,10 @@ import { GroupsService } from '../services/groups.service';
 @ApiBearerAuth()
 @Controller('/api/groups')
 export class GroupsController {
-  constructor(private readonly service: GroupsService) {}
+  constructor(
+    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
+    private readonly service: GroupsService
+  ) {}
 
   @Roles('isSuperuser')
   @Permissions('add_group')
@@ -63,6 +70,9 @@ export class GroupsController {
   @ApiImplicitParam({ name: 'id', type: Number })
   @Put(':id')
   async update(@Param('id', new ParseIntPipe()) id, @Body() dto: InGroupDto) {
+    if (this.coreConfig.demo) {
+      throw new MethodNotAllowedException('Not allowed in DEMO mode');
+    }
     try {
       return plainToClass(
         OutGroupDto,
@@ -87,6 +97,9 @@ export class GroupsController {
   @ApiImplicitParam({ name: 'id', type: Number })
   @Delete(':id')
   async delete(@Param('id', new ParseIntPipe()) id) {
+    if (this.coreConfig.demo) {
+      throw new MethodNotAllowedException('Not allowed in DEMO mode');
+    }
     try {
       return plainToClass(
         OutGroupDto,

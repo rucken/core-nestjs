@@ -1,16 +1,11 @@
-import { ConflictException, Inject, Injectable, MethodNotAllowedException, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CORE_CONFIG_TOKEN } from '../configs/core.config';
 import { User } from '../entities/user.entity';
-import { ICoreConfig } from '../interfaces/core-config.interface';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
-    @InjectRepository(User) private readonly repository: Repository<User>
-  ) {}
+  constructor(@InjectRepository(User) private readonly repository: Repository<User>) {}
 
   async assertUsernameAndEmail(options: { id?: number; email: string; username: string }) {
     if (options.email) {
@@ -38,9 +33,6 @@ export class UsersService {
   }
 
   async create(options: { item: User }) {
-    if (options.item.isSuperuser && this.coreConfig.demo) {
-      throw new MethodNotAllowedException('Not allowed in DEMO mode');
-    }
     try {
       await this.assertUsernameAndEmail({
         id: options.item.id,
@@ -56,9 +48,6 @@ export class UsersService {
   }
 
   async update(options: { id: number; item: User }) {
-    if (this.coreConfig.demo) {
-      throw new MethodNotAllowedException('Not allowed in DEMO mode');
-    }
     try {
       await this.assertUsernameAndEmail({
         id: options.item.id,
@@ -76,9 +65,6 @@ export class UsersService {
   }
 
   async delete(options: { id: number }) {
-    if (this.coreConfig.demo) {
-      throw new MethodNotAllowedException('Not allowed in DEMO mode');
-    }
     try {
       let object = await this.repository.findOneOrFail(options.id);
       object.groups = [];

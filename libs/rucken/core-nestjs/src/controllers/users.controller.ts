@@ -5,6 +5,8 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Inject,
+  MethodNotAllowedException,
   Param,
   ParseIntPipe,
   Post,
@@ -13,6 +15,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
+import { CORE_CONFIG_TOKEN } from '../configs/core.config';
 import { Permissions } from '../decorators/permissions.decorator';
 import { Roles } from '../decorators/roles.decorator';
 import { InCreateUserDto } from '../dto/in-create-user.dto';
@@ -20,6 +23,7 @@ import { InUserDto } from '../dto/in-user.dto';
 import { OutUserDto } from '../dto/out-user.dto';
 import { OutUsersDto } from '../dto/out-users.dto';
 import { User } from '../entities/user.entity';
+import { ICoreConfig } from '../interfaces/core-config.interface';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { UsersService } from '../services/users.service';
 
@@ -27,7 +31,10 @@ import { UsersService } from '../services/users.service';
 @ApiBearerAuth()
 @Controller('/api/users')
 export class UsersController {
-  constructor(private readonly service: UsersService) {}
+  constructor(
+    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
+    private readonly service: UsersService
+  ) {}
 
   @Roles('isSuperuser')
   @Permissions('add_user')
@@ -40,6 +47,9 @@ export class UsersController {
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
   @Post()
   async create(@Body() dto: InCreateUserDto) {
+    if (dto.isSuperuser && this.coreConfig.demo) {
+      throw new MethodNotAllowedException('Not allowed in DEMO mode');
+    }
     try {
       return plainToClass(
         OutUserDto,
@@ -64,6 +74,9 @@ export class UsersController {
   @ApiImplicitParam({ name: 'id', type: Number })
   @Put(':id')
   async update(@Param('id', new ParseIntPipe()) id, @Body() dto: InUserDto) {
+    if (this.coreConfig.demo) {
+      throw new MethodNotAllowedException('Not allowed in DEMO mode');
+    }
     try {
       return plainToClass(
         OutUserDto,
@@ -88,6 +101,9 @@ export class UsersController {
   @ApiImplicitParam({ name: 'id', type: Number })
   @Delete(':id')
   async delete(@Param('id', new ParseIntPipe()) id) {
+    if (this.coreConfig.demo) {
+      throw new MethodNotAllowedException('Not allowed in DEMO mode');
+    }
     try {
       return plainToClass(
         OutUserDto,

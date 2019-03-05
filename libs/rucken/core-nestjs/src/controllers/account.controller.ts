@@ -1,17 +1,22 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Req } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Inject, MethodNotAllowedException, Post, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
+import { CORE_CONFIG_TOKEN } from '../configs/core.config';
 import { Permissions } from '../decorators/permissions.decorator';
 import { Roles } from '../decorators/roles.decorator';
 import { InAccountDto } from '../dto/in-account.dto';
 import { OutAccountDto } from '../dto/out-account.dto';
 import { User } from '../entities/user.entity';
+import { ICoreConfig } from '../interfaces/core-config.interface';
 import { AccountService } from '../services/account.service';
 
 @ApiUseTags('account')
 @Controller('/api/account')
 export class AccountController {
-  constructor(private accountService: AccountService) {}
+  constructor(
+    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
+    private accountService: AccountService
+  ) {}
 
   @ApiBearerAuth()
   @Roles('isActive')
@@ -24,6 +29,9 @@ export class AccountController {
     description: ''
   })
   async update(@Req() req, @Body() accountDto: InAccountDto) {
+    if (this.coreConfig.demo) {
+      throw new MethodNotAllowedException('Not allowed in DEMO mode');
+    }
     try {
       return plainToClass(
         OutAccountDto,
