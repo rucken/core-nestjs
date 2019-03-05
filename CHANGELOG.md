@@ -1,3 +1,12 @@
+## [1.0.6](https://github.com/rucken/core-nestjs/compare/1.0.5...1.0.6) (2019-03-05)
+
+
+### Bug Fixes
+
+* Move check demo mode to controllers ([1024d46](https://github.com/rucken/core-nestjs/commit/1024d46))
+
+
+
 ## [1.0.5](https://github.com/rucken/core-nestjs/compare/1.0.4...1.0.5) (2019-03-04)
 
 

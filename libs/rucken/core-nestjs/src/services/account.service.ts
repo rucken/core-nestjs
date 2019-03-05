@@ -5,9 +5,7 @@ import { UsersService } from './users.service';
 
 @Injectable()
 export class AccountService {
-  constructor(
-    private readonly usersService: UsersService
-  ) { }
+  constructor(private readonly usersService: UsersService) {}
 
   async update(options: { id: number; user: User }) {
     try {

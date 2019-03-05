@@ -8,7 +8,7 @@ export class ContentTypesService {
   constructor(
     @InjectRepository(ContentType)
     private readonly repository: Repository<ContentType>
-  ) { }
+  ) {}
 
   async create(options: { item: ContentType }) {
     try {

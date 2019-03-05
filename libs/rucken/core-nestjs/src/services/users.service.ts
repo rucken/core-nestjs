@@ -5,9 +5,7 @@ import { User } from '../entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(User) private readonly repository: Repository<User>
-  ) { }
+  constructor(@InjectRepository(User) private readonly repository: Repository<User>) {}
 
   async assertUsernameAndEmail(options: { id?: number; email: string; username: string }) {
     if (options.email) {

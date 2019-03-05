@@ -8,9 +8,7 @@ import { Group } from '../entities/group.entity';
 export class GroupsService {
   items: Group[];
 
-  constructor(
-    @InjectRepository(Group) private readonly repository: Repository<Group>
-  ) { }
+  constructor(@InjectRepository(Group) private readonly repository: Repository<Group>) {}
   async create(options: { item: Group }) {
     try {
       options.item = await this.repository.save(options.item);
