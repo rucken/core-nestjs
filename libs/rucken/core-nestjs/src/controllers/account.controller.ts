@@ -16,7 +16,7 @@ export class AccountController {
   constructor(
     @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     private accountService: AccountService
-  ) { }
+  ) {}
 
   @ApiBearerAuth()
   @Roles('isActive')
