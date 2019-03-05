@@ -1,24 +1,14 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseIntPipe,
-  Post,
-  Put,
-  Query
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Inject, MethodNotAllowedException, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
+import { CORE_CONFIG_TOKEN } from '../configs/core.config';
 import { Permissions } from '../decorators/permissions.decorator';
 import { Roles } from '../decorators/roles.decorator';
 import { InContentTypeDto } from '../dto/in-content-type.dto';
 import { OutContentTypeDto } from '../dto/out-content-type.dto';
 import { OutContentTypesDto } from '../dto/out-content-types.dto';
 import { ContentType } from '../entities/content-type.entity';
+import { ICoreConfig } from '../interfaces/core-config.interface';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { ContentTypesService } from '../services/content-types.service';
 
@@ -26,7 +16,10 @@ import { ContentTypesService } from '../services/content-types.service';
 @ApiBearerAuth()
 @Controller('/api/content_types')
 export class ContentTypesController {
-  constructor(private readonly service: ContentTypesService) {}
+  constructor(
+    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
+    private readonly service: ContentTypesService
+  ) { }
 
   @Roles('isSuperuser')
   @Permissions('add_content-type')
@@ -63,6 +56,9 @@ export class ContentTypesController {
   @ApiImplicitParam({ name: 'id', type: Number })
   @Put(':id')
   async update(@Param('id', new ParseIntPipe()) id, @Body() dto: InContentTypeDto) {
+    if (this.coreConfig.demo) {
+      throw new MethodNotAllowedException('Not allowed in DEMO mode');
+    }
     try {
       return plainToClass(
         OutContentTypeDto,
@@ -87,6 +83,9 @@ export class ContentTypesController {
   @ApiImplicitParam({ name: 'id', type: Number })
   @Delete(':id')
   async delete(@Param('id', new ParseIntPipe()) id) {
+    if (this.coreConfig.demo) {
+      throw new MethodNotAllowedException('Not allowed in DEMO mode');
+    }
     try {
       return plainToClass(
         OutContentTypeDto,

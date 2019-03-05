@@ -1,19 +1,16 @@
-import { Inject, Injectable, Logger, MethodNotAllowedException, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { CORE_CONFIG_TOKEN } from '../configs/core.config';
 import { Group } from '../entities/group.entity';
-import { ICoreConfig } from '../interfaces/core-config.interface';
 
 @Injectable()
 export class GroupsService {
   items: Group[];
 
   constructor(
-    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     @InjectRepository(Group) private readonly repository: Repository<Group>
-  ) {}
+  ) { }
   async create(options: { item: Group }) {
     try {
       options.item = await this.repository.save(options.item);
@@ -24,9 +21,6 @@ export class GroupsService {
   }
 
   async update(options: { id: number; item: Group }) {
-    if (this.coreConfig.demo) {
-      throw new MethodNotAllowedException('Not allowed in DEMO mode');
-    }
     options.item.id = options.id;
     try {
       options.item = await this.repository.save(options.item);
@@ -37,9 +31,6 @@ export class GroupsService {
   }
 
   async delete(options: { id: number }) {
-    if (this.coreConfig.demo) {
-      throw new MethodNotAllowedException('Not allowed in DEMO mode');
-    }
     try {
       let item = await this.repository.findOneOrFail(options.id);
       item.permissions = [];

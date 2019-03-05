@@ -1,24 +1,14 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseIntPipe,
-  Post,
-  Put,
-  Query
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Inject, MethodNotAllowedException, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiImplicitParam, ApiImplicitQuery, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
+import { CORE_CONFIG_TOKEN } from '../configs/core.config';
 import { Permissions } from '../decorators/permissions.decorator';
 import { Roles } from '../decorators/roles.decorator';
 import { InPermissionDto } from '../dto/in-permission.dto';
 import { OutPermissionDto } from '../dto/out-permission.dto';
 import { OutPermissionsDto } from '../dto/out-permissions.dto';
 import { Permission } from '../entities/permission.entity';
+import { ICoreConfig } from '../interfaces/core-config.interface';
 import { ParseIntWithDefaultPipe } from '../pipes/parse-int-with-default.pipe';
 import { PermissionsService } from '../services/permissions.service';
 
@@ -26,7 +16,10 @@ import { PermissionsService } from '../services/permissions.service';
 @ApiBearerAuth()
 @Controller('/api/permissions')
 export class PermissionsController {
-  constructor(private readonly service: PermissionsService) {}
+  constructor(
+    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
+    private readonly service: PermissionsService
+  ) { }
 
   @Roles('isSuperuser')
   @Permissions('add_permission')
@@ -63,6 +56,9 @@ export class PermissionsController {
   @ApiImplicitParam({ name: 'id', type: Number })
   @Put(':id')
   async update(@Param('id', new ParseIntPipe()) id, @Body() dto: InPermissionDto) {
+    if (this.coreConfig.demo) {
+      throw new MethodNotAllowedException('Not allowed in DEMO mode');
+    }
     try {
       return plainToClass(
         OutPermissionDto,
@@ -87,6 +83,9 @@ export class PermissionsController {
   @ApiImplicitParam({ name: 'id', type: Number })
   @Delete(':id')
   async delete(@Param('id', new ParseIntPipe()) id) {
+    if (this.coreConfig.demo) {
+      throw new MethodNotAllowedException('Not allowed in DEMO mode');
+    }
     try {
       return plainToClass(
         OutPermissionDto,

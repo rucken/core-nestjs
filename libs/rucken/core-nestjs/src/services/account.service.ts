@@ -1,21 +1,15 @@
-import { Inject, Injectable, MethodNotAllowedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { plainToClassFromExist } from 'class-transformer';
-import { CORE_CONFIG_TOKEN } from '../configs/core.config';
 import { User } from '../entities/user.entity';
-import { ICoreConfig } from '../interfaces/core-config.interface';
 import { UsersService } from './users.service';
 
 @Injectable()
 export class AccountService {
   constructor(
-    @Inject(CORE_CONFIG_TOKEN) private readonly coreConfig: ICoreConfig,
     private readonly usersService: UsersService
-  ) {}
+  ) { }
 
   async update(options: { id: number; user: User }) {
-    if (this.coreConfig.demo) {
-      throw new MethodNotAllowedException('Not allowed in DEMO mode');
-    }
     try {
       await this.usersService.assertUsernameAndEmail({
         id: options.id,
