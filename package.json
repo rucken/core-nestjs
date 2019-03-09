@@ -94,10 +94,10 @@
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
-    "@angular-devkit/architect": "0.13.4",
-    "@angular-devkit/build-angular": "0.13.4",
-    "@angular-devkit/core": "7.3.4",
-    "@angular-devkit/schematics": "7.3.4",
+    "@angular-devkit/architect": "0.13.5",
+    "@angular-devkit/build-angular": "0.13.5",
+    "@angular-devkit/core": "7.3.5",
+    "@angular-devkit/schematics": "7.3.5",
     "@nestjs/common": "5.7.3",
     "@nestjs/core": "5.7.3",
     "@nestjs/passport": "5.1.0",
@@ -136,10 +136,10 @@
     "cross-env": "5.2.0"
   },
   "devDependencies": {
-    "@angular/cli": "7.3.4",
-    "@angular/compiler": "7.2.7",
-    "@angular/compiler-cli": "7.2.7",
-    "@angular/core": "7.2.7",
+    "@angular/cli": "7.3.5",
+    "@angular/compiler": "7.2.8",
+    "@angular/compiler-cli": "7.2.8",
+    "@angular/core": "7.2.8",
     "@nestjs/schematics": "5.11.2",
     "@nestjs/testing": "5.7.3",
     "@nrwl/builders": "7.6.2",
