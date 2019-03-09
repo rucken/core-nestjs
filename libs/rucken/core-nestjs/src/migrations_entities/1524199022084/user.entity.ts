@@ -11,11 +11,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import { Group } from '../entities/group.entity';
-import { CustomValidationError } from '../exceptions/custom-validation.error';
+import { CustomValidationError } from '../../exceptions/custom-validation.error';
+import { Group1524199022084 } from './group.entity';
 
 @Entity({ name: 'users' })
-export class User {
+export class User1524199022084 {
   @PrimaryGeneratedColumn()
   id: number = undefined;
 
@@ -62,7 +62,7 @@ export class User {
   @Column({ type: Date, name: 'date_of_birth', nullable: true })
   dateOfBirth: Date = undefined;
 
-  @ManyToMany(type => Group)
+  @ManyToMany(type => Group1524199022084)
   @JoinTable({
     // not work on run cli migration:
     name: 'user_groups',
@@ -75,7 +75,7 @@ export class User {
       referencedColumnName: 'id'
     }
   })
-  groups: Group[];
+  groups: Group1524199022084[];
 
   @BeforeInsert()
   doBeforeInsertion() {

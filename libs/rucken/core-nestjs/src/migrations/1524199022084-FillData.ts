@@ -1,29 +1,31 @@
 import { plainToClass } from 'class-transformer';
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { ContentType } from '../entities/content-type.entity';
-import { Group } from '../entities/group.entity';
-import { Permission } from '../entities/permission.entity';
-import { User } from '../entities/user.entity';
+import { ContentType1524199022084 } from '../migrations_entities/1524199022084/content-type.entity';
+import { Group1524199022084 } from '../migrations_entities/1524199022084/group.entity';
+import { Permission1524199022084 } from '../migrations_entities/1524199022084/permission.entity';
+import { User1524199022084 } from '../migrations_entities/1524199022084/user.entity';
 
 export class FillData1524199022084 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     const ctPermission = await queryRunner.manager
-      .getRepository<ContentType>(ContentType)
-      .save(plainToClass(ContentType, { name: 'permission', title: 'Permission' }));
+      .getRepository<ContentType1524199022084>(ContentType1524199022084)
+      .save(plainToClass(ContentType1524199022084, { name: 'permission', title: 'Permission' }));
     const ctGroup = await queryRunner.manager
-      .getRepository<ContentType>(ContentType)
-      .save(plainToClass(ContentType, { name: 'group', title: 'Group' }));
-    const ctContentTtype = await queryRunner.manager.getRepository<ContentType>(ContentType).save(
-      plainToClass(ContentType, {
-        name: 'content-type',
-        title: 'Content type'
-      })
-    );
+      .getRepository<ContentType1524199022084>(ContentType1524199022084)
+      .save(plainToClass(ContentType1524199022084, { name: 'group', title: 'Group' }));
+    const ctContentTtype = await queryRunner.manager
+      .getRepository<ContentType1524199022084>(ContentType1524199022084)
+      .save(
+        plainToClass(ContentType1524199022084, {
+          name: 'content-type',
+          title: 'Content type'
+        })
+      );
     const ctUser = await queryRunner.manager
-      .getRepository<ContentType>(ContentType)
-      .save(plainToClass(ContentType, { name: 'user', title: 'User' }));
-    const pPermissions = await queryRunner.manager.getRepository<Permission>(Permission).save(
-      plainToClass(Permission, [
+      .getRepository<ContentType1524199022084>(ContentType1524199022084)
+      .save(plainToClass(ContentType1524199022084, { name: 'user', title: 'User' }));
+    const pPermissions = await queryRunner.manager.getRepository<Permission1524199022084>(Permission1524199022084).save(
+      plainToClass(Permission1524199022084, [
         {
           title: 'Can add permission',
           name: 'add_permission',
@@ -111,23 +113,23 @@ export class FillData1524199022084 implements MigrationInterface {
         }
       ])
     );
-    const gUser = await queryRunner.manager.getRepository<Group>(Group).save(
-      plainToClass(Group, {
+    const gUser = await queryRunner.manager.getRepository<Group1524199022084>(Group1524199022084).save(
+      plainToClass(Group1524199022084, {
         name: 'user',
         title: 'User',
         permissions: pPermissions.filter(item => item.name === 'change_profile')
       })
     );
-    const gAdmin = await queryRunner.manager.getRepository<Group>(Group).save(
-      plainToClass(Group, {
+    const gAdmin = await queryRunner.manager.getRepository<Group1524199022084>(Group1524199022084).save(
+      plainToClass(Group1524199022084, {
         name: 'admin',
         title: 'Admin',
         permissions: pPermissions
       })
     );
-    const tempUser = new User();
-    const uUsers = await queryRunner.manager.getRepository<User>(User).save(
-      plainToClass(User, [
+    const tempUser = new User1524199022084();
+    const uUsers = await queryRunner.manager.getRepository<User1524199022084>(User1524199022084).save(
+      plainToClass(User1524199022084, [
         {
           username: 'admin',
           email: 'admin@admin.com',

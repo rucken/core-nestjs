@@ -1,10 +1,10 @@
-import { MigrationInterface, QueryRunner, Table, TableIndex, TableForeignKey, TableColumn } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey, TableIndex } from 'typeorm';
 
 export class Init1524197725191 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(
       new Table({
-        name: 'user',
+        name: 'users',
         columns: [
           {
             name: 'id',
@@ -71,7 +71,7 @@ export class Init1524197725191 implements MigrationInterface {
       true
     );
     await queryRunner.changeColumn(
-      'user',
+      'users',
       'id',
       new TableColumn({
         name: 'id',
@@ -81,24 +81,26 @@ export class Init1524197725191 implements MigrationInterface {
         generationStrategy: 'increment'
       })
     );
-    await queryRunner.createIndex(
-      'user',
-      new TableIndex({
-        name: 'IDX_USE_E',
-        columnNames: ['email']
-      })
-    );
-    await queryRunner.createIndex(
-      'user',
-      new TableIndex({
-        name: 'UQ_USE_U',
-        isUnique: true,
-        columnNames: ['username']
-      })
-    );
+    if (!(queryRunner.connection.driver as any).sqlite) {
+      await queryRunner.createIndex(
+        'users',
+        new TableIndex({
+          name: 'IDX_USE_E',
+          columnNames: ['email']
+        })
+      );
+      await queryRunner.createIndex(
+        'users',
+        new TableIndex({
+          name: 'UQ_USE_U',
+          isUnique: true,
+          columnNames: ['username']
+        })
+      );
+    }
     await queryRunner.createTable(
       new Table({
-        name: 'group',
+        name: 'groups',
         columns: [
           {
             name: 'id',
@@ -119,7 +121,7 @@ export class Init1524197725191 implements MigrationInterface {
       true
     );
     await queryRunner.changeColumn(
-      'group',
+      'groups',
       'id',
       new TableColumn({
         name: 'id',
@@ -129,25 +131,27 @@ export class Init1524197725191 implements MigrationInterface {
         generationStrategy: 'increment'
       })
     );
-    await queryRunner.createIndex(
-      'group',
-      new TableIndex({
-        name: 'UQ_GRO_N',
-        isUnique: true,
-        columnNames: ['name']
-      })
-    );
-    await queryRunner.createIndex(
-      'group',
-      new TableIndex({
-        name: 'UQ_GRO_T',
-        isUnique: true,
-        columnNames: ['title']
-      })
-    );
+    if (!(queryRunner.connection.driver as any).sqlite) {
+      await queryRunner.createIndex(
+        'groups',
+        new TableIndex({
+          name: 'UQ_GRO_N',
+          isUnique: true,
+          columnNames: ['name']
+        })
+      );
+      await queryRunner.createIndex(
+        'groups',
+        new TableIndex({
+          name: 'UQ_GRO_T',
+          isUnique: true,
+          columnNames: ['title']
+        })
+      );
+    }
     await queryRunner.createTable(
       new Table({
-        name: 'content_type',
+        name: 'content_types',
         columns: [
           {
             name: 'id',
@@ -168,7 +172,7 @@ export class Init1524197725191 implements MigrationInterface {
       true
     );
     await queryRunner.changeColumn(
-      'content_type',
+      'content_types',
       'id',
       new TableColumn({
         name: 'id',
@@ -180,7 +184,7 @@ export class Init1524197725191 implements MigrationInterface {
     );
     await queryRunner.createTable(
       new Table({
-        name: 'permission',
+        name: 'permissions',
         columns: [
           {
             name: 'id',
@@ -205,7 +209,7 @@ export class Init1524197725191 implements MigrationInterface {
       true
     );
     await queryRunner.changeColumn(
-      'permission',
+      'permissions',
       'id',
       new TableColumn({
         name: 'id',
@@ -215,23 +219,25 @@ export class Init1524197725191 implements MigrationInterface {
         generationStrategy: 'increment'
       })
     );
-    await queryRunner.createForeignKey(
-      'permission',
-      new TableForeignKey({
-        name: 'FK_PER_C_T_ID',
-        columnNames: ['content_type_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'content_type',
-        onDelete: 'CASCADE'
-      })
-    );
-    await queryRunner.createIndex(
-      'permission',
-      new TableIndex({
-        name: 'IDX_PER_C_T_ID',
-        columnNames: ['content_type_id']
-      })
-    );
+    if (!(queryRunner.connection.driver as any).sqlite) {
+      await queryRunner.createForeignKey(
+        'permissions',
+        new TableForeignKey({
+          name: 'FK_PER_C_T_ID',
+          columnNames: ['content_type_id'],
+          referencedColumnNames: ['id'],
+          referencedTableName: 'content_types',
+          onDelete: 'CASCADE'
+        })
+      );
+      await queryRunner.createIndex(
+        'permissions',
+        new TableIndex({
+          name: 'IDX_PER_C_T_ID',
+          columnNames: ['content_type_id']
+        })
+      );
+    }
     await queryRunner.createTable(
       new Table({
         name: 'user_groups',
@@ -252,40 +258,42 @@ export class Init1524197725191 implements MigrationInterface {
       }),
       true
     );
-    await queryRunner.createForeignKey(
-      'user_groups',
-      new TableForeignKey({
-        name: 'FK_USE_GRO_U_ID',
-        columnNames: ['user_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'user',
-        onDelete: 'CASCADE'
-      })
-    );
-    await queryRunner.createIndex(
-      'user_groups',
-      new TableIndex({
-        name: 'IDX_USE_GRO_U_ID',
-        columnNames: ['user_id']
-      })
-    );
-    await queryRunner.createForeignKey(
-      'user_groups',
-      new TableForeignKey({
-        name: 'FK_USE_GRO_G_ID',
-        columnNames: ['group_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'group',
-        onDelete: 'CASCADE'
-      })
-    );
-    await queryRunner.createIndex(
-      'user_groups',
-      new TableIndex({
-        name: 'IDX_USE_GRO_G_ID',
-        columnNames: ['group_id']
-      })
-    );
+    if (!(queryRunner.connection.driver as any).sqlite) {
+      await queryRunner.createForeignKey(
+        'user_groups',
+        new TableForeignKey({
+          name: 'FK_USE_GRO_U_ID',
+          columnNames: ['user_id'],
+          referencedColumnNames: ['id'],
+          referencedTableName: 'users',
+          onDelete: 'CASCADE'
+        })
+      );
+      await queryRunner.createIndex(
+        'user_groups',
+        new TableIndex({
+          name: 'IDX_USE_GRO_U_ID',
+          columnNames: ['user_id']
+        })
+      );
+      await queryRunner.createForeignKey(
+        'user_groups',
+        new TableForeignKey({
+          name: 'FK_USE_GRO_G_ID',
+          columnNames: ['group_id'],
+          referencedColumnNames: ['id'],
+          referencedTableName: 'groups',
+          onDelete: 'CASCADE'
+        })
+      );
+      await queryRunner.createIndex(
+        'user_groups',
+        new TableIndex({
+          name: 'IDX_USE_GRO_G_ID',
+          columnNames: ['group_id']
+        })
+      );
+    }
     await queryRunner.createTable(
       new Table({
         name: 'group_permissions',
@@ -306,40 +314,42 @@ export class Init1524197725191 implements MigrationInterface {
       }),
       true
     );
-    await queryRunner.createForeignKey(
-      'group_permissions',
-      new TableForeignKey({
-        name: 'FK_GRO_PER_G_ID',
-        columnNames: ['group_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'group',
-        onDelete: 'CASCADE'
-      })
-    );
-    await queryRunner.createIndex(
-      'group_permissions',
-      new TableIndex({
-        name: 'IDX_GRO_PER_G_ID',
-        columnNames: ['group_id']
-      })
-    );
-    await queryRunner.createForeignKey(
-      'group_permissions',
-      new TableForeignKey({
-        name: 'FK_GRO_PER_P_ID',
-        columnNames: ['permission_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'permission',
-        onDelete: 'CASCADE'
-      })
-    );
-    await queryRunner.createIndex(
-      'group_permissions',
-      new TableIndex({
-        name: 'IDX_GRO_PER_P_ID',
-        columnNames: ['permission_id']
-      })
-    );
+    if (!(queryRunner.connection.driver as any).sqlite) {
+      await queryRunner.createForeignKey(
+        'group_permissions',
+        new TableForeignKey({
+          name: 'FK_GRO_PER_G_ID',
+          columnNames: ['group_id'],
+          referencedColumnNames: ['id'],
+          referencedTableName: 'groups',
+          onDelete: 'CASCADE'
+        })
+      );
+      await queryRunner.createIndex(
+        'group_permissions',
+        new TableIndex({
+          name: 'IDX_GRO_PER_G_ID',
+          columnNames: ['group_id']
+        })
+      );
+      await queryRunner.createForeignKey(
+        'group_permissions',
+        new TableForeignKey({
+          name: 'FK_GRO_PER_P_ID',
+          columnNames: ['permission_id'],
+          referencedColumnNames: ['id'],
+          referencedTableName: 'permissions',
+          onDelete: 'CASCADE'
+        })
+      );
+      await queryRunner.createIndex(
+        'group_permissions',
+        new TableIndex({
+          name: 'IDX_GRO_PER_P_ID',
+          columnNames: ['permission_id']
+        })
+      );
+    }
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {}

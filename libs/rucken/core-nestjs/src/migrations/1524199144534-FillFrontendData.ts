@@ -1,28 +1,30 @@
 import { plainToClass } from 'class-transformer';
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { ContentType } from '../entities/content-type.entity';
-import { Group } from '../entities/group.entity';
-import { Permission } from '../entities/permission.entity';
+import { ContentType1524199022084 } from '../migrations_entities/1524199022084/content-type.entity';
+import { Group1524199022084 } from '../migrations_entities/1524199022084/group.entity';
+import { Permission1524199022084 } from '../migrations_entities/1524199022084/permission.entity';
 
 export class FillFrontendData1524199144534 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
-    const gUser = await queryRunner.manager.getRepository<Group>(Group).findOneOrFail({
+    const gUser = await queryRunner.manager.getRepository<Group1524199022084>(Group1524199022084).findOneOrFail({
       where: {
         name: 'user'
       },
       relations: ['permissions']
     });
-    const gAdmin = await queryRunner.manager.getRepository<Group>(Group).findOneOrFail({
+    const gAdmin = await queryRunner.manager.getRepository<Group1524199022084>(Group1524199022084).findOneOrFail({
       where: {
         name: 'admin'
       },
       relations: ['permissions']
     });
-    const ctUser = await queryRunner.manager.getRepository<ContentType>(ContentType).findOneOrFail({
-      where: {
-        name: 'user'
-      }
-    });
+    const ctUser = await queryRunner.manager
+      .getRepository<ContentType1524199022084>(ContentType1524199022084)
+      .findOneOrFail({
+        where: {
+          name: 'user'
+        }
+      });
     const permissionTitles = {
       'read_themes-page': 'Can read themes page',
       'read_account-page': 'Can read account page',
@@ -42,8 +44,8 @@ export class FillFrontendData1524199144534 implements MigrationInterface {
       }
     }
     const permissions = await queryRunner.manager
-      .getRepository<Permission>(Permission)
-      .save(plainToClass(Permission, permissionsObjects));
+      .getRepository<Permission1524199022084>(Permission1524199022084)
+      .save(plainToClass(Permission1524199022084, permissionsObjects));
     gUser.permissions = [
       ...gUser.permissions.filter(permission => !permissionTitles[permission.name]),
       ...permissions.filter(
@@ -54,7 +56,9 @@ export class FillFrontendData1524199144534 implements MigrationInterface {
       ...gAdmin.permissions.filter(permission => !permissionTitles[permission.name]),
       ...permissions
     ];
-    const groups = await queryRunner.manager.getRepository<Group>(Group).save(plainToClass(Group, [gUser, gAdmin]));
+    const groups = await queryRunner.manager
+      .getRepository<Group1524199022084>(Group1524199022084)
+      .save(plainToClass(Group1524199022084, [gUser, gAdmin]));
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {}
