@@ -3,6 +3,7 @@ const ConnectionString = require('connection-string');
 const load = require('dotenv').load;
 const fs = require('fs');
 const path = require('path');
+const runnedInMigration = process.env.MIGRATION === 'true';
 const envName = process.env.NODE_ENV || 'develop';
 const isDevelop = envName === 'develop';
 const sourceRootKey = isDevelop ? 'sourceRoot' : 'outputPath';
@@ -40,23 +41,34 @@ const migrationsDir = `${defaultApp[sourceRootKey]}/migrations`;
 const entities = (
     fg.sync(
         [
-            ...vendorsLibs,
-            ...libs,
-            ...apps
-        ].map(lib =>
-            `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**/entities/**/*.entity${entitiesExt}`
-        )
+            ...(
+                runnedInMigration ? [
+                    ...vendorsLibs,
+                    ...libs,
+                    ...apps
+                ].map(lib =>
+                    `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**/migrations_entities/**/*.entity${entitiesExt}`
+                ) : []
+            ),
+            ...[
+                ...vendorsLibs,
+                ...libs,
+                ...apps
+            ].map(lib =>
+                `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**entities/**/*.entity${entitiesExt}`
+            )
+        ]
     )
 );
 const migrations = normalizationFileList(
     fg.sync(
-        [
+        runnedInMigration ? [
             ...vendorsLibs,
             ...libs,
             ...apps
         ].map(lib =>
             `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**/migrations/**/*${entitiesExt}`
-        )
+        ) : []
     )
 );
 const subscribers = (

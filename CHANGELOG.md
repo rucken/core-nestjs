@@ -1,3 +1,13 @@
+## [1.0.7](https://github.com/rucken/core-nestjs/compare/1.0.6...1.0.7) (2019-03-09)
+
+
+### Bug Fixes
+
+* Add isolated entities for migrations ([850ad8f](https://github.com/rucken/core-nestjs/commit/850ad8f))
+* Update dependencies ([7d000cf](https://github.com/rucken/core-nestjs/commit/7d000cf))
+
+
+
 ## [1.0.6](https://github.com/rucken/core-nestjs/compare/1.0.5...1.0.6) (2019-03-05)
 
 

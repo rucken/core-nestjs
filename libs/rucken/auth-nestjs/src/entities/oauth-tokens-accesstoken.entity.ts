@@ -11,7 +11,7 @@ import {
   PrimaryGeneratedColumn
 } from 'typeorm';
 
-@Entity({ name: 'oauth_tokens_accesstoken' })
+@Entity({ name: 'oauth_tokens_accesstokens' })
 export class OauthTokensAccesstoken {
   @PrimaryGeneratedColumn()
   id: number = undefined;

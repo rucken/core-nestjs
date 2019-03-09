@@ -10,12 +10,12 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
-import { ContentType } from '../entities/content-type.entity';
-import { Group } from '../entities/group.entity';
-import { CustomValidationError } from '../exceptions/custom-validation.error';
+import { CustomValidationError } from '../../exceptions/custom-validation.error';
+import { ContentType1524199022084 } from './content-type.entity';
+import { Group1524199022084 } from './group.entity';
 
 @Entity({ name: 'permissions' })
-export class Permission {
+export class Permission1524199022084 {
   @PrimaryGeneratedColumn()
   id: number = undefined;
 
@@ -29,11 +29,11 @@ export class Permission {
   @MaxLength(255)
   title: string = undefined;
 
-  @ManyToOne(type => ContentType, { eager: true, nullable: true })
+  @ManyToOne(type => ContentType1524199022084, { eager: true, nullable: true })
   @JoinColumn({ name: 'content_type_id' })
-  contentType: ContentType = undefined;
+  contentType: ContentType1524199022084 = undefined;
 
-  @ManyToMany(type => Group)
+  @ManyToMany(type => Group1524199022084)
   @JoinTable({
     // not work on run cli migration:
     name: 'group_permissions',
@@ -46,7 +46,7 @@ export class Permission {
       referencedColumnName: 'id'
     }
   })
-  groups: Group[];
+  groups: Group1524199022084[];
 
   @BeforeInsert()
   doBeforeInsertion() {

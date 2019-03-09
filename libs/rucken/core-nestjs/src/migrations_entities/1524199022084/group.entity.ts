@@ -1,11 +1,11 @@
 import { IsNotEmpty, MaxLength, validateSync } from 'class-validator';
 import { BeforeInsert, BeforeUpdate, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Permission } from '../entities/permission.entity';
-import { User } from '../entities/user.entity';
-import { CustomValidationError } from '../exceptions/custom-validation.error';
+import { CustomValidationError } from '../../exceptions/custom-validation.error';
+import { Permission1524199022084 } from './permission.entity';
+import { User1524199022084 } from './user.entity';
 
 @Entity({ name: 'groups' })
-export class Group {
+export class Group1524199022084 {
   @PrimaryGeneratedColumn()
   id: number = undefined;
 
@@ -19,7 +19,7 @@ export class Group {
   @MaxLength(255)
   title: string = undefined;
 
-  @ManyToMany(type => Permission, {
+  @ManyToMany(type => Permission1524199022084, {
     cascade: ['remove']
   })
   @JoinTable({
@@ -34,9 +34,9 @@ export class Group {
       referencedColumnName: 'id'
     }
   })
-  permissions: Permission[];
+  permissions: Permission1524199022084[];
 
-  @ManyToMany(type => User)
+  @ManyToMany(type => User1524199022084)
   @JoinTable({
     // not work on run cli migration:
     name: 'user_groups',
@@ -49,7 +49,7 @@ export class Group {
       referencedColumnName: 'id'
     }
   })
-  users: User[];
+  users: User1524199022084[];
 
   @BeforeInsert()
   doBeforeInsertion() {

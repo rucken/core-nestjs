@@ -1,10 +1,10 @@
-import { MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey, TableIndex } from 'typeorm';
 
 export class AddOauthTokensAccesstokenTable1533634559617 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.createTable(
       new Table({
-        name: 'oauth_tokens_accesstoken',
+        name: 'oauth_tokens_accesstokens',
         columns: [
           {
             name: 'id',
@@ -58,7 +58,7 @@ export class AddOauthTokensAccesstokenTable1533634559617 implements MigrationInt
     );
 
     await queryRunner.changeColumn(
-      'oauth_tokens_accesstoken',
+      'oauth_tokens_accesstokens',
       'id',
       new TableColumn({
         name: 'id',
@@ -69,16 +69,25 @@ export class AddOauthTokensAccesstokenTable1533634559617 implements MigrationInt
       })
     );
 
-    await queryRunner.createForeignKey(
-      'oauth_tokens_accesstoken',
-      new TableForeignKey({
-        name: 'FK_TOK_ACC_U_ID',
-        columnNames: ['user_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'user',
-        onDelete: 'CASCADE'
-      })
-    );
+    if (!(queryRunner.connection.driver as any).sqlite) {
+      await queryRunner.createForeignKey(
+        'oauth_tokens_accesstokens',
+        new TableForeignKey({
+          name: 'FK_TOK_ACC_U_ID',
+          columnNames: ['user_id'],
+          referencedColumnNames: ['id'],
+          referencedTableName: 'users',
+          onDelete: 'CASCADE'
+        })
+      );
+      await queryRunner.createIndex(
+        'oauth_tokens_accesstokens',
+        new TableIndex({
+          name: 'IDX_TOK_ACC_U_ID',
+          columnNames: ['user_id']
+        })
+      );
+    }
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {}

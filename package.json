@@ -1,6 +1,6 @@
 {
   "name": "rucken-core-nestjs",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "engines": {
     "node": ">=11",
     "npm": ">=6.5.0"
@@ -69,7 +69,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "migrate:create": "npm run typeorm migration:create",
     "migrate:generate": "npm run typeorm migration:generate",
-    "migrate": "npm run typeorm migration:run",
+    "migrate": "cross-env MIGRATIONS=true npm run typeorm migration:run",
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out client/docs libs",
     "build": "cross-env NODE_ENV=production ./node_modules/.bin/run-s clean format affected:lint affected:prod affected:build docs migrate",
     "affected:apps": "./node_modules/.bin/nx affected:apps --all",
@@ -94,10 +94,10 @@
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
-    "@angular-devkit/architect": "0.13.4",
-    "@angular-devkit/build-angular": "0.13.4",
-    "@angular-devkit/core": "7.3.4",
-    "@angular-devkit/schematics": "7.3.4",
+    "@angular-devkit/architect": "0.13.5",
+    "@angular-devkit/build-angular": "0.13.5",
+    "@angular-devkit/core": "7.3.5",
+    "@angular-devkit/schematics": "7.3.5",
     "@nestjs/common": "5.7.3",
     "@nestjs/core": "5.7.3",
     "@nestjs/passport": "5.1.0",
@@ -132,13 +132,14 @@
     "tsconfig-paths": "3.7.0",
     "typedoc": "0.14.2",
     "typeorm": "0.2.14",
-    "typescript": "3.2.2"
+    "typescript": "3.2.2",
+    "cross-env": "5.2.0"
   },
   "devDependencies": {
-    "@angular/cli": "7.3.4",
-    "@angular/compiler": "7.2.7",
-    "@angular/compiler-cli": "7.2.7",
-    "@angular/core": "7.2.7",
+    "@angular/cli": "7.3.5",
+    "@angular/compiler": "7.2.8",
+    "@angular/compiler-cli": "7.2.8",
+    "@angular/core": "7.2.8",
     "@nestjs/schematics": "5.11.2",
     "@nestjs/testing": "5.7.3",
     "@nrwl/builders": "7.6.2",
@@ -155,7 +156,6 @@
     "conventional-changelog-cli": "2.0.12",
     "conventional-commits-detector": "1.0.2",
     "conventional-recommended-bump": "4.0.4",
-    "cross-env": "5.2.0",
     "jest": "24.1.0",
     "nodemon": "1.18.10",
     "npm-run-all": "4.1.5",
