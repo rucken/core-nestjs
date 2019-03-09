@@ -69,6 +69,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "migrate:create": "npm run typeorm migration:create",
     "migrate:generate": "npm run typeorm migration:generate",
+    "migrate:prod": "cross-env MIGRATIONS=true NODE_ENV=production npm run typeorm migration:run",
     "migrate": "cross-env MIGRATIONS=true npm run typeorm migration:run",
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out client/docs libs",
     "build": "cross-env NODE_ENV=production ./node_modules/.bin/run-s clean format affected:lint affected:prod affected:build docs migrate",

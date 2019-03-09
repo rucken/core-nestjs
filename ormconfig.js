@@ -3,7 +3,7 @@ const ConnectionString = require('connection-string');
 const load = require('dotenv').load;
 const fs = require('fs');
 const path = require('path');
-const runnedInMigration = process.env.MIGRATION === 'true';
+const runnedInMigration = process.env.MIGRATIONS === 'true';
 const envName = process.env.NODE_ENV || 'develop';
 const isDevelop = envName === 'develop';
 const sourceRootKey = isDevelop ? 'sourceRoot' : 'outputPath';
