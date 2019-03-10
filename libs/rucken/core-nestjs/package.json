@@ -1,6 +1,6 @@
 {
   "name": "@rucken/core-nestjs",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "engines": {
     "node": ">=11",
     "npm": ">=6.5.0"
@@ -51,8 +51,8 @@
   "main": "index.js",
   "types": "index.d.ts",
   "dependencies": {
-    "@nestjs/common": "5.7.3",
-    "@nestjs/core": "5.7.3",
+    "@nestjs/common": "5.7.4",
+    "@nestjs/core": "5.7.4",
     "@nestjs/passport": "5.1.0",
     "@nestjs/swagger": "2.5.1",
     "@nestjs/typeorm": "5.3.0",
