@@ -50,12 +50,14 @@ const entities = (
                     `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**/migrations_entities/**/*.entity${entitiesExt}`
                 ) : []
             ),
-            ...[
-                ...vendorsLibs,
-                ...libs,
-                ...apps
-            ].map(lib =>
-                `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**entities/**/*.entity${entitiesExt}`
+            ...(
+                !runnedInMigration ? [
+                    ...vendorsLibs,
+                    ...libs,
+                    ...apps
+                ].map(lib =>
+                    `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**entities/**/*.entity${entitiesExt}`
+                ) : []
             )
         ]
     )
