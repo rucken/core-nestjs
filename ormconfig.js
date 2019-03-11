@@ -56,7 +56,7 @@ const entities = (
                     ...libs,
                     ...apps
                 ].map(lib =>
-                    `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**entities/**/*.entity${entitiesExt}`
+                    `${lib[sourceRootKey] || lib.architect.build.options[sourceRootKey]}/**/entities/**/*.entity${entitiesExt}`
                 ) : []
             )
         ]
