@@ -32,8 +32,24 @@ const vendorsLibs = Object.keys(vendors).map(index => {
     vendorConfig[sourceRootKey] = vendors[index];
     return vendorConfig;
 });
-const libs = Object.keys(angularJson.projects).filter(key => angularJson.projects[key].projectType === 'library').map(key => angularJson.projects[key]);
-const apps = Object.keys(angularJson.projects).filter(key => angularJson.projects[key].projectType === 'application').map(key => angularJson.projects[key]);
+const libs = Object.keys(angularJson.projects).filter(key => angularJson.projects[key].projectType === 'library').filter(lib =>
+    lib[sourceRootKey] ||
+    (
+        lib.architect &&
+        lib.architect.build &&
+        lib.architect.build.options &&
+        lib.architect.build.options[sourceRootKey]
+    )
+).map(key => angularJson.projects[key]);
+const apps = Object.keys(angularJson.projects).filter(key => angularJson.projects[key].projectType === 'application').filter(lib =>
+    lib[sourceRootKey] ||
+    (
+        lib.architect &&
+        lib.architect.build &&
+        lib.architect.build.options &&
+        lib.architect.build.options[sourceRootKey]
+    )
+).map(key => angularJson.projects[key]);
 const defaultProject = angularJson.defaultProject;
 const defaultApp = angularJson.projects[defaultProject];
 const migrationsDir = `${defaultApp[sourceRootKey]}/migrations`;
