@@ -33,21 +33,23 @@ const vendorsLibs = Object.keys(vendors).map(index => {
     return vendorConfig;
 });
 const libs = Object.keys(angularJson.projects).filter(key => angularJson.projects[key].projectType === 'library').filter(lib =>
-    lib[sourceRootKey] ||
+    isDevelop ||
+    lib[sourceRootKey] !== undefined ||
     (
         lib.architect &&
         lib.architect.build &&
         lib.architect.build.options &&
-        lib.architect.build.options[sourceRootKey]
+        lib.architect.build.options[sourceRootKey] !== undefined
     )
 ).map(key => angularJson.projects[key]);
 const apps = Object.keys(angularJson.projects).filter(key => angularJson.projects[key].projectType === 'application').filter(lib =>
-    lib[sourceRootKey] ||
+    isDevelop ||
+    lib[sourceRootKey] !== undefined ||
     (
         lib.architect &&
         lib.architect.build &&
         lib.architect.build.options &&
-        lib.architect.build.options[sourceRootKey]
+        lib.architect.build.options[sourceRootKey] !== undefined
     )
 ).map(key => angularJson.projects[key]);
 const defaultProject = angularJson.defaultProject;
