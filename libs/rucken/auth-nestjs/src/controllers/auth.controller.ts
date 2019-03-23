@@ -56,13 +56,14 @@ export class AuthController {
     type: UserTokenDto,
     description: 'API View that checks the veracity of a token, returning the token if it is valid.'
   })
-  async requestJsonWebTokenAfterInfo(@Req() req, @Body() tokenDto: TokenDto): Promise<OutAccountDto> {
+  async requestJsonWebTokenAfterInfo(@Req() req, @Body() tokenDto: TokenDto): Promise<UserTokenDto> {
     try {
       const validateTokenResult = await this.tokenService.validate(tokenDto.token);
       if (validateTokenResult) {
         const jwtPayload: IJwtPayload = await this.tokenService.decode(tokenDto.token);
         const { user } = await this.authService.info({ id: jwtPayload.id });
-        return plainToClass(OutAccountDto, { user });
+        const token = await this.tokenService.create(user);
+        return plainToClass(UserTokenDto, { user, token });
       } else {
         throw new JsonWebTokenError('invalid token');
       }
