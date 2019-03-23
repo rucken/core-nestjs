@@ -1,6 +1,6 @@
 {
   "name": "@rucken/core-nestjs",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "engines": {
     "node": ">=11",
     "npm": ">=6.5.0"
