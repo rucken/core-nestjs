@@ -1,6 +1,6 @@
 {
   "name": "rucken-core-nestjs",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "engines": {
     "node": ">=11",
     "npm": ">=6.5.0"
@@ -95,16 +95,16 @@
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
-    "@angular-devkit/architect": "0.13.5",
-    "@angular-devkit/build-angular": "0.13.5",
-    "@angular-devkit/core": "7.3.5",
-    "@angular-devkit/schematics": "7.3.5",
+    "@angular-devkit/architect": "0.13.6",
+    "@angular-devkit/build-angular": "0.13.6",
+    "@angular-devkit/core": "7.3.6",
+    "@angular-devkit/schematics": "7.3.6",
     "@nestjs/common": "5.7.4",
     "@nestjs/core": "5.7.4",
     "@nestjs/passport": "5.1.0",
     "@nestjs/swagger": "2.5.1",
     "@nestjs/typeorm": "5.3.0",
-    "@nrwl/nx": "7.6.2",
+    "@nrwl/nx": "7.7.2",
     "@types/passport-facebook-token": "0.4.33",
     "@types/passport-local": "1.0.33",
     "chmod": "0.2.1",
@@ -137,14 +137,14 @@
     "cross-env": "5.2.0"
   },
   "devDependencies": {
-    "@angular/cli": "7.3.5",
-    "@angular/compiler": "7.2.8",
-    "@angular/compiler-cli": "7.2.8",
-    "@angular/core": "7.2.8",
+    "@angular/cli": "7.3.6",
+    "@angular/compiler": "7.2.10",
+    "@angular/compiler-cli": "7.2.10",
+    "@angular/core": "7.2.10",
     "@nestjs/schematics": "5.11.2",
     "@nestjs/testing": "5.7.4",
-    "@nrwl/builders": "7.6.2",
-    "@nrwl/schematics": "7.6.2",
+    "@nrwl/builders": "7.7.2",
+    "@nrwl/schematics": "7.7.2",
     "@rucken/cli": "3.3.3",
     "@types/dotenv": "6.1.0",
     "@types/express": "4.16.1",
