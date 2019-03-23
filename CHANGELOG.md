@@ -1,3 +1,13 @@
+## [1.0.9](https://github.com/rucken/core-nestjs/compare/1.0.8...1.0.9) (2019-03-23)
+
+
+### Bug Fixes
+
+* Change dto on info to UserTokenDto ([#91](https://github.com/rucken/core-nestjs/issues/91)) ([6e47f43](https://github.com/rucken/core-nestjs/commit/6e47f43))
+* Update dependencies ([b8aaa9b](https://github.com/rucken/core-nestjs/commit/b8aaa9b))
+
+
+
 ## [1.0.8](https://github.com/rucken/core-nestjs/compare/1.0.7...1.0.8) (2019-03-10)
 
 
