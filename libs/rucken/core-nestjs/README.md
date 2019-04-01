@@ -67,6 +67,8 @@ Basic entities, services and controllers for [NestJS](https://github.com/nestjs/
 
 [@rucken/ionic](https://github.com/rucken/ionic) - Admin UI for [Ionic4](https://beta.ionicframework.com) with [Angular7+](https://angular.io) mobile application.
 
+[@rucken/todo-ionic](https://github.com/rucken/todo-ionic) - Admin UI for [Ionic4](https://beta.ionicframework.com) with [Angular7+](https://angular.io) mobile todo application
+
 ### Console
 
 [@rucken/cli](https://github.com/rucken/cli) - Console tools to create and build [Angular7+](https://angular.io/) and [NestJS](https://nestjs.com/) application based on [Rucken](https://github.com/rucken) template
