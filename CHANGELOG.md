@@ -1,3 +1,12 @@
+## [1.0.10](https://github.com/rucken/core-nestjs/compare/1.0.9...1.0.10) (2019-04-01)
+
+
+### Bug Fixes
+
+* Rename module names ([25aec05](https://github.com/rucken/core-nestjs/commit/25aec05))
+
+
+
 ## [1.0.9](https://github.com/rucken/core-nestjs/compare/1.0.8...1.0.9) (2019-03-23)
 
 
