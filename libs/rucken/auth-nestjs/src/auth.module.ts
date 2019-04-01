@@ -1,18 +1,18 @@
 import { DynamicModule, HttpModule, MiddlewareConsumer, Module, NestModule, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CoreModule } from '@rucken/core-nestjs';
+import { RuckenCoreModule } from '@rucken/core-nestjs';
 import { authenticate } from 'passport';
 import { AUTH_CONTROLLERS } from './controllers';
 import { AUTH_ENTITIES } from './entities';
 import { AUTH_SERVICES } from './services';
 
 @Module({})
-export class AuthModule implements NestModule {
+export class RuckenAuthModule implements NestModule {
   static forFeature(options?: { providers: Provider[] }): DynamicModule {
     const providers = options && options.providers ? options.providers : [];
     return {
-      module: AuthModule,
-      imports: [HttpModule, CoreModule.forFeature(options), TypeOrmModule.forFeature([...AUTH_ENTITIES])],
+      module: RuckenAuthModule,
+      imports: [HttpModule, RuckenCoreModule.forFeature(options), TypeOrmModule.forFeature([...AUTH_ENTITIES])],
       providers: [...providers, ...AUTH_SERVICES],
       exports: [...AUTH_SERVICES]
     };
@@ -20,8 +20,8 @@ export class AuthModule implements NestModule {
   static forRoot(options?: { providers: Provider[] }): DynamicModule {
     const providers = options && options.providers ? options.providers : [];
     return {
-      module: AuthModule,
-      imports: [HttpModule, CoreModule.forFeature(options), TypeOrmModule.forFeature([...AUTH_ENTITIES])],
+      module: RuckenAuthModule,
+      imports: [HttpModule, RuckenCoreModule.forFeature(options), TypeOrmModule.forFeature([...AUTH_ENTITIES])],
       controllers: [...AUTH_CONTROLLERS],
       providers: [...providers, ...AUTH_SERVICES],
       exports: [...AUTH_SERVICES]
