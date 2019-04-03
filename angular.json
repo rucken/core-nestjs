@@ -126,13 +126,13 @@
             "outputPath": "dist/demo",
             "commands": [
               {
-                "command": "./node_modules/.bin/del-cli ./dist/demo"
+                "command": "del-cli ./dist/demo"
               },
               {
-                "command": "./node_modules/.bin/tsc --project ./apps/demo/tsconfig.app.json --outDir ./dist/demo"
+                "command": "tsc --project ./apps/demo/tsconfig.app.json --outDir ./dist/demo"
               },
               {
-                "command": "./node_modules/.bin/showdown makehtml -i README.md -o client/index.html"
+                "command": "showdown makehtml -i README.md -o client/index.html"
               }
             ],
             "parallel": false
