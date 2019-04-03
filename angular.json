@@ -126,13 +126,13 @@
             "outputPath": "dist/demo",
             "commands": [
               {
-                "command": "del-cli ./dist/demo"
+                "command": "./node_modules/.bin/del-cli ./dist/demo"
               },
               {
-                "command": "tsc --project ./apps/demo/tsconfig.app.json --outDir ./dist/demo"
+                "command": "./node_modules/.bin/tsc --project ./apps/demo/tsconfig.app.json --outDir ./dist/demo"
               },
               {
-                "command": "showdown makehtml -i README.md -o client/index.html"
+                "command": "./node_modules/.bin/showdown makehtml -i README.md -o client/index.html"
               }
             ],
             "parallel": false
@@ -143,10 +143,10 @@
           "options": {
             "commands": [
               {
-                "command": "rucken prepare -m dev"
+                "command": "./node_modules/.bin/rucken prepare -m dev"
               },
               {
-                "command": "nodemon --ext 'ts' --watch 'apps' --watch 'libs' --ignore 'apps/**/*.spec.ts' --ignore 'libs/**/*.spec.ts' --exec ts-node -r tsconfig-paths/register ./apps/demo/src/main.ts"
+                "command": "./node_modules/.bin/nodemon --ext 'ts' --watch 'apps' --watch 'libs' --ignore 'apps/**/*.spec.ts' --ignore 'libs/**/*.spec.ts' --exec ts-node -r tsconfig-paths/register ./apps/demo/src/main.ts"
               }
             ],
             "parallel": false
@@ -157,10 +157,10 @@
           "options": {
             "commands": [
               {
-                "command": "rucken prepare -m prod"
+                "command": "./node_modules/.bin/rucken prepare -m prod"
               },
               {
-                "command": "cross-env NODE_ENV=production node dist/demo/main.js"
+                "command": "./node_modules/.bin/cross-env NODE_ENV=production node dist/demo/main.js"
               }
             ],
             "parallel": false
