@@ -169,7 +169,7 @@
     "tslint": "5.12.1",
     "tslint-config-prettier": "1.17.0",
     "webpack": "4.28.4",
-    "webpack-cli": "3.2.1",
+    "webpack-cli": "3.3.2",
     "webpack-node-externals": "1.7.2"
   },
   "greenkeeper": {
