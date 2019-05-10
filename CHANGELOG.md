@@ -1,3 +1,12 @@
+## [1.0.12](https://github.com/rucken/core-nestjs/compare/1.0.11...1.0.12) (2019-05-10)
+
+
+### Bug Fixes
+
+* Downgrade class-transformer to 0.2.0 ([2146552](https://github.com/rucken/core-nestjs/commit/2146552))
+
+
+
 ## [1.0.11](https://github.com/rucken/core-nestjs/compare/1.0.10...1.0.11) (2019-05-10)
 
 
