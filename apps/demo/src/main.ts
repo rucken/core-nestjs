@@ -4,6 +4,7 @@ import 'reflect-metadata';
 import { register } from 'tsconfig-paths';
 import { AppModule } from './app/app.module';
 import { config } from './app/config/config';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 /* hmr
 declare const module: any;
@@ -22,7 +23,7 @@ async function bootstrap() {
   /**
    * Create nest application
    */
-  const app = await NestFactory.create(
+  const app = await NestFactory.create<NestExpressApplication>(
     AppModule.forRoot({
       providers: [...config.core.providers(), ...config.auth.providers()],
       passportProviders: config.auth.passportProviders()
