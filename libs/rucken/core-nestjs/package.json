@@ -56,7 +56,7 @@
     "@nestjs/passport": "6.0.0",
     "@nestjs/swagger": "^3.0.2",
     "@nestjs/typeorm": "6.1.0",
-    "class-transformer": "0.2.2",
+    "class-transformer": "^0.2.0",
     "class-validator": "0.9.1",
     "node-django-hashers": "1.1.6",
     "highlight.js": "9.15.6"
