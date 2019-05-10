@@ -1,6 +1,6 @@
 {
   "name": "@rucken/auth-nestjs",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "engines": {
     "node": ">=11",
     "npm": ">=6.5.0"
@@ -54,24 +54,24 @@
   "main": "index.js",
   "types": "index.d.ts",
   "dependencies": {
-    "@nestjs/common": "5.7.4",
-    "@nestjs/core": "5.7.4",
-    "@nestjs/passport": "5.1.0",
-    "@nestjs/swagger": "2.5.1",
-    "@nestjs/typeorm": "5.3.0",
+    "@nestjs/common": "6.1.1",
+    "@nestjs/core": "6.1.1",
+    "@nestjs/passport": "6.0.0",
+    "@nestjs/swagger": "^3.0.2",
+    "@nestjs/typeorm": "6.1.0",
     "@types/passport-facebook-token": "0.4.33",
     "@types/passport-local": "1.0.33",
-    "class-transformer": "0.2.0",
+    "class-transformer": "0.2.2",
     "class-validator": "0.9.1",
-    "jsonwebtoken": "8.5.0",
+    "jsonwebtoken": "8.5.1",
     "passport": "0.4.0",
     "passport-facebook-token": "3.3.0",
     "passport-google-plus-token": "2.1.0",
     "passport-http-bearer": "1.0.1",
     "passport-jwt": "4.0.0",
     "passport-local": "1.0.0",
-    "rxjs": "6.4.0",
-    "typeorm": "0.2.14",
-    "highlight.js": "9.13.1"
+    "rxjs": "6.5.2",
+    "typeorm": "0.2.17",
+    "highlight.js": "9.15.6"
   }
 }
