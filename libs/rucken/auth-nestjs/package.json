@@ -1,6 +1,6 @@
 {
   "name": "@rucken/auth-nestjs",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "engines": {
     "node": ">=11",
     "npm": ">=6.5.0"
@@ -61,7 +61,7 @@
     "@nestjs/typeorm": "6.1.0",
     "@types/passport-facebook-token": "0.4.33",
     "@types/passport-local": "1.0.33",
-    "class-transformer": "0.2.2",
+    "class-transformer": "^0.2.0",
     "class-validator": "0.9.1",
     "jsonwebtoken": "8.5.1",
     "passport": "0.4.0",
