@@ -10,6 +10,13 @@
 
 A simple application demonstrating the basic usage of permissions with [NestJS](https://github.com/nestjs/nest) (JWT, Passport, Facebook, Google+, User, Group, Permission)
 
+## Screenshots
+<p>
+  <img src="https://rucken.io/assets/rucken-core/nestjs/rucken-nestjs-home.png" width="250" title="Home page with README.md">
+  <img src="https://rucken.io/assets/rucken-core/nestjs/rucken-nestjs-swagger.png" width="250" title="Swagger page">
+  <img src="https://rucken.io/assets/rucken-core/nestjs/rucken-nestjs-typedoc.png" width="250" title="Typedoc page">
+</p>
+
 ## Features
 
 - [NestJS](https://github.com/nestjs/nest) - a JS backend framework providing architecture out of the box with a syntax similar to Angular
