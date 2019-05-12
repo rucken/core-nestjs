@@ -8,7 +8,7 @@
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/rucken/core-nestjs)
 
-A simple application demonstrating the basic usage of permissions with [NestJS](https://github.com/nestjs/nest) (JWT, Passport, Facebook, Google+, User, Group, Permission)
+A simple application demonstrating the basic usage of permissions with [NestJS](https://github.com/nestjs/nest) (JWT, Passport, Facebook, Google+, User, Group, Permission) based on [Rucken](https://rucken.io) template
 
 ## Screenshots
 <p>
