@@ -130,7 +130,7 @@
     "pg": "7.10.0",
     "reflect-metadata": "0.1.13",
     "rxjs": "6.5.2",
-    "sqlite3": "4.0.7",
+    "sqlite3": "4.0.9",
     "swagger-ui-express": "^4.0.2",
     "ts-node": "8.1.0",
     "tsconfig-paths": "3.8.0",
