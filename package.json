@@ -105,7 +105,7 @@
     "@nestjs/platform-express": "^6.1.1",
     "@nestjs/swagger": "^3.0.2",
     "@nestjs/typeorm": "6.1.0",
-    "@nrwl/nx": "7.8.5",
+    "@nrwl/nx": "7.8.7",
     "@types/passport-facebook-token": "0.4.33",
     "@types/passport-local": "1.0.33",
     "chmod": "0.2.1",
