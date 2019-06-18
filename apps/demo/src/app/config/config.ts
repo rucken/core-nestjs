@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import {
   AUTH_APP_FILTERS,
   AUTH_APP_GUARDS,
-  AUTH_PASSPORT_STRATAGIES,
+  AUTH_PASSPORT_STRATEGIES,
   DEFAULT_FACEBOOK_CONFIG,
   DEFAULT_GOOGLE_PLUS_CONFIG,
   DEFAULT_JWT_CONFIG,
@@ -23,8 +23,8 @@ const connectionString = new ConnectionString(process.env.DATABASE_URL || 'sqlit
 const dbFile =
   connectionString.protocol === 'sqlite'
     ? './' +
-      (connectionString.hosts ? connectionString.hosts[0].name : '') +
-      (connectionString.path ? '/' + connectionString.path[0] : '')
+    (connectionString.hosts ? connectionString.hosts[0].name : '') +
+    (connectionString.path ? '/' + connectionString.path[0] : '')
     : '';
 try {
   accessSync(envFile);
@@ -106,7 +106,7 @@ export const config: IDemoConfig = {
       ...AUTH_APP_GUARDS,
       ...AUTH_APP_FILTERS
     ],
-    passportProviders: () => AUTH_PASSPORT_STRATAGIES
+    passportProviders: () => AUTH_PASSPORT_STRATEGIES
   }
 };
 export function getRootPath() {
