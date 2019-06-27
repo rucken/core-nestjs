@@ -116,7 +116,7 @@
     "cross-env": "5.2.0",
     "del-cli": "1.1.0",
     "dotenv": "8.0.0",
-    "fast-glob": "2.2.6",
+    "fast-glob": "3.0.3",
     "fastify-formbody": "3.1.0",
     "highlight.js": "9.15.6",
     "jsonwebtoken": "8.5.1",
