@@ -98,7 +98,7 @@
     "@angular-devkit/architect": "0.13.9",
     "@angular-devkit/build-angular": "0.13.9",
     "@angular-devkit/core": "7.3.9",
-    "@angular-devkit/schematics": "7.3.9",
+    "@angular-devkit/schematics": "8.1.0",
     "@nestjs/common": "6.1.1",
     "@nestjs/core": "6.1.1",
     "@nestjs/passport": "6.0.0",
