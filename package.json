@@ -111,7 +111,7 @@
     "chmod": "0.2.1",
     "class-transformer": "^0.2.0",
     "class-validator": "0.9.1",
-    "connection-string": "2.4.0",
+    "connection-string": "2.5.0",
     "cp-cli": "2.0.0",
     "cross-env": "5.2.0",
     "del-cli": "1.1.0",
