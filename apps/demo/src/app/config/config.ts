@@ -44,7 +44,7 @@ try {
 export const config: IDemoConfig = {
   env: {
     name: NODE_ENV,
-    port: process.env.PORT ? +process.env.PORT : 3000,
+    port: process.env.PORT ? +process.env.PORT : 5000,
     protocol: process.env.PROTOCOL === 'https' ? 'https' : 'http'
   },
   project: {
@@ -64,7 +64,7 @@ export const config: IDemoConfig = {
         useValue: {
           ...DEFAULT_CORE_CONFIG,
           demo: process.env.DEMO === 'true',
-          port: process.env.PORT ? +process.env.PORT : 3000,
+          port: process.env.PORT ? +process.env.PORT : 5000,
           protocol: process.env.PROTOCOL === 'https' ? 'https' : 'http',
           externalPort: process.env.EXTERNAL_PORT ? +process.env.EXTERNAL_PORT : undefined,
           domain: process.env.DOMAIN || ''
