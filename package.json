@@ -72,7 +72,7 @@
     "migrate:prod": "cross-env MIGRATIONS=true NODE_ENV=production npm run typeorm migration:run",
     "migrate": "cross-env MIGRATIONS=true npm run typeorm migration:run",
     "docs": "./node_modules/.bin/typedoc --ignoreCompilerErrors --excludeExternals --out client/docs libs",
-    "build": "cross-env NODE_ENV=production ./node_modules/.bin/run-s clean format affected:lint affected:prod affected:build docs migrate",
+    "build": "cross-env NODE_ENV=production ./node_modules/.bin/run-s clean format affected:lint build:all docs migrate",
     "affected:apps": "./node_modules/.bin/nx affected:apps --all",
     "affected:libs": "./node_modules/.bin/nx affected:libs --all",
     "affected:build": "./node_modules/.bin/nx affected:build --all",
@@ -92,7 +92,11 @@
     "pm2:stop": "./node_modules/.bin/pm2 kill --name demo",
     "pm2:logs": "./node_modules/.bin/pm2 logs --name demo",
     "pm2:logs:flush": "./node_modules/.bin/pm2 flush --name demo",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "ng": "ng",
+    "build:libs": "npm run ng build core && npm run ng build auth",
+    "build:apps": "npm run ng build demo --prod",
+    "build:all": "run-s affected:prod build:libs build:apps"
   },
   "dependencies": {
     "@angular-devkit/architect": "0.13.9",
