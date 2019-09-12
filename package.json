@@ -170,7 +170,7 @@
     "prettier": "1.17.0",
     "showdown": "1.9.0",
     "supertest": "4.0.2",
-    "ts-jest": "24.0.2",
+    "ts-jest": "24.1.0",
     "ts-loader": "6.0.0",
     "tslint": "5.16.0",
     "tslint-config-prettier": "1.18.0",
