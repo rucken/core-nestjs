@@ -117,7 +117,7 @@
     "class-validator": "0.9.1",
     "connection-string": "2.4.0",
     "cp-cli": "2.0.0",
-    "cross-env": "5.2.0",
+    "cross-env": "6.0.2",
     "del-cli": "1.1.0",
     "dotenv": "8.0.0",
     "fast-glob": "2.2.6",
