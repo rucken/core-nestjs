@@ -160,7 +160,7 @@
     "@types/node": "12.0.0",
     "@types/supertest": "2.0.7",
     "codelyzer": "5.0.1",
-    "conventional-changelog-cli": "2.0.21",
+    "conventional-changelog-cli": "2.0.27",
     "conventional-commits-detector": "1.0.2",
     "conventional-recommended-bump": "5.0.0",
     "jest": "24.8.0",
