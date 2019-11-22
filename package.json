@@ -164,7 +164,7 @@
     "conventional-commits-detector": "1.0.2",
     "conventional-recommended-bump": "5.0.0",
     "jest": "24.8.0",
-    "nodemon": "1.19.0",
+    "nodemon": "2.0.1",
     "npm-run-all": "4.1.5",
     "pm2": "3.5.0",
     "prettier": "1.17.0",
