@@ -106,7 +106,7 @@
     "@nestjs/common": "6.10.5",
     "@nestjs/core": "6.10.5",
     "@nestjs/passport": "6.0.0",
-    "@nestjs/platform-express": "^6.1.1",
+    "@nestjs/platform-express": "^6.10.5",
     "@nestjs/swagger": "^3.0.2",
     "@nestjs/typeorm": "6.1.0",
     "@nrwl/nx": "7.8.5",
