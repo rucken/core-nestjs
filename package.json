@@ -125,7 +125,7 @@
     "highlight.js": "9.15.6",
     "jsonwebtoken": "8.5.1",
     "node-django-hashers": "1.1.6",
-    "passport": "0.4.0",
+    "passport": "0.4.1",
     "passport-facebook-token": "3.3.0",
     "passport-google-plus-token": "2.1.0",
     "passport-http-bearer": "1.0.1",
