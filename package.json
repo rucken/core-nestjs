@@ -110,7 +110,7 @@
     "@nestjs/swagger": "^3.0.2",
     "@nestjs/typeorm": "6.1.0",
     "@nrwl/nx": "7.8.5",
-    "@types/passport-facebook-token": "0.4.33",
+    "@types/passport-facebook-token": "0.4.34",
     "@types/passport-local": "1.0.33",
     "chmod": "0.2.1",
     "class-transformer": "^0.2.0",
