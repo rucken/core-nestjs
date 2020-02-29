@@ -138,7 +138,7 @@
     "swagger-ui-express": "^4.0.2",
     "ts-node": "8.1.0",
     "tsconfig-paths": "3.8.0",
-    "typedoc": "0.14.2",
+    "typedoc": "0.16.11",
     "typeorm": "0.2.17",
     "typescript": "3.2.2"
   },
