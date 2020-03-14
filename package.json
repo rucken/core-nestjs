@@ -105,7 +105,7 @@
     "@angular-devkit/schematics": "7.3.9",
     "@nestjs/common": "6.1.1",
     "@nestjs/core": "6.1.1",
-    "@nestjs/passport": "6.0.0",
+    "@nestjs/passport": "7.0.0",
     "@nestjs/platform-express": "^6.1.1",
     "@nestjs/swagger": "^3.0.2",
     "@nestjs/typeorm": "6.1.0",
