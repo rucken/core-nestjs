@@ -131,7 +131,7 @@
     "passport-http-bearer": "1.0.1",
     "passport-jwt": "4.0.0",
     "passport-local": "1.0.0",
-    "pg": "7.10.0",
+    "pg": "8.2.1",
     "reflect-metadata": "0.1.13",
     "rxjs": "6.5.2",
     "sqlite3": "4.0.7",
