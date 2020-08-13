@@ -1,94 +1,90 @@
-# rucken-core-nestjs
+# Rucken
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/rucken/core-nestjs.svg)](https://greenkeeper.io/)
-[![NPM version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/sda540c6vpj47cx7/branch/master?svg=true)](https://ci.appveyor.com/project/EndyKaufman/core-nestjs/branch/master)
-[![dependencies-release][dependencies-image]][dependencies-url]
+This project was generated using [Nx](https://nx.dev).
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/rucken/core-nestjs)
+<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
 
-A simple application demonstrating the basic usage of permissions with [NestJS](https://github.com/nestjs/nest) (JWT, Passport, Facebook, Google+, User, Group, Permission) based on [Rucken](https://rucken.io) template
+🔎 **Nx is a set of Extensible Dev Tools for Monorepos.**
 
-## Screenshots
-<p>
-  <img src="https://rucken.io/assets/rucken-core/nestjs/rucken-nestjs-home.png" width="250" title="Home page with README.md">
-  <img src="https://rucken.io/assets/rucken-core/nestjs/rucken-nestjs-swagger.png" width="250" title="Swagger page">
-  <img src="https://rucken.io/assets/rucken-core/nestjs/rucken-nestjs-typedoc.png" width="250" title="Typedoc page">
-</p>
+## Adding capabilities to your workspace
 
-## Features
+Nx supports many plugins which add capabilities for developing different types of applications and different tools.
 
-- [NestJS](https://github.com/nestjs/nest) - a JS backend framework providing architecture out of the box with a syntax similar to Angular
-- [TypeORM](http://typeorm.io/) - ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases.
-- [TypeScript](https://github.com/Microsoft/TypeScript) - superset of JS which compiles to JS, providing compile-time type checking
-- [Passport](https://github.com/jaredhanson/passport) - a popular library used to implement JavaScript authentication (Facebook, Google+)
-- [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) - a JavaScript json web tokens implementation by auth0
-- [@nrwl/schematics](https://github.com/nrwl/nx/blob/master/packages/schematics/src/collection.json) - Angular CLI power-ups for modern development, example usage: `ng g @nrwl/schematics:node-app app-name --framework nestjs` 
-- [@nestjs/schematics](https://github.com/nestjs/schematics/blob/master/src/collection.json) - Nest architecture element generation based on Angular schematics, example usage: `ng g @nestjs/schematics:library lib-name`
+These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
 
-## Usage
+Below are our core plugins:
 
-- clone or fork [repository](https://github.com/rucken/core-nestjs.git) `git clone --recursive https://github.com/rucken/core-nestjs.git`
-- make sure you have [node.js](https://nodejs.org/) installed version 11+
-- copy `develop._env` to `develop.env` and set environments for use (on Windows copy with IDE)
-- run `npm install` to install project dependencies
-- run `npm run build` to install project dependencies
-- run `npm run start:prod` to fire up prod server (`npm run start:dev` - dev server)
-- Open browser to [`http://localhost:5000/swagger`](http://localhost:5000/swagger)
+- [React](https://reactjs.org)
+  - `npm install --save-dev @nrwl/react`
+- Web (no framework frontends)
+  - `npm install --save-dev @nrwl/web`
+- [Angular](https://angular.io)
+  - `npm install --save-dev @nrwl/angular`
+- [Nest](https://nestjs.com)
+  - `npm install --save-dev @nrwl/nest`
+- [Express](https://expressjs.com)
+  - `npm install --save-dev @nrwl/express`
+- [Node](https://nodejs.org)
+  - `npm install --save-dev @nrwl/node`
 
-## Demo
+There are also many [community plugins](https://nx.dev/nx-community) you could add.
 
-[https://core-nestjs.rucken.io](https://core-nestjs.rucken.io) - Application with [Sqlite](https://www.sqlite.org/index.html) Database on VPS with [Dokku](http://dokku.viewdocs.io/dokku/)
+## Generate an application
 
-### Users
+Run `nx g @nrwl/react:app my-app` to generate an application.
 
-- user with admin group: admin@admin.com, password: 12345678
-- user with user group: user1@user1.com, password: 12345678
-- user with user group: user2@user2.com, password: 12345678
+> You can use any of the plugins above to generate applications as well.
 
-### Swagger
+When using Nx, you can create multiple applications and libraries in the same workspace.
 
-- local: [`http://localhost:5000/swagger`](http://localhost:5000/swagger)
-- online: [`https://core-nestjs.rucken.io/swagger`](https://core-nestjs.rucken.io/swagger)
-- apiKey template: `JWT <token_generated_on_login>`
+## Generate a library
 
-## Typedoc documentations
+Run `nx g @nrwl/react:lib my-lib` to generate a library.
 
-- local: [`http://localhost:5000/docs`](http://localhost:5000/docs)
-- online: [`https://core-nestjs.rucken.io/docs`](https://core-nestjs.rucken.io/docs)
+> You can also use any of the plugins above to generate libraries as well.
 
-## Quick links
+Libraries are sharable across libraries and applications. They can be imported from `@rucken/mylib`.
 
-### Frontend (with core)
+## Development server
 
-[@rucken/core](https://github.com/rucken/core) - Core with Admin UI for web application maked on [Angular7+](https://angular.io) and [Bootstrap3](https://valor-software.com/ngx-bootstrap/).
+Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
-[@rucken/todo](https://github.com/rucken/todo) - Core with UI for web todo application maked on [Angular7+](https://angular.io) and [Bootstrap3](https://valor-software.com/ngx-bootstrap/).
+## Code scaffolding
 
-### Backend
+Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
 
-[@rucken/core-nestjs](https://github.com/rucken/core-nestjs) - A simple application demonstrating the basic usage of permissions with [NestJS](https://nestjs.com/) (JWT, Passport, Facebook, Google+, User, Group, Permission).
+## Build
 
-[@rucken/todo-nestjs](https://github.com/rucken/todo-nestjs) - A simple todo application with [NestJS](https://nestjs.com/) (Projects, Tasks, Statuses).
+Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-### Mobile
+## Running unit tests
 
-[@rucken/ionic](https://github.com/rucken/ionic) - Admin UI for [Ionic4](https://beta.ionicframework.com) with [Angular7+](https://angular.io) mobile application.
+Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
 
-[@rucken/todo-ionic](https://github.com/rucken/todo-ionic) - Admin UI for [Ionic4](https://beta.ionicframework.com) with [Angular7+](https://angular.io) mobile todo application
+Run `nx affected:test` to execute the unit tests affected by a change.
 
-### Console
+## Running end-to-end tests
 
-[@rucken/cli](https://github.com/rucken/cli) - Console tools to create and build [Angular7+](https://angular.io/) and [NestJS](https://nestjs.com/) application based on [Rucken](https://github.com/rucken) template
+Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
 
-## License
+Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
 
-MIT
+## Understand your workspace
 
-[travis-image]: https://travis-ci.org/rucken/core-nestjs.svg?branch=master
-[travis-url]: https://travis-ci.org/rucken/core-nestjs
-[dependencies-image]: https://david-dm.org/rucken/core-nestjs/status.svg
-[dependencies-url]: https://david-dm.org/rucken/core-nestjs
-[npm-image]: https://badge.fury.io/js/%40rucken%2Fcore-nestjs.svg
-[npm-url]: https://npmjs.org/package/@rucken/core-nestjs
+Run `nx dep-graph` to see a diagram of the dependencies of your projects.
+
+## Further help
+
+Visit the [Nx Documentation](https://nx.dev) to learn more.
+
+## ☁ Nx Cloud
+
+### Computation Memoization in the Cloud
+
+<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
+
+Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
+
+Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
+
+Visit [Nx Cloud](https://nx.app/) to learn more.

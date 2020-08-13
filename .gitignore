@@ -1,36 +1,39 @@
-# Credentials
-.travis/*.key
-.travis/*.key.pub
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# config
-*.env
+# compiled output
+/dist
+/tmp
+/out-tsc
 
-deploy
+# dependencies
+/node_modules
 
-# IDE
-.idea/
-.vscode/
-node_modules/
-build/
-tmp/
-temp/
+# IDEs and editors
 /.idea
-/.awcache
-/.vscode
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # misc
-npm-debug.log
-
-# example
-/quick-start
-
-# tests
-/test
+/.sass-cache
+/connect.lock
 /coverage
-/.nyc_output
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
 
-# dist
-/dist
-/database/sqlitedb.db
-/client/docs
-/client/index.html
+# System Files
+.DS_Store
+Thumbs.db

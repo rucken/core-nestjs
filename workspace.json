@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "projects": {
+    "demo-nestjs": {
+      "root": "apps/demo-nestjs",
+      "sourceRoot": "apps/demo-nestjs/src",
+      "projectType": "application",
+      "prefix": "demo-nestjs",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/demo-nestjs",
+            "main": "apps/demo-nestjs/src/main.ts",
+            "tsConfig": "apps/demo-nestjs/tsconfig.app.json",
+            "assets": ["apps/demo-nestjs/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/demo-nestjs/src/environments/environment.ts",
+                  "with": "apps/demo-nestjs/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "demo-nestjs:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "apps/demo-nestjs/tsconfig.app.json",
+              "apps/demo-nestjs/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/demo-nestjs/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/demo-nestjs/jest.config.js",
+            "tsConfig": "apps/demo-nestjs/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "core-nestjs": {
+      "root": "libs/core-nestjs",
+      "sourceRoot": "libs/core-nestjs/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/core-nestjs/tsconfig.lib.json",
+              "libs/core-nestjs/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/core-nestjs/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/core-nestjs/jest.config.js",
+            "tsConfig": "libs/core-nestjs/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "auth-nestjs": {
+      "root": "libs/auth-nestjs",
+      "sourceRoot": "libs/auth-nestjs/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/auth-nestjs/tsconfig.lib.json",
+              "libs/auth-nestjs/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/auth-nestjs/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/auth-nestjs/jest.config.js",
+            "tsConfig": "libs/auth-nestjs/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "demo-nestjs"
+}

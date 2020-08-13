@@ -1,33 +1,35 @@
 {
-    "npmScope": "rucken",
-    "implicitDependencies": {
-        "angular.json": "*",
-        "package.json": "*",
-        "tsconfig.json": "*",
-        "tslint.json": "*",
-        "nx.json": "*"
+  "npmScope": "rucken",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "workspace.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
     },
-    "projects": {
-        "core": {
-            "tags": [
-                "nestjs",
-                "server",
-                "core"
-            ]
-        },
-        "auth": {
-            "tags": [
-                "nestjs",
-                "server",
-                "auth"
-            ]
-        },
-        "demo": {
-            "tags": [
-                "nestjs",
-                "server",
-                "demo"
-            ]
-        }
+    "tsconfig.base.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
     }
+  },
+  "projects": {
+    "demo-nestjs": {
+      "tags": []
+    },
+    "core-nestjs": {
+      "tags": []
+    },
+    "auth-nestjs": {
+      "tags": []
+    }
+  }
 }
