@@ -8,13 +8,13 @@
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/rucken/core-nestjs)
 
-A simple application demonstrating the basic usage of permissions with [NestJS](https://github.com/nestjs/nest) (JWT, Passport, Facebook, Google+, User, Group, Permission) based on [Rucken](https://rucken.io) template
+A simple application demonstrating the basic usage of permissions with [NestJS](https://github.com/nestjs/nest) (JWT, Passport, Facebook, Google+, User, Group, Permission) based on [Rucken](https://rucken.ru) template
 
 ## Screenshots
 <p>
-  <img src="https://rucken.io/assets/rucken-core/nestjs/rucken-nestjs-home.png" width="250" title="Home page with README.md">
-  <img src="https://rucken.io/assets/rucken-core/nestjs/rucken-nestjs-swagger.png" width="250" title="Swagger page">
-  <img src="https://rucken.io/assets/rucken-core/nestjs/rucken-nestjs-typedoc.png" width="250" title="Typedoc page">
+  <img src="https://rucken.ru/assets/rucken-core/nestjs/rucken-nestjs-home.png" width="250" title="Home page with README.md">
+  <img src="https://rucken.ru/assets/rucken-core/nestjs/rucken-nestjs-swagger.png" width="250" title="Swagger page">
+  <img src="https://rucken.ru/assets/rucken-core/nestjs/rucken-nestjs-typedoc.png" width="250" title="Typedoc page">
 </p>
 
 ## Features
@@ -39,7 +39,7 @@ A simple application demonstrating the basic usage of permissions with [NestJS](
 
 ## Demo
 
-[https://core-nestjs.rucken.io](https://core-nestjs.rucken.io) - Application with [Sqlite](https://www.sqlite.org/index.html) Database on VPS with [Dokku](http://dokku.viewdocs.io/dokku/)
+[https://core-nestjs.rucken.ru](https://core-nestjs.rucken.ru) - Application with [Sqlite](https://www.sqlite.org/index.html) Database on VPS with [Dokku](http://dokku.viewdocs.io/dokku/)
 
 ### Users
 
@@ -50,13 +50,13 @@ A simple application demonstrating the basic usage of permissions with [NestJS](
 ### Swagger
 
 - local: [`http://localhost:5000/swagger`](http://localhost:5000/swagger)
-- online: [`https://core-nestjs.rucken.io/swagger`](https://core-nestjs.rucken.io/swagger)
+- online: [`https://core-nestjs.rucken.ru/swagger`](https://core-nestjs.rucken.ru/swagger)
 - apiKey template: `JWT <token_generated_on_login>`
 
 ## Typedoc documentations
 
 - local: [`http://localhost:5000/docs`](http://localhost:5000/docs)
-- online: [`https://core-nestjs.rucken.io/docs`](https://core-nestjs.rucken.io/docs)
+- online: [`https://core-nestjs.rucken.ru/docs`](https://core-nestjs.rucken.ru/docs)
 
 ## Quick links
 

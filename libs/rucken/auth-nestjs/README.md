@@ -30,7 +30,7 @@ Basic entities, services and controllers for oauth authorization in [NestJS](htt
 
 ## Demo
 
-[https://core-nestjs.rucken.io](https://core-nestjs.rucken.io) - Application with [Sqlite](https://www.sqlite.org/index.html) Database on VPS with [Dokku](http://dokku.viewdocs.io/dokku/)
+[https://core-nestjs.rucken.ru](https://core-nestjs.rucken.ru) - Application with [Sqlite](https://www.sqlite.org/index.html) Database on VPS with [Dokku](http://dokku.viewdocs.io/dokku/)
 
 ### Users
 
@@ -41,13 +41,13 @@ Basic entities, services and controllers for oauth authorization in [NestJS](htt
 ### Swagger
 
 - local: [`http://localhost:5000/swagger`](http://localhost:5000/swagger)
-- online: [`https://core-nestjs.rucken.io/swagger`](https://core-nestjs.rucken.io/swagger)
+- online: [`https://core-nestjs.rucken.ru/swagger`](https://core-nestjs.rucken.ru/swagger)
 - apiKey template: `JWT <token_generated_on_login>`
 
 ## Typedoc documentations
 
 - local: [`http://localhost:5000/docs`](http://localhost:5000/docs)
-- online: [`https://core-nestjs.rucken.io/docs`](https://core-nestjs.rucken.io/docs)
+- online: [`https://core-nestjs.rucken.ru/docs`](https://core-nestjs.rucken.ru/docs)
 
 ## Quick links
 
